@@ -1,0 +1,24 @@
+# 测试用入库的最小夹具 test/fixtures/save00 —— 检出环境没有仓库根的
+# save00/ 快照(本机存档,不入库)时自动降级,见 test/setup.js 的目录解析。
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4 # 版本取自 package.json 的 packageManager 字段
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # M8: 前端 lint(@antfu/eslint-config)与 vite build —— SFC/模板语法错误
+      # 在构建期暴露(lint 依赖 build 生成的 .eslintrc-auto-import.json,故先 build)
+      - run: pnpm build
+      - run: pnpm lint
+      - run: pnpm test

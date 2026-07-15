@@ -1,0 +1,10 @@
+# 工作区:frontend/ 为前端子包(M8,Vite + Vue 3),依赖与根包物理隔离。
+packages:
+  - frontend
+
+# pnpm 构建脚本放行(pnpm 11 起不再读 package.json 的 "pnpm" 字段)。
+# electron 的 postinstall 下载运行时二进制到 node_modules/electron/dist,必须放行;
+# electron-winstaller 是 Squirrel.Windows 打包器(本项目走 NSIS + portable),不需要。
+allowBuilds:
+  electron: true
+  electron-winstaller: false

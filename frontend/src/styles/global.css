@@ -1,0 +1,3 @@
+/* 结构性最小样式:视口填充与暗色原生控件。其余全部由 Naive UI(NGlobalStyle)与 UnoCSS 负责。 */
+:root { color-scheme: dark; }
+html, body, #app { height: 100%; }

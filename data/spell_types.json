@@ -1,0 +1,10 @@
+[
+  { "type": "projectile", "nameZh": "投射物", "itemBg": "data/ui_gfx/inventory/item_bg_projectile.png" },
+  { "type": "static_projectile", "nameZh": "静态投射物", "itemBg": "data/ui_gfx/inventory/item_bg_static_projectile.png" },
+  { "type": "modifier", "nameZh": "投射修正", "itemBg": "data/ui_gfx/inventory/item_bg_modifier.png" },
+  { "type": "draw_many", "nameZh": "多重施放", "itemBg": "data/ui_gfx/inventory/item_bg_draw_many.png" },
+  { "type": "material", "nameZh": "材料", "itemBg": "data/ui_gfx/inventory/item_bg_material.png" },
+  { "type": "other", "nameZh": "其他", "itemBg": "data/ui_gfx/inventory/item_bg_other.png" },
+  { "type": "utility", "nameZh": "实用", "itemBg": "data/ui_gfx/inventory/item_bg_utility.png" },
+  { "type": "passive", "nameZh": "被动", "itemBg": "data/ui_gfx/inventory/item_bg_passive.png" }
+]

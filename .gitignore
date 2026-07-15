@@ -1,0 +1,11 @@
+# 本地存档快照(编辑器默认工作区,「从实时档拉取」的目标;不入库)。
+# 锚定根:test/fixtures/save00 是入库的测试夹具,不受影响。
+/save00/
+/backups/
+/dist/
+/config.local.json
+/tools/.cache/
+node_modules/
+package-lock.json
+yarn.lock
+/frontend/dist/

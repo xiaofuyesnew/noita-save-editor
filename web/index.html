@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Noita 存档编辑器</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <strong data-i18n="app.title">Noita 存档编辑器</strong>
+      <span id="savePath" class="muted"></span>
+      <span class="spacer"></span>
+      <span id="gameState"></span>
+      <span id="dirtyState"></span>
+      <button id="btnWrite" data-i18n="top.write" disabled>写入存档</button>
+      <button id="btnReload" data-i18n="top.reload">重新读取</button>
+      <button id="btnPull" data-i18n="top.pull" data-i18n-title="top.pull.tip" title="实时档 → 工作区快照(拉取前自动备份)">从实时档拉取</button>
+      <button id="btnPush" data-i18n="top.push" data-i18n-title="top.push.tip" title="工作区快照 → 实时档(推送前自动备份;游戏运行时拒绝)">推送到实时档</button>
+      <button id="btnBackups" data-i18n="top.backups">备份管理</button>
+      <button id="btnLang"></button>
+    </header>
+
+    <main>
+      <section class="card" id="playerCard">
+        <header class="card-head">
+          <div>
+            <h2><span data-i18n="player.title">玩家属性</span><span class="dirty-star" hidden>*</span></h2>
+            <p class="card-desc" data-i18n="player.desc">改移速翻倍时建议同调 run_velocity 与最大速度。</p>
+          </div>
+          <button id="btnSaveBasics" data-i18n="common.apply">应用到缓冲</button>
+        </header>
+        <div class="card-body">
+          <div class="grid">
+            <label><span class="lbl"><span data-i18n="player.hp">生命(显示值)</span><span class="info" data-i18n-tip="player.hp.tip">ⓘ</span></span><input id="f_hp_current" type="number" step="1" /></label>
+            <label><span class="lbl"><span data-i18n="player.hpMax">最大生命(显示值)</span><span class="info" data-i18n-tip="player.hpMax.tip">ⓘ</span></span><input id="f_hp_max" type="number" step="1" /></label>
+            <label><span class="lbl"><span data-i18n="player.money">金币</span><span class="info" data-i18n-tip="player.money.tip">ⓘ</span></span><input id="f_money" type="number" step="1" /></label>
+            <label><span class="lbl"><span data-i18n="player.air">氧气(秒)</span><span class="info" data-i18n-tip="player.air.tip">ⓘ</span></span><input id="f_air_inLungs" type="number" step="0.1" /></label>
+            <label><span class="lbl"><span data-i18n="player.posX">位置 X</span><span class="info" data-i18n-tip="player.posX.tip">ⓘ</span></span><input id="f_position_x" type="number" step="0.1" /></label>
+            <label><span class="lbl"><span data-i18n="player.posY">位置 Y</span><span class="info" data-i18n-tip="player.posY.tip">ⓘ</span></span><input id="f_position_y" type="number" step="0.1" /></label>
+            <label><span class="lbl"><span data-i18n="player.fly">飞行时长(秒)</span><span class="info" data-i18n-tip="player.fly.tip">ⓘ</span></span><input id="f_fly_timeMax" type="number" step="0.1" /></label>
+            <label><span class="lbl"><span data-i18n="player.runVel">移速 run_velocity</span><span class="info" data-i18n-tip="player.runVel.tip">ⓘ</span></span><input id="f_movement_runVelocity" type="number" step="1" /></label>
+            <label><span class="lbl"><span data-i18n="player.velMaxX">最大速度 X</span><span class="info" data-i18n-tip="player.velMaxX.tip">ⓘ</span></span><input id="f_movement_velocityMaxX" type="number" step="1" /></label>
+            <label><span class="lbl"><span data-i18n="player.velMaxY">最大速度 Y</span><span class="info" data-i18n-tip="player.velMaxY.tip">ⓘ</span></span><input id="f_movement_velocityMaxY" type="number" step="1" /></label>
+            <label class="check"><input id="f_air_needed" type="checkbox" /><span class="lbl"><span data-i18n="player.airNeeded">水下消耗氧气</span><span class="info" data-i18n-tip="player.airNeeded.tip">ⓘ</span></span></label>
+            <label class="check"><input id="f_fly_needsRecharge" type="checkbox" /><span class="lbl"><span data-i18n="player.flyRecharge">飞行需充能</span><span class="info" data-i18n-tip="player.flyRecharge.tip">ⓘ</span></span></label>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" id="invCard">
+        <header class="card-head">
+          <div>
+            <h2 data-i18n="inv.title">无敌</h2>
+            <p class="card-desc" data-i18n="inv.desc">勾选/取消即时写入编辑缓冲。负 HP / 巨额 HP 两种取巧模式有副作用,暂不在 UI 提供。</p>
+          </div>
+        </header>
+        <div class="card-body">
+          <div class="row">
+            <label class="inline"><input type="checkbox" id="inv_effect" /><span data-i18n="inv.effect">PROTECTION_ALL 效果(推荐,干净可逆)</span></label>
+          </div>
+          <div class="row">
+            <label class="inline"><input type="checkbox" id="inv_frames" /><span data-i18n="inv.frames">无敌帧 = 4 亿</span></label>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" id="dmgCard">
+        <header class="card-head">
+          <div>
+            <h2><span data-i18n="dmg.title">受伤倍率</span><span class="dirty-star" hidden>*</span></h2>
+            <p class="card-desc" data-i18n="dmg.desc">1=正常,0=免疫,负值=受击回血。</p>
+          </div>
+          <button id="btnSaveDmg" data-i18n="common.apply">应用到缓冲</button>
+        </header>
+        <div class="card-body">
+          <div class="grid" id="dmgGrid"></div>
+        </div>
+      </section>
+
+      <section class="card card-wide" id="wandCard">
+        <header class="card-head">
+          <div>
+            <h2><span data-i18n="wand.title">法杖与法术</span><span class="dirty-star" hidden>*</span></h2>
+            <p class="card-desc" data-i18n="wand.desc">法杖属性表单统一由右侧按钮一次应用全部法杖;点空槽添加法术,点已有法术编辑次数/Always Cast/删除,拖拽调整顺序(即时写缓冲;金色边框 = 永久附加)。</p>
+          </div>
+          <button id="btnSaveWands" data-i18n="common.apply">应用到缓冲</button>
+        </header>
+        <div class="card-body">
+          <h3 data-i18n="wand.bag">背包法术(inventory_full)</h3>
+          <div id="invSpells"></div>
+          <h3 data-i18n="wand.quick">快捷栏法杖</h3>
+          <div id="wandList"></div>
+        </div>
+      </section>
+
+      <section class="card" id="effectCard">
+        <header class="card-head">
+          <div>
+            <h2 data-i18n="eff.title">特殊效果</h2>
+            <p class="card-desc" data-i18n="eff.desc">添加/移除即时写入编辑缓冲;危险效果会红字警示。</p>
+          </div>
+        </header>
+        <div class="card-body">
+          <ul id="effectList"></ul>
+          <h3 data-i18n="eff.add">添加效果</h3>
+          <div class="row">
+            <label><span data-i18n="eff.group">分组</span><select id="effGroup"></select></label>
+            <label><span data-i18n="eff.effect">效果</span><select id="effSelect"></select></label>
+          </div>
+          <div class="row">
+            <label class="inline"><input type="checkbox" id="effPermanent" checked /><span data-i18n="eff.permanent">永久</span></label>
+            <label><span class="lbl"><span data-i18n="eff.seconds">时长(秒)</span><span class="info" data-i18n-tip="eff.seconds.tip">ⓘ</span></span><input id="effSeconds" type="number" step="1" value="60" disabled /></label>
+            <label class="inline"><input type="checkbox" id="effIcon" checked /><span data-i18n="eff.icon">HUD 图标</span></label>
+            <button id="btnAddEffect" data-i18n="eff.addBtn">添加到缓冲</button>
+          </div>
+          <p id="effDanger" class="warn"></p>
+        </div>
+      </section>
+
+      <section class="card" id="perkCard">
+        <header class="card-head">
+          <div>
+            <h2 data-i18n="perk.title">天赋</h2>
+            <p class="card-desc" data-i18n="perk.desc">注入 = 写入效果实体 + 运行旗标 + 拾取计数三件套;添加/移除即时写入编辑缓冲。</p>
+          </div>
+        </header>
+        <div class="card-body">
+          <ul id="perkList"></ul>
+          <h3 data-i18n="perk.add">添加天赋</h3>
+          <div class="row">
+            <select id="perkSelect"></select>
+            <button id="btnAddPerk" data-i18n="perk.addBtn">添加到缓冲</button>
+          </div>
+          <p id="perkNote" class="muted"></p>
+          <p class="muted" data-i18n="perk.legend">
+            标记含义:无标记 = 与游戏内拾取等价;* = 缺少外观或数值微调,核心收益完整;
+            ▲ 无代价 = 收益生效但没有原版的负面代价(比正常拾取更强);
+            ⚠ 注入不完整 = 招牌能力由游戏脚本实现,注入只能拿到附带效果,不建议使用;
+            「不支持」= 整个天赋由脚本实现(如乐奇突变),存档层无法复刻。
+            选中任意天赋可在上方查看具体说明。
+          </p>
+        </div>
+      </section>
+
+      <section class="card" id="potionCard">
+        <header class="card-head">
+          <div>
+            <h2><span data-i18n="potion.title">药水与材料袋</span><span class="dirty-star" hidden>*</span></h2>
+            <p class="card-desc" data-i18n="potion.desc">编辑快捷栏容器所装材料与数量(约 1000 = 一满瓶),按容器逐个应用。材料框输入可搜索,须使用字典内的材料 id。</p>
+          </div>
+        </header>
+        <div class="card-body">
+          <div id="potionList"></div>
+          <datalist id="matList"></datalist>
+        </div>
+      </section>
+
+      <section class="card" id="itemCard">
+        <header class="card-head">
+          <div>
+            <h2><span data-i18n="item.title">物品栏道具</span><span class="dirty-star" hidden>*</span></h2>
+            <p class="card-desc" data-i18n="item.desc">快捷栏道具行共 4 格(0–3)。被幽灵/腐蚀弄没的道具(如邪王真眼)选中后点添加即可补回空槽;满 4 件时添加禁用。进入编辑缓冲,需【写入存档】才落盘。</p>
+          </div>
+        </header>
+        <div class="card-body">
+          <div class="row">
+            <select id="itemAddSelect"></select>
+            <button id="btnAddItem" data-i18n="item.addBtn">添加到缓冲</button>
+            <span id="itemAddHint" class="muted"></span>
+          </div>
+          <div id="itemList"></div>
+        </div>
+      </section>
+
+      <section class="card" id="worldCard">
+        <header class="card-head">
+          <div>
+            <h2><span data-i18n="world.title">世界状态</span><span class="dirty-star" hidden>*</span></h2>
+            <p class="card-desc" data-i18n="world.desc">旗标与变换按整表替换;字段留空跳过。</p>
+          </div>
+          <button id="btnSaveWorld" data-i18n="common.apply">应用到缓冲</button>
+        </header>
+        <div class="card-body">
+          <div class="grid" id="worldFieldGrid"></div>
+          <h3 data-i18n="world.flags">运行旗标</h3>
+          <ul id="worldFlagList"></ul>
+          <div class="row">
+            <input id="worldFlagNew" type="text" data-i18n-ph="world.flagPh" placeholder="新旗标名(如 PERK_PICKED_X)" />
+            <button id="btnAddWorldFlag" data-i18n="world.addFlag">添加旗标</button>
+          </div>
+          <h3 data-i18n="world.shifts">真菌变换</h3>
+          <div id="shiftList"></div>
+          <div class="row"><button id="btnAddShift" data-i18n="world.addShift">+ 添加变换</button></div>
+          <details>
+            <summary class="muted" data-i18n="world.raw">lua_globals / 本局魔球(只读)</summary>
+            <pre id="worldRaw"></pre>
+          </details>
+        </div>
+      </section>
+
+      <section class="card card-wide" id="unlockCard">
+        <header class="card-head">
+          <div>
+            <h2><span data-i18n="unlock.title">进度解锁(法术)</span><span class="dirty-star" hidden>*</span></h2>
+            <p class="card-desc" data-i18n="unlock.desc">card_unlocked_* 旗标 = persistent/flags/ 下的文件存在性,控制法术进入生成池。应用后立即写入工作区快照文件(可再次切换撤销),不经过【写入存档】。</p>
+          </div>
+          <button id="btnApplyUnlocks" data-i18n="unlock.apply">应用(立即写入)</button>
+        </header>
+        <div class="card-body">
+          <div class="row">
+            <button id="btnUnlockAll" data-i18n="unlock.all">全选</button>
+            <button id="btnUnlockNone" data-i18n="unlock.none">全不选</button>
+            <span id="unlockStats" class="muted"></span>
+          </div>
+          <div class="grid" id="unlockGrid"></div>
+        </div>
+      </section>
+
+      <section class="card card-wide" id="bonesCard">
+        <header class="card-head">
+          <div>
+            <h2 data-i18n="bones.title">遗骨法杖(bones_new)</h2>
+            <p class="card-desc" data-i18n="bones.desc">历局阵亡遗留的法杖,可原样导入快捷栏空槽(0–3)。导入进入编辑缓冲,需【写入存档】才落盘;原遗骨文件保持不动。</p>
+          </div>
+        </header>
+        <div class="card-body">
+          <div id="bonesList"></div>
+        </div>
+      </section>
+
+      <section class="card" id="statusCard">
+        <header class="card-head">
+          <div>
+            <h2><span data-i18n="status.title">存档状态</span><span class="dirty-star" hidden>*</span></h2>
+            <p class="card-desc" data-i18n="status.desc">两个路径可编辑并应用;缓冲有未保存更改时切换路径需确认(会丢弃缓冲重新读盘)。</p>
+          </div>
+          <button id="btnSavePaths" data-i18n="common.applyNow">应用</button>
+        </header>
+        <div class="card-body">
+          <div class="grid grid-1col" id="statusGrid">
+            <label><span class="lbl"><span data-i18n="status.saveDir">存档路径(工作区快照)</span><span class="info" data-i18n-tip="status.saveDir.tip">ⓘ</span></span><input id="cfgSaveDir" type="text" spellcheck="false" /></label>
+            <label><span class="lbl"><span data-i18n="status.liveDir">实时路径(LocalLow)</span><span class="info" data-i18n-tip="status.liveDir.tip">ⓘ</span></span><input id="cfgLiveDir" type="text" spellcheck="false" /></label>
+            <label><span data-i18n="status.game">游戏进程</span><span class="value" id="stGame"></span></label>
+            <label><span data-i18n="status.live">实时档在位</span><span class="value" id="stLive"></span></label>
+            <label><span data-i18n="status.buffer">编辑缓冲</span><span class="value" id="stDirty"></span></label>
+            <label><span data-i18n="status.version">快照版本</span><span class="value" id="stVersion"></span></label>
+            <label><span data-i18n="status.managed">受管文件</span><span class="value" id="stManaged"></span></label>
+            <label><span data-i18n="status.backups">备份数量</span><span class="value" id="stBackups"></span></label>
+            <label><span data-i18n="status.lastBackup">最近备份</span><span class="value" id="stLastBackup"></span></label>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" id="logCard">
+        <header class="card-head">
+          <div>
+            <h2 data-i18n="logcard.title">日志</h2>
+          </div>
+        </header>
+        <div class="card-body">
+          <div id="log" class="log"></div>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="spellPicker">
+      <h3 data-i18n="picker.title">选择法术</h3>
+      <div class="row">
+        <input id="spellSearch" type="text" data-i18n-ph="picker.searchPh" placeholder="搜索:中文名 / 英文名 / ID" />
+        <select id="spellTypeFilter"><option value="" data-i18n="picker.allTypes">全部类型</option></select>
+        <button id="spellPickerClose" data-i18n="common.close">关闭</button>
+      </div>
+      <div id="spellListInfo" class="muted"></div>
+      <div id="spellList" class="spell-list"></div>
+    </dialog>
+
+    <dialog id="spellEdit">
+      <h3 id="spellEditTitle"></h3>
+      <div class="row">
+        <label><span class="lbl"><span data-i18n="spellEdit.uses">剩余次数</span><span class="info" data-i18n-tip="spellEdit.uses.tip">ⓘ</span></span><input id="spellEditUses" type="number" step="1" /></label>
+        <label class="inline"><input type="checkbox" id="spellEditAC" /><span data-i18n="spellEdit.ac">Always Cast(永久附加)</span></label>
+      </div>
+      <div class="row">
+        <button id="spellEditSave" data-i18n="common.save">保存</button>
+        <button id="spellEditDelete" class="danger" data-i18n="spellEdit.delete">删除法术</button>
+        <button id="spellEditClose" data-i18n="common.cancel">取消</button>
+      </div>
+    </dialog>
+
+    <dialog id="backupDlg">
+      <h3 data-i18n="backup.title">备份管理</h3>
+      <div class="row">
+        <button id="btnBackupCreate" data-i18n="backup.create">创建备份</button>
+        <span class="muted" data-i18n="backup.hint">目录 editor/backups/,默认保留最近 20 份;拉取/推送/写入/恢复前也会自动备份。</span>
+        <button id="backupDlgClose" data-i18n="common.close">关闭</button>
+      </div>
+      <div id="backupRows" class="backup-list"></div>
+    </dialog>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>

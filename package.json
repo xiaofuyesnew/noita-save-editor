@@ -1,0 +1,75 @@
+{
+  "name": "noita-save-editor",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Local web-based save editor for Noita (save00). Hono backend + Vite/Vue 3 frontend.",
+  "author": "noita-save-editor contributors",
+  "main": "electron/main.js",
+  "packageManager": "pnpm@11.15.0",
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=11"
+  },
+  "scripts": {
+    "start": "node server/index.js",
+    "start:desktop": "electron .",
+    "dev": "concurrently -k -n server,vite \"node server/index.js\" \"pnpm -C frontend dev\"",
+    "build": "pnpm -C frontend build",
+    "lint": "pnpm -C frontend lint",
+    "test": "node --import ./test/setup.js --test \"test/**/*.test.js\"",
+    "pack": "pnpm build && electron-builder --win --dir",
+    "dist": "pnpm build && electron-builder --win",
+    "dist:portable": "pnpm build && electron-builder --win portable --publish never",
+    "dist:zip": "pnpm dist:portable && powershell -NoProfile -ExecutionPolicy Bypass -File scripts/zip-portable.ps1"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.0.9",
+    "fast-xml-parser": "^4.5.3",
+    "hono": "^4.12.30"
+  },
+  "build": {
+    "appId": "io.github.noita-save-editor",
+    "productName": "Noita Save Editor",
+    "electronDist": "node_modules/electron/dist",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "electron/**",
+      "server/**",
+      "web/**",
+      "frontend/dist/**",
+      "data/**"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "${productName}-Setup-${version}.${ext}"
+    },
+    "portable": {
+      "artifactName": "${productName}-Portable-${version}.${ext}"
+    }
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.3",
+    "electron": "^43.1.1",
+    "electron-builder": "^26.15.3"
+  }
+}

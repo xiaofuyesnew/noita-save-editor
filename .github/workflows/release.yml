@@ -1,0 +1,39 @@
+# 发布流程：推 v* 标签 → windows-latest 构建 portable 单 exe → zip → 附到 GitHub Release。
+# 手动触发（workflow_dispatch）只构建并上传 artifact，不创建 Release，用于试跑打包链路。
+# 产物文件名的版本号取自 package.json 的 version 字段——打标签前先把它改成对应版本。
+# .npmrc 已入库，CI 上 electron 运行时与 electron-builder 二进制同样走 npmmirror 镜像。
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write # softprops/action-gh-release 用默认 GITHUB_TOKEN 创建 Release
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4 # 版本取自 package.json 的 packageManager 字段
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # 与本地 `pnpm dist:zip` 完全同一条链：vite build → electron-builder portable
+      # （--publish never 禁用其内建发布）→ scripts/zip-portable.ps1 压缩出带版本号的 zip
+      - run: pnpm dist:zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-portable
+          path: dist/*.zip
+          if-no-files-found: error
+      - uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: dist/*.zip
+          generate_release_notes: true
