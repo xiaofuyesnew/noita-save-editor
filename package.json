@@ -1,6 +1,6 @@
 {
   "name": "noita-save-editor",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "private": true,
   "type": "module",
   "description": "Local web-based save editor for Noita (save00). Hono backend + Vite/Vue 3 frontend.",
@@ -12,6 +12,7 @@
     "pnpm": ">=11"
   },
   "scripts": {
+    "postinstall": "install-electron",
     "start": "node server/index.js",
     "start:desktop": "electron .",
     "dev": "concurrently -k -n server,vite \"node server/index.js\" \"pnpm -C frontend dev\"",

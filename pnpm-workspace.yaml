@@ -2,9 +2,13 @@
 packages:
   - frontend
 
-# pnpm 构建脚本放行(pnpm 11 起不再读 package.json 的 "pnpm" 字段)。
-# electron 的 postinstall 下载运行时二进制到 node_modules/electron/dist,必须放行;
-# electron-winstaller 是 Squirrel.Windows 打包器(本项目走 NSIS + portable),不需要。
+# pnpm 构建脚本放行(pnpm 11 起不再读 package.json 的 "pnpm" 字段,且只认 allowBuilds,
+# onlyBuiltDependencies/ignoredBuiltDependencies 已不生效)。
+# electron 43+ 的 npm 包已无 postinstall,运行时改由根包自身的 postinstall 显式执行
+# install-electron 下载(项目自身脚本不受 allowBuilds 限制);electron: true 仅为
+# 将来版本恢复构建脚本时兜底。
+# electron-winstaller 是 Squirrel.Windows 打包器(本项目走 NSIS + portable),不需要;
+# 若删掉这条 false,存在未决构建脚本时 pnpm install 会以 ERR_PNPM_IGNORED_BUILDS 退出 1。
 allowBuilds:
   electron: true
   electron-winstaller: false
