@@ -6,6 +6,7 @@
 // 图标 2 倍像素缩放;效果无 HUD 图标时经 gameEffect 反查天赋图标兜底,再无则文字占位。
 import { dictName, getLang } from '@/locales'
 import { useEffPerkStore } from '@/stores/effperk'
+import { frames2s } from '@/ui/format'
 
 const effperk = useEffPerkStore()
 const { t } = useI18n()
@@ -24,6 +25,30 @@ function perkDesc(d) {
 function effectName(id, nameZh) {
   return getLang() === 'zh' && nameZh ? nameZh : id
 }
+function effectDesc(d) {
+  return d ? (getLang() === 'zh' ? (d.descZh || d.desc) : (d.desc || d.descZh)) : ''
+}
+
+// 天赋叠加规则文案:上限 N > 可叠加 > 不可叠加
+function stackLabel(c) {
+  if (c.stackableMax)
+    return t('perk.tt.stackMax', { n: c.stackableMax })
+  return c.stackable ? t('perk.tt.stackable') : t('perk.tt.notStackable')
+}
+// 天赋特性标记(一次性 / 敌人可用),拼为一行
+function perkTraits(c) {
+  return [
+    c.oneOff ? t('perk.tt.oneOff') : '',
+    c.usableByEnemies ? t('perk.tt.enemies') : '',
+  ].filter(Boolean).join(' · ')
+}
+// 效果特性标记(有害 / 防火)
+function effectTraits(c) {
+  return [
+    c.isHarmful ? t('eff.tt.harmful') : '',
+    c.protectsFromFire ? t('eff.tt.fireProof') : '',
+  ].filter(Boolean).join(' · ')
+}
 
 const perkCells = computed(() => {
   const removals = new Set(effperk.perkRemovals)
@@ -40,6 +65,10 @@ const perkCells = computed(() => {
       badge: Number(p.count) > 1 ? `×${p.count}` : '',
       funcImpact: d?.funcImpact ?? '',
       funcNote: d?.funcNote ?? '',
+      stackable: d?.stackable ?? false,
+      stackableMax: d?.stackableMax,
+      oneOff: d?.oneOff ?? false,
+      usableByEnemies: d?.usableByEnemies ?? false,
     }
   })
   for (const a of effperk.perkAdds) {
@@ -55,6 +84,10 @@ const perkCells = computed(() => {
       badge: a.count > 1 ? `×${a.count}` : '',
       funcImpact: d?.funcImpact ?? '',
       funcNote: d?.funcNote ?? '',
+      stackable: d?.stackable ?? false,
+      stackableMax: d?.stackableMax,
+      oneOff: d?.oneOff ?? false,
+      usableByEnemies: d?.usableByEnemies ?? false,
     })
   }
   return out
@@ -62,19 +95,26 @@ const perkCells = computed(() => {
 
 const effectCells = computed(() => {
   const removals = new Set(effperk.effectRemovals)
-  const out = effperk.effects.map(e => ({
-    key: `saved-${e.index}-${e.effect}`,
-    state: removals.has(e.index) ? 'pendingRemove' : 'saved',
-    id: e.effect,
-    row: e,
-    icon: effperk.effectIconUrl(e.effect),
-    name: effectName(e.effect, e.nameZh),
-    badge: !e.permanent && e.seconds ? `${e.seconds}s` : '',
-    danger: e.danger,
-    group: e.group,
-    permanent: e.permanent,
-    seconds: e.seconds,
-  }))
+  const out = effperk.effects.map((e) => {
+    const d = effperk.effectDict(e.effect)
+    return {
+      key: `saved-${e.index}-${e.effect}`,
+      state: removals.has(e.index) ? 'pendingRemove' : 'saved',
+      id: e.effect,
+      row: e,
+      icon: effperk.effectIconUrl(e.effect),
+      name: effectName(e.effect, e.nameZh),
+      desc: effectDesc(d),
+      badge: !e.permanent && e.seconds ? `${e.seconds}s` : '',
+      danger: e.danger,
+      group: e.group,
+      permanent: e.permanent,
+      seconds: e.seconds,
+      durationFrames: d?.durationFrames,
+      isHarmful: d?.isHarmful ?? false,
+      protectsFromFire: d?.protectsFromFire ?? false,
+    }
+  })
   effperk.effectAdds.forEach((a, i) => {
     const d = effperk.effectDict(a.effect)
     out.push({
@@ -85,11 +125,15 @@ const effectCells = computed(() => {
       pendIndex: i,
       icon: effperk.effectIconUrl(a.effect),
       name: effectName(a.effect, d?.nameZh),
+      desc: effectDesc(d),
       badge: !a.permanent && a.seconds ? `${a.seconds}s` : '',
       danger: d?.danger ?? false,
       group: d?.group,
       permanent: a.permanent,
       seconds: a.seconds,
+      durationFrames: d?.durationFrames,
+      isHarmful: d?.isHarmful ?? false,
+      protectsFromFire: d?.protectsFromFire ?? false,
     })
   })
   return out
@@ -146,7 +190,7 @@ function effectAction(c) {
           <span v-else-if="c.state === 'pendingRemove'" class="cell-mark del">×</span>
         </div>
       </template>
-      <div class="ep-tt">
+      <div class="game-tt ep-tt">
         <div class="tt-head">
           <img v-if="c.icon" :src="c.icon" alt="" class="tt-icon">
           <span class="tt-name">{{ c.name }}</span>
@@ -159,6 +203,14 @@ function effectAction(c) {
           <div class="tt-row">
             <span class="tt-lbl">{{ t('effperk.count') }}</span>
             <span>{{ c.row ? c.row.count : `+${effperk.perkAdds.find(p => p.id === c.id)?.count ?? 1}` }}</span>
+          </div>
+          <div class="tt-row">
+            <span class="tt-lbl">{{ t('perk.tt.stack') }}</span>
+            <span>{{ stackLabel(c) }}</span>
+          </div>
+          <div v-if="perkTraits(c)" class="tt-row">
+            <span class="tt-lbl">{{ t('perk.tt.traits') }}</span>
+            <span>{{ perkTraits(c) }}</span>
           </div>
           <div v-if="c.row" class="tt-row">
             <span class="tt-lbl">{{ t('perk.entity') }}</span>
@@ -208,11 +260,14 @@ function effectAction(c) {
           <span v-else-if="c.state === 'pendingRemove'" class="cell-mark del">×</span>
         </div>
       </template>
-      <div class="ep-tt">
+      <div class="game-tt ep-tt">
         <div class="tt-head">
           <img v-if="c.icon" :src="c.icon" alt="" class="tt-icon">
           <span class="tt-name">{{ c.name }}</span>
           <span class="tt-kind effect">{{ t('effperk.ttEffect') }}</span>
+        </div>
+        <div v-if="c.desc" class="tt-desc">
+          {{ c.desc }}
         </div>
         <div class="tt-stats">
           <div v-if="c.group" class="tt-row">
@@ -222,6 +277,14 @@ function effectAction(c) {
           <div class="tt-row">
             <span class="tt-lbl">{{ t('effperk.duration') }}</span>
             <span>{{ c.permanent ? t('eff.permanentTag') : t('eff.secondsTag', { n: c.seconds }) }}</span>
+          </div>
+          <div v-if="c.durationFrames" class="tt-row">
+            <span class="tt-lbl">{{ t('eff.tt.defaultDuration') }}</span>
+            <span>{{ t('eff.secondsTag', { n: frames2s(c.durationFrames) }) }}</span>
+          </div>
+          <div v-if="effectTraits(c)" class="tt-row">
+            <span class="tt-lbl">{{ t('perk.tt.traits') }}</span>
+            <span>{{ effectTraits(c) }}</span>
           </div>
           <div v-if="c.row" class="tt-row">
             <span class="tt-lbl">{{ t('effperk.source') }}</span>
@@ -303,43 +366,7 @@ function effectAction(c) {
 .cell-mark.add { color: #7ec97e; }
 .cell-mark.del { color: #ff6b5e; }
 
-/* ---- 游戏风格 tooltip(与法术槽同款深色面板 + 浅色像素描边) ---- */
-.ep-tt {
-  background: rgba(14, 12, 18, 0.96);
-  border: 2px solid #b8b4c0;
-  outline: 2px solid #17131f;
-  padding: 10px 12px;
-  min-width: 200px;
-  max-width: 300px;
-  color: #e8e4da;
-  font-size: 12px;
-  line-height: 1.5;
-}
-.tt-head { display: flex; align-items: center; gap: 8px; }
-.tt-icon { width: 24px; height: 24px; object-fit: contain; image-rendering: pixelated; }
-.tt-name { font-size: 14px; font-weight: 600; color: #fff; }
-.tt-kind {
-  margin-left: auto;
-  font-size: 11px;
-  padding: 0 5px;
-  border: 1px solid;
-}
-.tt-kind.perk { color: #d8a24a; border-color: #7a6236; }
-.tt-kind.effect { color: #8faef5; border-color: #3e5a7a; }
-.tt-desc { color: #b5aec6; margin: 6px 0 2px; }
-.tt-stats { margin-top: 6px; }
-.tt-row { display: flex; align-items: center; gap: 8px; line-height: 20px; }
-.tt-lbl { width: 64px; flex: none; color: #9e97ad; }
-.tt-miss { color: #ff8a7e; }
-.tt-note { margin-top: 6px; color: #b5aec6; }
-.tt-add { margin-top: 6px; color: #7ec97e; }
-.tt-warn { margin-top: 6px; color: #ff8a7e; }
-.tt-foot {
-  margin-top: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-.tt-id { color: #6d6680; font-size: 11px; word-break: break-all; }
+/* tooltip 面板样式为全局 .game-tt(styles/game-tooltip.css);此处仅覆盖:
+   天赋/效果面板的标签列较窄(纯文字标签,无统计小图标) */
+.game-tt .tt-lbl { width: 64px; }
 </style>

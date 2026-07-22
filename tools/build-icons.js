@@ -69,6 +69,7 @@ const WAK_GUESSES = [
   'C:/Program Files (x86)/Steam/steamapps/common/Noita/data/data.wak',
   'D:/Steam/steamapps/common/Noita/data/data.wak',
   'D:/games/Noita.v25.01.2025/data/data.wak',
+  'E:/games/Noita/data/data.wak',
 ].filter(Boolean);
 
 // ---- 资源枚举与读取 -----------------------------------------------------------

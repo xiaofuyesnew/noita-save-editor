@@ -33,7 +33,7 @@ function iconUrl(spritePath) {
     : ''
 }
 function descOf(it) {
-  return getLang() === 'zh' ? it.descZh : ''
+  return getLang() === 'zh' ? (it.descZh || it.desc) : (it.desc || it.descZh)
 }
 
 const groupOptions = computed(() => {
@@ -77,20 +77,38 @@ function pick(it) {
     </NText>
     <NScrollbar class="max-h-[55vh] mt-2">
       <div class="item-grid">
-        <div
+        <NPopover
           v-for="it in hits" :key="it.id"
-          class="item-cell"
-          :title="descOf(it) || it.id"
-          @click="pick(it)"
+          trigger="hover" raw :show-arrow="false" placement="top"
+          :delay="150" :duration="60"
         >
-          <img
-            v-if="iconUrl(it.uiSprite)"
-            class="item-img" loading="lazy" :src="iconUrl(it.uiSprite)" :alt="it.id"
-          >
-          <span v-else class="item-img item-noicon">?</span>
-          <span class="item-name">{{ dictName({ name: it.name, nameZh: it.nameZh, id: it.id }) }}</span>
-          <span class="item-group">{{ groupLabel(it.group) }}</span>
-        </div>
+          <template #trigger>
+            <div class="item-cell" @click="pick(it)">
+              <img
+                v-if="iconUrl(it.uiSprite)"
+                class="item-img" loading="lazy" :src="iconUrl(it.uiSprite)" :alt="it.id"
+              >
+              <span v-else class="item-img item-noicon">?</span>
+              <span class="item-name">{{ dictName({ name: it.name, nameZh: it.nameZh, id: it.id }) }}</span>
+              <span class="item-group">{{ groupLabel(it.group) }}</span>
+            </div>
+          </template>
+          <div class="game-tt">
+            <div class="tt-head">
+              <img v-if="iconUrl(it.uiSprite)" :src="iconUrl(it.uiSprite)" alt="" class="tt-icon">
+              <span class="tt-name">{{ dictName({ name: it.name, nameZh: it.nameZh, id: it.id }) }}</span>
+            </div>
+            <div v-if="descOf(it)" class="tt-desc">
+              {{ descOf(it) }}
+            </div>
+            <div class="tt-kindline">
+              {{ groupLabel(it.group) }}
+            </div>
+            <div class="tt-id">
+              {{ it.id }}
+            </div>
+          </div>
+        </NPopover>
       </div>
     </NScrollbar>
   </NModal>
@@ -109,4 +127,6 @@ function pick(it) {
 .item-noicon { display: flex; align-items: center; justify-content: center; opacity: 0.5; }
 .item-name { font-size: 12px; text-align: center; line-height: 1.2; }
 .item-group { font-size: 11px; opacity: 0.55; }
+/* tooltip 面板样式为全局 .game-tt;类别行与 ItemSlotStrip 同款独立命名 */
+.tt-kindline { color: #b5aec6; margin-top: 4px; }
 </style>

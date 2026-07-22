@@ -24,6 +24,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, posix } from 'node:path';
 import { argv, exit } from 'node:process';
+import { flattenEntity, openWak } from './lib/gamedata.js';
 
 const toolsDir = fileURLToPath(new URL('.', import.meta.url));
 const dataOutDir = join(toolsDir, '..', 'data');
@@ -48,36 +49,7 @@ const WAK_GUESSES = [
 
 // ---- data.wak 读取 -----------------------------------------------------------
 //
-// wak 布局(实测):16 字节头 [magic u32, numFiles u32, dataStart u32, 保留 u32],
-// 随后 numFiles 条目 [offset u32, size u32, nameLen u32, name(latin1)],
-// 之后是文件数据区。
-
-function openWak(path) {
-  const buf = readFileSync(path);
-  let p = 0;
-  const u32 = () => {
-    const v = buf.readUInt32LE(p);
-    p += 4;
-    return v;
-  };
-  u32(); // magic
-  const numFiles = u32();
-  u32(); // dataStart
-  u32(); // 保留
-  const index = new Map();
-  for (let i = 0; i < numFiles; i++) {
-    const off = u32();
-    const size = u32();
-    const nl = u32();
-    const name = buf.toString('latin1', p, p + nl);
-    p += nl;
-    index.set(name, { off, size });
-  }
-  return (relPath) => {
-    const f = index.get(relPath);
-    return f ? buf.toString('utf8', f.off, f.off + f.size) : null;
-  };
-}
+// wak 读取与 <Base> 展开逻辑在 tools/lib/gamedata.js(与 build-dict.js 共享)。
 
 /** 构造 read(relPath) → 文本|null 的取源函数(wak 或解包目录)。 */
 function makeReader() {
@@ -104,69 +76,6 @@ function makeReader() {
     const p = join(diskDataDir, relPath.replace(/^data\//, ''));
     return existsSync(p) ? readFileSync(p, 'utf8') : null;
   };
-}
-
-// ---- <Base> 展开 -------------------------------------------------------------
-//
-// Noita 实体用 <Base file="..."> 引入模板,子实体可覆盖/追加组件。player.xml
-// 存的是全展开结果,因此注入前必须把 Base 摊平。这里做的是结构无关的"文本级"
-// 内联:把 <Base file="X"> ... </Base>(或自闭合)替换为 X 的 <Entity> 内层
-// 内容,再把 Base 标签自身携带的内层子节点续在其后(游戏语义:Base 的子节点
-// 追加到被引入实体上)。递归处理嵌套 Base。
-
-/** 取 xml 文本里根 <Entity ...> ... </Entity> 的内层内容(去掉最外层标签)。 */
-function innerOfEntity(xml) {
-  const open = xml.match(/<Entity\b[^>]*>/);
-  if (!open) throw new Error('实体 XML 缺少 <Entity> 根');
-  const start = open.index + open[0].length;
-  const end = xml.lastIndexOf('</Entity>');
-  if (end === -1) throw new Error('实体 XML 缺少 </Entity> 闭合');
-  return xml.slice(start, end);
-}
-
-/** 展开一段内层内容里的全部 <Base>,read 用于取被引入文件。 */
-function expandBases(inner, read, seen = []) {
-  const BASE_RE = /<Base\b([^>]*)\bfile="([^"]+)"([^>]*)(\/>|>([\s\S]*?)<\/Base>)/g;
-  return inner.replace(BASE_RE, (_m, _a, file, _b, tail, baseInner) => {
-    if (seen.includes(file)) throw new Error(`Base 循环引用: ${file}`);
-    const xml = read(file);
-    if (!xml) throw new Error(`Base 引入的文件缺失: ${file}`);
-    const importedInner = expandBases(innerOfEntity(xml), read, [...seen, file]);
-    // 被引入实体内容 + Base 标签自身的内层子节点(追加语义)
-    const extra = tail === '/>' ? '' : (baseInner ?? '');
-    return importedInner + '\n' + expandBases(extra, read, seen);
-  });
-}
-
-/** 读道具 pickup 实体并全展开为独立 <Entity> XML(不含任何 <Base>)。 */
-function flattenEntity(relPath, read) {
-  const xml = read(relPath);
-  if (!xml) throw new Error(`道具实体缺失: ${relPath}`);
-  const open = xml.match(/<Entity\b[^>]*>/)[0];
-  const inner = expandBases(innerOfEntity(xml), read, [relPath]);
-  return dedupeTagAttrs(`${open}\n${inner}\n</Entity>\n`);
-}
-
-/**
- * 去除元素开标签内的重复属性(个别原版文件自带,如 powder_stash.xml 的
- * MaterialInventoryComponent 写了两次 leak_pressure_min;游戏解析器宽容,
- * 我们的严格解析器会拒绝)。保留最后一次出现的值(与"后写覆盖"语义一致),
- * 属性顺序按首次出现;无重复的标签保持原文不动。
- */
-function dedupeTagAttrs(xml) {
-  return xml.replace(/<[A-Za-z_][^<>]*>/g, (tag) => {
-    const values = new Map();
-    let count = 0;
-    for (const m of tag.matchAll(/([\w.]+)="([^"]*)"/g)) {
-      count++;
-      values.set(m[1], m[2]);
-    }
-    if (count === values.size) return tag;
-    const name = tag.match(/^<([\w.]+)/)[1];
-    const attrs = [...values.entries()].map(([k, v]) => `${k}="${v}"`).join(' ');
-    const close = /\/>\s*$/.test(tag) ? ' />' : ' >';
-    return `<${name} ${attrs}${close}`;
-  });
 }
 
 // ---- 翻译 --------------------------------------------------------------------
@@ -232,7 +141,7 @@ const CATALOG = [
 
 // ---- 构建 --------------------------------------------------------------------
 
-function build() {
+async function build() {
   const read = makeReader();
   const translations = parseTranslations(read);
 
@@ -241,7 +150,7 @@ function build() {
   for (const { id, group } of CATALOG) {
     const relPath = `data/entities/items/pickup/${id}.xml`;
     try {
-      const entity = flattenEntity(relPath, read);
+      const entity = await flattenEntity(relPath, read);
       const rawItemName = entity.match(/item_name="([^"]*)"/)?.[1] || '';
       const uiSprite = entity.match(/ui_sprite="([^"]*)"/)?.[1] || '';
       const uiDesc = entity.match(/ui_description="([^"]*)"/)?.[1] || '';
@@ -253,6 +162,7 @@ function build() {
         itemName: rawItemName,
         name: en,
         nameZh: zh,
+        desc: uiDesc ? desc.en : '',
         descZh: uiDesc ? desc.zh : '',
         uiSprite,
         entity,
@@ -275,4 +185,4 @@ function build() {
   }
 }
 
-build();
+await build();

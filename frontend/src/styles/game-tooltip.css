@@ -1,0 +1,63 @@
+/* 游戏风格 tooltip 共享样式(仿原版深色面板 + 浅色像素描边)。
+   此前同一套规则复制在 SlotStrip / ItemSlotStrip / WandCard / EffectPerkWall
+   四处,统一收敛为全局类:面板根 = .game-tt,内部结构 = .tt-*。
+   NPopover raw 内容渲染在 portal 里,全局类在任何挂载点都生效;
+   各组件的差异化规则(面板宽度、标签列宽等)仍留在各自 scoped 样式中覆盖。 */
+
+.game-tt {
+  background: rgba(14, 12, 18, 0.96);
+  border: 2px solid #b8b4c0;
+  outline: 2px solid #17131f;
+  padding: 10px 12px;
+  min-width: 200px;
+  max-width: 300px;
+  color: #e8e4da;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.game-tt .tt-head { display: flex; align-items: center; gap: 8px; }
+.game-tt .tt-icon { width: 24px; height: 24px; object-fit: contain; image-rendering: pixelated; }
+.game-tt .tt-name { font-size: 14px; font-weight: 600; color: #fff; }
+.game-tt .tt-kind {
+  margin-left: auto;
+  font-size: 11px;
+  padding: 0 5px;
+  border: 1px solid;
+}
+.game-tt .tt-kind.perk { color: #d8a24a; border-color: #7a6236; }
+.game-tt .tt-kind.effect { color: #8faef5; border-color: #3e5a7a; }
+.game-tt .tt-desc { color: #b5aec6; margin: 6px 0 2px; }
+.game-tt .tt-stats { margin-top: 6px; }
+.game-tt .tt-row { display: flex; align-items: center; gap: 8px; line-height: 20px; break-inside: avoid; }
+.game-tt .tt-lbl {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: 92px;
+  flex: none;
+  color: #9e97ad;
+}
+.game-tt .tt-lbl img { width: 14px; height: 14px; image-rendering: pixelated; }
+.game-tt .tt-lbl-pad { width: 14px; height: 14px; }
+.game-tt .tt-mana { color: #8faef5; }
+.game-tt .tt-gold { color: #ffd75e; }
+.game-tt .tt-ac { color: #d8a24a; }
+.game-tt .tt-miss { color: #ff8a7e; }
+.game-tt .tt-note { margin-top: 6px; color: #b5aec6; }
+.game-tt .tt-add { margin-top: 6px; color: #7ec97e; }
+.game-tt .tt-warn { margin-top: 6px; color: #ff8a7e; }
+.game-tt .tt-cap { color: #9e97ad; margin-top: 6px; }
+.game-tt .tt-mat { display: flex; justify-content: space-between; gap: 12px; }
+.game-tt .tt-mat span:first-child { color: #8faef5; }
+.game-tt .tt-count { color: #ffe9a8; }
+.game-tt .tt-empty { color: #6d6680; margin-top: 2px; }
+.game-tt .tt-hint { margin-top: 6px; color: #9e97ad; }
+.game-tt .tt-foot {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.game-tt .tt-id { color: #6d6680; font-size: 11px; word-break: break-all; }
+.game-tt > .tt-id { margin-top: 6px; }

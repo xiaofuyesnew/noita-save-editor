@@ -2,7 +2,7 @@
 // 容器材料编辑弹窗:材料行增删改(NSelect 可搜可自定义)。只改本地编辑态,
 // 「保存」把整表材料上报父级写入 items store 暂存(卡上「应用」统一提交);
 // 「删除容器」同样只上报暂存删除。dirty 以打开时的材料快照为基线。
-import { dictName } from '@/locales'
+import { dictName, getLang } from '@/locales'
 import { useDictStore } from '@/stores/dict'
 
 const props = defineProps({
@@ -21,6 +21,7 @@ const baseline = ref('')
 watch(show, (v) => {
   if (v) {
     dict.ensureMaterials()
+    dict.ensureEffects() // 材料接触效果名的解析
     materials.value = (props.container?.materials ?? [])
       .map(m => ({ material: m.material, count: m.count }))
     baseline.value = JSON.stringify(materials.value)
@@ -38,8 +39,35 @@ const matOptions = computed(() => {
   return [...(dict.materials ?? [])].sort((a, b) =>
     (kindOrder[a.kind] ?? 9) - (kindOrder[b.kind] ?? 9) || a.id.localeCompare(b.id))
 })
+// 材料简要属性标记(materials.json 生成字段):可燃/自燃/接触状态效果/危险
+function matFlags(d) {
+  if (!d)
+    return []
+  const flags = []
+  if (d.onFire)
+    flags.push(t('mat.onFire'))
+  else if (d.burnable)
+    flags.push(t('mat.burnable'))
+  if (d.statusEffects) {
+    const eff = (dict.effects ?? []).find(e => e.id === d.statusEffects)
+    const name = getLang() === 'zh'
+      ? (eff?.nameZh || eff?.name || d.statusEffects)
+      : (eff?.name || d.statusEffects)
+    flags.push(t('mat.contact', { name }))
+  }
+  if (d.dangerFire || d.dangerRadioactive || d.dangerPoison)
+    flags.push(t('mat.danger'))
+  return flags
+}
+
 const matSelectOptions = computed(() =>
-  matOptions.value.map(m => ({ label: `${dictName(m)}(${m.kind})`, value: m.id })))
+  matOptions.value.map((m) => {
+    const flags = matFlags(m)
+    return {
+      label: `${dictName(m)}(${m.kind}${flags.length ? ` · ${flags.join(' · ')}` : ''})`,
+      value: m.id,
+    }
+  }))
 
 function kindLabel(kind) {
   const key = `potion.kind.${kind}`
@@ -48,7 +76,10 @@ function kindLabel(kind) {
 }
 function matInfo(id) {
   const d = matById.value.get(id)
-  return d ? `${dictName(d)} · ${d.kind}` : t('potion.unknownMat')
+  if (!d)
+    return t('potion.unknownMat')
+  const flags = matFlags(d)
+  return `${dictName(d)} · ${d.kind}${flags.length ? ` · ${flags.join(' · ')}` : ''}`
 }
 
 const title = computed(() => props.container

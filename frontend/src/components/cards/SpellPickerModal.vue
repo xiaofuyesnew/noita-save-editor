@@ -1,5 +1,7 @@
 <script setup>
-// 法术选择器弹窗:搜索 + 类型过滤,点击行即添加到目标槽位。
+// 法术选择器弹窗:搜索 + 类型过滤,点击行即添加到目标槽位;行悬浮弹出
+// 与法术槽同款的游戏风格详情面板(SpellTooltip)。
+import SpellTooltip from '@/components/shared/SpellTooltip.vue'
 import { dictName, getLang } from '@/locales'
 import { useDictStore } from '@/stores/dict'
 
@@ -76,31 +78,39 @@ function pick(s) {
       {{ t('picker.matches', { n: hits.length }) + (hits.length > 80 ? t('picker.matchesCap') : '') }}
     </NText>
     <NScrollbar class="max-h-[50vh] mt-2">
-      <NFlex
+      <NPopover
         v-for="s in hits.slice(0, 80)" :key="s.id"
-        justify="space-between" align="center" :wrap="false"
-        class="px-2 py-1 rounded cursor-pointer hover:bg-white/8"
-        @click="pick(s)"
+        trigger="hover" raw :show-arrow="false" placement="right"
+        :delay="150" :duration="60"
       >
-        <NFlex align="center" :size="8" :wrap="false" class="min-w-0">
-          <span class="spell-chip">
-            <img class="chip-bg" :src="bgUrl(s.type)" alt="">
-            <img v-if="iconUrl(s.sprite)" class="chip-icon" :src="iconUrl(s.sprite)" :alt="s.id">
-          </span>
-          <div class="min-w-0">
-            <NText class="text-13px block truncate">
-              {{ dictName(s) }} ({{ s.id }})
+        <template #trigger>
+          <NFlex
+            justify="space-between" align="center" :wrap="false"
+            class="px-2 py-1 rounded cursor-pointer hover:bg-white/8"
+            @click="pick(s)"
+          >
+            <NFlex align="center" :size="8" :wrap="false" class="min-w-0">
+              <span class="spell-chip">
+                <img class="chip-bg" :src="bgUrl(s.type)" alt="">
+                <img v-if="iconUrl(s.sprite)" class="chip-icon" :src="iconUrl(s.sprite)" :alt="s.id">
+              </span>
+              <div class="min-w-0">
+                <NText class="text-13px block truncate">
+                  {{ dictName(s) }} ({{ s.id }})
+                </NText>
+                <NText v-if="descOf(s)" :depth="3" class="text-12px block truncate">
+                  {{ descOf(s) }}
+                </NText>
+              </div>
+            </NFlex>
+            <NText :depth="3" class="text-12px whitespace-nowrap">
+              {{ `${typeLabel(s.type)} · ${t('picker.mana', { mana: s.mana })}${
+                s.maxUses !== '-1' ? ` · ${t('picker.uses', { n: s.maxUses })}` : ''}` }}
             </NText>
-            <NText v-if="descOf(s)" :depth="3" class="text-12px block truncate">
-              {{ descOf(s) }}
-            </NText>
-          </div>
-        </NFlex>
-        <NText :depth="3" class="text-12px whitespace-nowrap">
-          {{ `${typeLabel(s.type)} · ${t('picker.mana', { mana: s.mana })}${
-            s.maxUses !== '-1' ? ` · ${t('picker.uses', { n: s.maxUses })}` : ''}` }}
-        </NText>
-      </NFlex>
+          </NFlex>
+        </template>
+        <SpellTooltip :entry="s" />
+      </NPopover>
     </NScrollbar>
   </NModal>
 </template>

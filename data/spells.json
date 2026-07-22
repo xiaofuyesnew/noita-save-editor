@@ -7,10 +7,18 @@
     "maxUses": "3",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 100,
     "name": "Bomb",
     "nameZh": "炸弹",
     "desc": "Summons a bomb that destroys ground very efficiently",
-    "descZh": "召唤一枚破坏地面极为高效的炸弹"
+    "descZh": "召唤一枚破坏地面极为高效的炸弹",
+    "projectile": {
+      "file": "data/entities/projectiles/bomb.xml",
+      "damage": 0,
+      "lifetime": 60,
+      "explosionDamage": 2,
+      "explosionRadius": 20
+    }
   },
   {
     "id": "LIGHT_BULLET",
@@ -20,10 +28,22 @@
     "maxUses": "-1",
     "price": "100",
     "unlockFlag": "",
+    "castDelay": 3,
+    "spreadDegrees": -1,
+    "critChance": 5,
     "name": "Spark bolt",
     "nameZh": "火花弹",
     "desc": "A weak but enchanting sparkling projectile",
-    "descZh": "弱小但带有迷人闪烁的投射物"
+    "descZh": "弱小但带有迷人闪烁的投射物",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/light_bullet.xml",
+      "damage": 0.12,
+      "speedMin": 750,
+      "speedMax": 850,
+      "lifetime": 40,
+      "explosionDamage": 0,
+      "explosionRadius": 2
+    }
   },
   {
     "id": "LIGHT_BULLET_TRIGGER",
@@ -33,10 +53,21 @@
     "maxUses": "-1",
     "price": "140",
     "unlockFlag": "",
+    "castDelay": 3,
+    "critChance": 5,
     "name": "Spark bolt with trigger",
     "nameZh": "带有触发的火花弹",
     "desc": "A spark bolt that casts another spell upon collision",
-    "descZh": "在碰撞时施放另一法术的火花弹"
+    "descZh": "在碰撞时施放另一法术的火花弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/light_bullet.xml",
+      "damage": 0.12,
+      "speedMin": 750,
+      "speedMax": 850,
+      "lifetime": 40,
+      "explosionDamage": 0,
+      "explosionRadius": 2
+    }
   },
   {
     "id": "LIGHT_BULLET_TRIGGER_2",
@@ -46,10 +77,21 @@
     "maxUses": "-1",
     "price": "250",
     "unlockFlag": "",
+    "castDelay": 4,
+    "critChance": 5,
     "name": "Spark bolt with double trigger",
     "nameZh": "带有双重触发的火花弹",
     "desc": "A spark bolt that casts two new spells upon collision",
-    "descZh": "在碰撞时施放两个全新法术的火花弹"
+    "descZh": "在碰撞时施放两个全新法术的火花弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/light_bullet_blue.xml",
+      "damage": 0.15,
+      "speedMin": 650,
+      "speedMax": 750,
+      "lifetime": 40,
+      "explosionDamage": 0.1,
+      "explosionRadius": 12
+    }
   },
   {
     "id": "LIGHT_BULLET_TIMER",
@@ -59,10 +101,21 @@
     "maxUses": "-1",
     "price": "140",
     "unlockFlag": "",
+    "castDelay": 3,
+    "critChance": 5,
     "name": "Spark bolt with timer",
     "nameZh": "带有定时的火花弹",
     "desc": "A spark bolt that casts another spell after a timer runs out",
-    "descZh": "在定时结束后施放另一法术的火花弹"
+    "descZh": "在定时结束后施放另一法术的火花弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/light_bullet.xml",
+      "damage": 0.12,
+      "speedMin": 750,
+      "speedMax": 850,
+      "lifetime": 40,
+      "explosionDamage": 0,
+      "explosionRadius": 2
+    }
   },
   {
     "id": "BULLET",
@@ -72,10 +125,22 @@
     "maxUses": "-1",
     "price": "150",
     "unlockFlag": "",
+    "castDelay": 4,
+    "spreadDegrees": 2,
+    "critChance": 5,
     "name": "Magic arrow",
     "nameZh": "魔法箭",
     "desc": "A handy magical arrow",
-    "descZh": "好用的魔法箭"
+    "descZh": "好用的魔法箭",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/bullet.xml",
+      "damage": 0.4,
+      "speedMin": 600,
+      "speedMax": 650,
+      "lifetime": 40,
+      "explosionDamage": 0,
+      "explosionRadius": 2
+    }
   },
   {
     "id": "BULLET_TRIGGER",
@@ -85,10 +150,22 @@
     "maxUses": "-1",
     "price": "190",
     "unlockFlag": "",
+    "castDelay": 4,
+    "spreadDegrees": 2,
+    "critChance": 5,
     "name": "Magic arrow with trigger",
     "nameZh": "带有触发的魔法箭",
     "desc": "A magical arrow that casts another spell upon collision",
-    "descZh": "在碰撞时施放另一法术的魔法箭"
+    "descZh": "在碰撞时施放另一法术的魔法箭",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/bullet.xml",
+      "damage": 0.4,
+      "speedMin": 600,
+      "speedMax": 650,
+      "lifetime": 40,
+      "explosionDamage": 0,
+      "explosionRadius": 2
+    }
   },
   {
     "id": "BULLET_TIMER",
@@ -98,10 +175,22 @@
     "maxUses": "-1",
     "price": "190",
     "unlockFlag": "",
+    "castDelay": 4,
+    "spreadDegrees": 2,
+    "critChance": 5,
     "name": "Magic arrow with timer",
     "nameZh": "带有定时的魔法箭",
     "desc": "A magical arrow that casts another spell after a timer runs out",
-    "descZh": "在定时结束后施放另一法术的魔法箭"
+    "descZh": "在定时结束后施放另一法术的魔法箭",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/bullet.xml",
+      "damage": 0.4,
+      "speedMin": 600,
+      "speedMax": 650,
+      "lifetime": 40,
+      "explosionDamage": 0,
+      "explosionRadius": 2
+    }
   },
   {
     "id": "HEAVY_BULLET",
@@ -111,10 +200,22 @@
     "maxUses": "-1",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 7,
+    "spreadDegrees": 5,
+    "critChance": 5,
     "name": "Magic bolt",
     "nameZh": "魔法弹",
     "desc": "A powerful magical bolt",
-    "descZh": "强力的魔法弹"
+    "descZh": "强力的魔法弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/bullet_heavy.xml",
+      "damage": 0.51,
+      "speedMin": 600,
+      "speedMax": 750,
+      "lifetime": 30,
+      "explosionDamage": 0,
+      "explosionRadius": 6
+    }
   },
   {
     "id": "HEAVY_BULLET_TRIGGER",
@@ -124,10 +225,22 @@
     "maxUses": "-1",
     "price": "240",
     "unlockFlag": "",
+    "castDelay": 7,
+    "spreadDegrees": 5,
+    "critChance": 5,
     "name": "Magic bolt with trigger",
     "nameZh": "带有触发的魔法弹",
     "desc": "A powerful magical bolt that casts another spell upon collision",
-    "descZh": "在碰撞时施放另一法术的强力魔法弹"
+    "descZh": "在碰撞时施放另一法术的强力魔法弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/bullet_heavy.xml",
+      "damage": 0.51,
+      "speedMin": 600,
+      "speedMax": 750,
+      "lifetime": 30,
+      "explosionDamage": 0,
+      "explosionRadius": 6
+    }
   },
   {
     "id": "HEAVY_BULLET_TIMER",
@@ -137,10 +250,22 @@
     "maxUses": "-1",
     "price": "240",
     "unlockFlag": "",
+    "castDelay": 7,
+    "spreadDegrees": 5,
+    "critChance": 5,
     "name": "Magic bolt with timer",
     "nameZh": "带有定时的魔法弹",
     "desc": "A powerful magical bolt that casts another spell after a timer runs out",
-    "descZh": "在定时结束后施放另一法术的强力魔法弹"
+    "descZh": "在定时结束后施放另一法术的强力魔法弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/bullet_heavy.xml",
+      "damage": 0.51,
+      "speedMin": 600,
+      "speedMax": 750,
+      "lifetime": 30,
+      "explosionDamage": 0,
+      "explosionRadius": 6
+    }
   },
   {
     "id": "AIR_BULLET",
@@ -150,10 +275,21 @@
     "maxUses": "-1",
     "price": "80",
     "unlockFlag": "",
+    "castDelay": 3,
+    "spreadDegrees": -2,
     "name": "Burst of air",
     "nameZh": "强气流",
     "desc": "A brittle burst of air capable of greatly pushing objects",
-    "descZh": "能够大幅推动物体的一道气流"
+    "descZh": "能够大幅推动物体的一道气流",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/light_bullet_air.xml",
+      "damage": 0.23,
+      "speedMin": 350,
+      "speedMax": 450,
+      "lifetime": 40,
+      "explosionDamage": 0,
+      "explosionRadius": 0
+    }
   },
   {
     "id": "SLOW_BULLET",
@@ -163,10 +299,21 @@
     "maxUses": "-1",
     "price": "160",
     "unlockFlag": "",
+    "castDelay": 6,
+    "spreadDegrees": 3.6,
     "name": "Energy orb",
     "nameZh": "能量球",
     "desc": "A slow but powerful orb of energy",
-    "descZh": "缓慢而强大的能量球体"
+    "descZh": "缓慢而强大的能量球体",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/bullet_slow.xml",
+      "damage": 0.45,
+      "speedMin": 180,
+      "speedMax": 240,
+      "lifetime": 50,
+      "explosionDamage": 0.18,
+      "explosionRadius": 15
+    }
   },
   {
     "id": "SLOW_BULLET_TRIGGER",
@@ -176,10 +323,21 @@
     "maxUses": "-1",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 25,
+    "spreadDegrees": 10,
     "name": "Energy orb with a trigger",
     "nameZh": "带有触发的能量球",
     "desc": "A slow but powerful orb of energy that casts another spell upon collision",
-    "descZh": "缓慢而强大的能量球体，在碰撞时施放另一法术"
+    "descZh": "缓慢而强大的能量球体，在碰撞时施放另一法术",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/bullet_slow.xml",
+      "damage": 0.45,
+      "speedMin": 180,
+      "speedMax": 240,
+      "lifetime": 50,
+      "explosionDamage": 0.18,
+      "explosionRadius": 15
+    }
   },
   {
     "id": "SLOW_BULLET_TIMER",
@@ -189,10 +347,21 @@
     "maxUses": "-1",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 6,
+    "spreadDegrees": 3.6,
     "name": "Energy orb with a timer",
     "nameZh": "带有定时的能量球",
     "desc": "A slow but powerful orb of energy that casts another spell after a timer runs out",
-    "descZh": "缓慢而强大的能量球体，在定时结束后施放另一法术"
+    "descZh": "缓慢而强大的能量球体，在定时结束后施放另一法术",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/bullet_slow.xml",
+      "damage": 0.45,
+      "speedMin": 180,
+      "speedMax": 240,
+      "lifetime": 50,
+      "explosionDamage": 0.18,
+      "explosionRadius": 15
+    }
   },
   {
     "id": "HOOK",
@@ -202,10 +371,20 @@
     "maxUses": "-1",
     "price": "120",
     "unlockFlag": "",
+    "castDelay": 12,
     "name": "Hookbolt",
     "nameZh": "飞钩",
     "desc": "A glowing hook that pulls the caster towards itself upon collision",
-    "descZh": "发光的钩子，会在碰撞时将施法者拉向自己"
+    "descZh": "发光的钩子，会在碰撞时将施法者拉向自己",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/hook.xml",
+      "damage": 0.3,
+      "speedMin": 680,
+      "speedMax": 720,
+      "lifetime": 60,
+      "explosionDamage": 0,
+      "explosionRadius": 2
+    }
   },
   {
     "id": "BLACK_HOLE",
@@ -215,10 +394,20 @@
     "maxUses": "3",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 80,
     "name": "Black hole",
     "nameZh": "黑洞",
     "desc": "A slow orb of void that eats through all obstacles",
-    "descZh": "缓慢的虚无球体，会吞噬沿路的一切障碍"
+    "descZh": "缓慢的虚无球体，会吞噬沿路的一切障碍",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/black_hole.xml",
+      "damage": 0,
+      "speedMin": 40,
+      "speedMax": 40,
+      "lifetime": 120,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "BLACK_HOLE_DEATH_TRIGGER",
@@ -228,10 +417,20 @@
     "maxUses": "3",
     "price": "220",
     "unlockFlag": "",
+    "castDelay": 90,
     "name": "Black Hole with Death Trigger",
     "nameZh": "带有死亡触发的黑洞",
     "desc": "A slow orb of void that eats through all obstacles and casts another spell as it expires",
-    "descZh": "缓慢的虚无球体，会吞噬沿路的一切障碍，并在消散时释放另一法术"
+    "descZh": "缓慢的虚无球体，会吞噬沿路的一切障碍，并在消散时释放另一法术",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/black_hole.xml",
+      "damage": 0,
+      "speedMin": 40,
+      "speedMax": 40,
+      "lifetime": 120,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "WHITE_HOLE",
@@ -241,10 +440,20 @@
     "maxUses": "3",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 80,
     "name": "White hole",
     "nameZh": "白洞",
     "desc": "An orb of positive energy that destroys everything in its path",
-    "descZh": "一个正面能量球体，摧毁所及的一切"
+    "descZh": "一个正面能量球体，摧毁所及的一切",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/white_hole.xml",
+      "damage": 0,
+      "speedMin": 40,
+      "speedMax": 40,
+      "lifetime": 120,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "BLACK_HOLE_BIG",
@@ -254,10 +463,20 @@
     "maxUses": "6",
     "price": "320",
     "unlockFlag": "",
+    "castDelay": 80,
     "name": "Giga black hole",
     "nameZh": "巨大黑洞",
     "desc": "A growing orb of negative energy that destroys everything in its reach",
-    "descZh": "不断增长的负面能量球体，摧毁所及的一切"
+    "descZh": "不断增长的负面能量球体，摧毁所及的一切",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/black_hole_big.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 500,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "WHITE_HOLE_BIG",
@@ -267,10 +486,20 @@
     "maxUses": "6",
     "price": "320",
     "unlockFlag": "",
+    "castDelay": 80,
     "name": "Giga white hole",
     "nameZh": "巨大白洞",
     "desc": "A growing orb of positive energy that destroys everything in its reach",
-    "descZh": "不断增长的正面能量球体，摧毁所及的一切"
+    "descZh": "不断增长的正面能量球体，摧毁所及的一切",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/white_hole_big.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 500,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "BLACK_HOLE_GIGA",
@@ -280,10 +509,21 @@
     "maxUses": "6",
     "price": "600",
     "unlockFlag": "card_unlocked_black_hole",
+    "castDelay": 120,
+    "rechargeTime": 100,
     "name": "Omega Black Hole",
     "nameZh": "终结黑洞",
     "desc": "Even light dies eventually...",
-    "descZh": "即使光也终将灭亡..."
+    "descZh": "即使光也终将灭亡...",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/black_hole_giga.xml",
+      "damage": 0,
+      "speedMin": 100,
+      "speedMax": 140,
+      "lifetime": 1000,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "WHITE_HOLE_GIGA",
@@ -293,10 +533,21 @@
     "maxUses": "6",
     "price": "600",
     "unlockFlag": "card_unlocked_black_hole",
+    "castDelay": 120,
+    "rechargeTime": 100,
     "name": "Omega white hole",
     "nameZh": "终结白洞",
     "desc": "A massive orb of positive energy that destroys everything in its reach",
-    "descZh": "一个巨大的正面能量球体，摧毁所及的一切"
+    "descZh": "一个巨大的正面能量球体，摧毁所及的一切",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/white_hole_giga.xml",
+      "damage": 0,
+      "speedMin": 100,
+      "speedMax": 140,
+      "lifetime": 1000,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "TENTACLE_PORTAL",
@@ -306,6 +557,7 @@
     "maxUses": "5",
     "price": "220",
     "unlockFlag": "",
+    "castDelay": 30,
     "name": "Eldritch portal",
     "nameZh": "怪异传送门",
     "desc": "Summons a one-way portal to a sinister realm",
@@ -319,10 +571,21 @@
     "maxUses": "-1",
     "price": "110",
     "unlockFlag": "",
+    "castDelay": -1,
+    "spreadDegrees": 6,
     "name": "Spitter bolt",
     "nameZh": "分裂弹",
     "desc": "A short-lived magical bolt",
-    "descZh": "寿命短暂的魔法弹"
+    "descZh": "寿命短暂的魔法弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/spitter.xml",
+      "damage": 0.3,
+      "speedMin": 400,
+      "speedMax": 600,
+      "lifetime": 25,
+      "explosionDamage": 0,
+      "explosionRadius": 2
+    }
   },
   {
     "id": "SPITTER_TIMER",
@@ -332,10 +595,21 @@
     "maxUses": "-1",
     "price": "140",
     "unlockFlag": "",
+    "castDelay": -1,
+    "spreadDegrees": 6,
     "name": "Spitter bolt with timer",
     "nameZh": "带有定时的分裂弹",
     "desc": "A short-lived magical bolt that casts another spell after a timer runs out",
-    "descZh": "在过去一段时间后施放另一法术的寿命短暂魔法弹"
+    "descZh": "在过去一段时间后施放另一法术的寿命短暂魔法弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/spitter.xml",
+      "damage": 0.3,
+      "speedMin": 400,
+      "speedMax": 600,
+      "lifetime": 25,
+      "explosionDamage": 0,
+      "explosionRadius": 2
+    }
   },
   {
     "id": "SPITTER_TIER_2",
@@ -345,10 +619,21 @@
     "maxUses": "-1",
     "price": "190",
     "unlockFlag": "",
+    "castDelay": -2,
+    "spreadDegrees": 7.5,
     "name": "Large spitter bolt",
     "nameZh": "大型分裂弹",
     "desc": "A more powerful version of Spitter Bolt",
-    "descZh": "分裂弹的更强大版本"
+    "descZh": "分裂弹的更强大版本",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/spitter_tier_2.xml",
+      "damage": 0.5,
+      "speedMin": 600,
+      "speedMax": 800,
+      "lifetime": 30,
+      "explosionDamage": 0,
+      "explosionRadius": 2
+    }
   },
   {
     "id": "SPITTER_TIER_2_TIMER",
@@ -358,10 +643,21 @@
     "maxUses": "-1",
     "price": "220",
     "unlockFlag": "",
+    "castDelay": -2,
+    "spreadDegrees": 7.5,
     "name": "Large spitter bolt with timer",
     "nameZh": "带有定时的大型分裂弹",
     "desc": "A more powerful version of Spitter Bolt that casts another spell after a timer runs out",
-    "descZh": "在定时结束后施放另一法术的更强大版本分裂弹"
+    "descZh": "在定时结束后施放另一法术的更强大版本分裂弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/spitter_tier_2.xml",
+      "damage": 0.5,
+      "speedMin": 600,
+      "speedMax": 800,
+      "lifetime": 30,
+      "explosionDamage": 0,
+      "explosionRadius": 2
+    }
   },
   {
     "id": "SPITTER_TIER_3",
@@ -371,10 +667,21 @@
     "maxUses": "-1",
     "price": "240",
     "unlockFlag": "",
+    "castDelay": -4,
+    "spreadDegrees": 9,
     "name": "Giant spitter bolt",
     "nameZh": "巨型分裂弹",
     "desc": "The most powerful version of Spitter Bolt",
-    "descZh": "最强大形式的分裂弹"
+    "descZh": "最强大形式的分裂弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/spitter_tier_3.xml",
+      "damage": 0.6,
+      "speedMin": 800,
+      "speedMax": 1000,
+      "lifetime": 35,
+      "explosionDamage": 0,
+      "explosionRadius": 2
+    }
   },
   {
     "id": "SPITTER_TIER_3_TIMER",
@@ -384,10 +691,21 @@
     "maxUses": "-1",
     "price": "260",
     "unlockFlag": "",
+    "castDelay": -4,
+    "spreadDegrees": 9,
     "name": "Giant spitter bolt with timer",
     "nameZh": "带有定时的巨型分裂弹",
     "desc": "The most powerful version of Spitter Bolt that casts another spell after a timer runs out",
-    "descZh": "在定时结束后施放另一法术的最强大版本分裂弹"
+    "descZh": "在定时结束后施放另一法术的最强大版本分裂弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/spitter_tier_3.xml",
+      "damage": 0.6,
+      "speedMin": 800,
+      "speedMax": 1000,
+      "lifetime": 35,
+      "explosionDamage": 0,
+      "explosionRadius": 2
+    }
   },
   {
     "id": "BUBBLESHOT",
@@ -397,10 +715,20 @@
     "maxUses": "-1",
     "price": "100",
     "unlockFlag": "",
+    "castDelay": -5,
     "name": "Bubble spark",
     "nameZh": "泡泡火花",
     "desc": "A bouncy, inaccurate spell",
-    "descZh": "弹性十足但不够准确的法术"
+    "descZh": "弹性十足但不够准确的法术",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/bubbleshot.xml",
+      "damage": 0.2,
+      "speedMin": 200,
+      "speedMax": 300,
+      "lifetime": 100,
+      "explosionDamage": 0,
+      "explosionRadius": 4
+    }
   },
   {
     "id": "BUBBLESHOT_TRIGGER",
@@ -410,10 +738,20 @@
     "maxUses": "-1",
     "price": "120",
     "unlockFlag": "",
+    "castDelay": -5,
     "name": "Bubble spark with trigger",
     "nameZh": "带有触发的泡泡火花",
     "desc": "A bouncy, inaccurate spell that casts another spell upon collision",
-    "descZh": "弹性十足但不够准确的法术，在碰撞时施放另一法术"
+    "descZh": "弹性十足但不够准确的法术，在碰撞时施放另一法术",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/bubbleshot.xml",
+      "damage": 0.2,
+      "speedMin": 200,
+      "speedMax": 300,
+      "lifetime": 100,
+      "explosionDamage": 0,
+      "explosionRadius": 4
+    }
   },
   {
     "id": "DISC_BULLET",
@@ -423,10 +761,22 @@
     "maxUses": "-1",
     "price": "120",
     "unlockFlag": "",
+    "castDelay": 10,
+    "spreadDegrees": 2,
     "name": "Disc projectile",
     "nameZh": "碟状投射物",
     "desc": "Summons a sharp disc projectile",
-    "descZh": "召唤锐利的碟状投射物"
+    "descZh": "召唤锐利的碟状投射物",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/disc_bullet.xml",
+      "damage": 0,
+      "speedMin": 350,
+      "speedMax": 450,
+      "lifetime": 750,
+      "damageByType": {
+        "slice": 0.8
+      }
+    }
   },
   {
     "id": "DISC_BULLET_BIG",
@@ -436,10 +786,22 @@
     "maxUses": "-1",
     "price": "180",
     "unlockFlag": "",
+    "castDelay": 20,
+    "spreadDegrees": 3.4,
     "name": "Giga disc projectile",
     "nameZh": "巨型碟状投射物",
     "desc": "Summons a large, serrated disc with a curious flight pattern",
-    "descZh": "召唤一个飞行方式的大型带锯齿飞碟"
+    "descZh": "召唤一个飞行方式的大型带锯齿飞碟",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/disc_bullet_big.xml",
+      "damage": 0,
+      "speedMin": 250,
+      "speedMax": 250,
+      "lifetime": 300,
+      "damageByType": {
+        "slice": 2.5
+      }
+    }
   },
   {
     "id": "DISC_BULLET_BIGGER",
@@ -449,10 +811,25 @@
     "maxUses": "-1",
     "price": "270",
     "unlockFlag": "card_unlocked_everything",
+    "castDelay": 40,
+    "spreadDegrees": 6.4,
+    "damageMods": {
+      "projectile": 0.2
+    },
     "name": "Summon Omega Sawblade",
     "nameZh": "召唤终结锯刃",
     "desc": "That's a lot of sawblade",
-    "descZh": "真的是很多的锯刃"
+    "descZh": "真的是很多的锯刃",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/disc_bullet_bigger.xml",
+      "damage": 0,
+      "speedMin": 150,
+      "speedMax": 150,
+      "lifetime": 500,
+      "damageByType": {
+        "slice": 1.5
+      }
+    }
   },
   {
     "id": "BOUNCY_ORB",
@@ -462,10 +839,23 @@
     "maxUses": "-1",
     "price": "120",
     "unlockFlag": "",
+    "castDelay": 10,
     "name": "Energy sphere",
     "nameZh": "能量球体",
     "desc": "A fast, arcing projectile",
-    "descZh": "快速的弧线行进投射物"
+    "descZh": "快速的弧线行进投射物",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/bouncy_orb.xml",
+      "damage": 0.2,
+      "speedMin": 400,
+      "speedMax": 500,
+      "lifetime": 750,
+      "explosionDamage": 0,
+      "explosionRadius": 2,
+      "damageByType": {
+        "slice": 0.2
+      }
+    }
   },
   {
     "id": "BOUNCY_ORB_TIMER",
@@ -475,10 +865,23 @@
     "maxUses": "-1",
     "price": "150",
     "unlockFlag": "",
+    "castDelay": 10,
     "name": "Energy sphere with timer",
     "nameZh": "带有定时的能量球体",
     "desc": "A fast, arcing projectile that casts another spell after a timer runs out",
-    "descZh": "在定时结束后施放另一法术的弧线行进快速投射物"
+    "descZh": "在定时结束后施放另一法术的弧线行进快速投射物",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/bouncy_orb.xml",
+      "damage": 0.2,
+      "speedMin": 400,
+      "speedMax": 500,
+      "lifetime": 750,
+      "explosionDamage": 0,
+      "explosionRadius": 2,
+      "damageByType": {
+        "slice": 0.2
+      }
+    }
   },
   {
     "id": "RUBBER_BALL",
@@ -488,10 +891,21 @@
     "maxUses": "-1",
     "price": "60",
     "unlockFlag": "",
+    "castDelay": -2,
+    "spreadDegrees": -1,
     "name": "Bouncing burst",
     "nameZh": "弹跳爆发",
     "desc": "A very bouncy projectile",
-    "descZh": "极具弹跳力的投射物"
+    "descZh": "极具弹跳力的投射物",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/rubber_ball.xml",
+      "damage": 0.12,
+      "speedMin": 650,
+      "speedMax": 750,
+      "lifetime": 750,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "ARROW",
@@ -501,10 +915,24 @@
     "maxUses": "-1",
     "price": "140",
     "unlockFlag": "",
+    "castDelay": 10,
+    "spreadDegrees": -20,
     "name": "Arrow",
     "nameZh": "箭矢",
     "desc": "Summons an arrow",
-    "descZh": "召唤一支箭矢"
+    "descZh": "召唤一支箭矢",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/arrow.xml",
+      "damage": 0,
+      "speedMin": 550,
+      "speedMax": 650,
+      "lifetime": 750,
+      "explosionDamage": 0,
+      "explosionRadius": 1,
+      "damageByType": {
+        "slice": 0.2
+      }
+    }
   },
   {
     "id": "POLLEN",
@@ -514,10 +942,21 @@
     "maxUses": "-1",
     "price": "110",
     "unlockFlag": "",
+    "castDelay": 2,
+    "spreadDegrees": 20,
     "name": "Pollen",
     "nameZh": "花粉",
     "desc": "A small, floating projectile that homes towards nearby creatures",
-    "descZh": "小小的飘浮投射物，向附近的生物追踪而去"
+    "descZh": "小小的飘浮投射物，向附近的生物追踪而去",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/pollen.xml",
+      "damage": 0.2,
+      "speedMin": 150,
+      "speedMax": 250,
+      "lifetime": 750,
+      "explosionDamage": 0.2,
+      "explosionRadius": 7
+    }
   },
   {
     "id": "LANCE",
@@ -527,10 +966,21 @@
     "maxUses": "-1",
     "price": "180",
     "unlockFlag": "",
+    "castDelay": 20,
+    "spreadDegrees": -20,
     "name": "Glowing lance",
     "nameZh": "闪耀之枪",
     "desc": "A magical lance that cuts through soft materials",
-    "descZh": "一支能够穿透柔软材料的魔法长枪"
+    "descZh": "一支能够穿透柔软材料的魔法长枪",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/lance.xml",
+      "damage": 1.4,
+      "speedMin": 300,
+      "speedMax": 400,
+      "lifetime": 300,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "LANCE_HOLY",
@@ -540,10 +990,24 @@
     "maxUses": "-1",
     "price": "250",
     "unlockFlag": "",
+    "castDelay": 30,
+    "spreadDegrees": -10,
     "name": "Holy Lance",
     "nameZh": "圣枪",
     "desc": "A fast-flying, penetrating lance that glows with power",
-    "descZh": "快速飞行、穿透力极强的长枪，闪耀着力量的光芒"
+    "descZh": "快速飞行、穿透力极强的长枪，闪耀着力量的光芒",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/lance_holy.xml",
+      "damage": 0,
+      "speedMin": 100,
+      "speedMax": 200,
+      "lifetime": 300,
+      "explosionDamage": 1.2,
+      "explosionRadius": 30,
+      "damageByType": {
+        "holy": 1.75
+      }
+    }
   },
   {
     "id": "ROCKET",
@@ -553,10 +1017,20 @@
     "maxUses": "10",
     "price": "220",
     "unlockFlag": "",
+    "castDelay": 60,
     "name": "Magic missile",
     "nameZh": "魔法飞弹",
     "desc": "A fiery, explosive projectile",
-    "descZh": "炽烈易爆的投射物"
+    "descZh": "炽烈易爆的投射物",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/rocket.xml",
+      "damage": 3,
+      "speedMin": 70,
+      "speedMax": 100,
+      "lifetime": 360,
+      "explosionDamage": 4.2,
+      "explosionRadius": 15
+    }
   },
   {
     "id": "ROCKET_TIER_2",
@@ -566,10 +1040,20 @@
     "maxUses": "8",
     "price": "240",
     "unlockFlag": "",
+    "castDelay": 90,
     "name": "Large magic missile",
     "nameZh": "大型魔法飞弹",
     "desc": "A more powerful version of Magic missile",
-    "descZh": "魔法飞弹的更强大版本"
+    "descZh": "魔法飞弹的更强大版本",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/rocket_tier_2.xml",
+      "damage": 4,
+      "speedMin": 70,
+      "speedMax": 100,
+      "lifetime": 360,
+      "explosionDamage": 4.7,
+      "explosionRadius": 32
+    }
   },
   {
     "id": "ROCKET_TIER_3",
@@ -579,10 +1063,20 @@
     "maxUses": "6",
     "price": "250",
     "unlockFlag": "",
+    "castDelay": 120,
     "name": "Giant magic missile",
     "nameZh": "巨型魔法飞弹",
     "desc": "The most powerful version of Magic missile",
-    "descZh": "最强大形式的魔法飞弹"
+    "descZh": "最强大形式的魔法飞弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/rocket_tier_3.xml",
+      "damage": 5,
+      "speedMin": 70,
+      "speedMax": 100,
+      "lifetime": 360,
+      "explosionDamage": 5.2,
+      "explosionRadius": 42
+    }
   },
   {
     "id": "GRENADE",
@@ -592,10 +1086,23 @@
     "maxUses": "25",
     "price": "170",
     "unlockFlag": "",
+    "castDelay": 30,
     "name": "Firebolt",
     "nameZh": "火焰弹",
     "desc": "A bouncy, explosive bolt",
-    "descZh": "具备弹跳能力的爆炸性魔法弹"
+    "descZh": "具备弹跳能力的爆炸性魔法弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/grenade.xml",
+      "damage": 1.3,
+      "speedMin": 250,
+      "speedMax": 280,
+      "lifetime": 500,
+      "explosionDamage": 1.9,
+      "explosionRadius": 7,
+      "damageByType": {
+        "fire": 0.5
+      }
+    }
   },
   {
     "id": "GRENADE_TRIGGER",
@@ -605,10 +1112,23 @@
     "maxUses": "25",
     "price": "210",
     "unlockFlag": "",
+    "castDelay": 30,
     "name": "Firebolt with trigger",
     "nameZh": "带有触发的火焰弹",
     "desc": "A bouncy, explosive bolt that that casts another spell upon collision",
-    "descZh": "具备弹跳能力的爆炸性魔法弹，在碰撞时施放另一法术"
+    "descZh": "具备弹跳能力的爆炸性魔法弹，在碰撞时施放另一法术",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/grenade.xml",
+      "damage": 1.3,
+      "speedMin": 250,
+      "speedMax": 280,
+      "lifetime": 500,
+      "explosionDamage": 1.9,
+      "explosionRadius": 7,
+      "damageByType": {
+        "fire": 0.5
+      }
+    }
   },
   {
     "id": "GRENADE_TIER_2",
@@ -618,10 +1138,23 @@
     "maxUses": "20",
     "price": "220",
     "unlockFlag": "",
+    "castDelay": 50,
     "name": "Large firebolt",
     "nameZh": "大型火焰弹",
     "desc": "A more powerful version of Firebolt",
-    "descZh": "火焰弹的更强大版本"
+    "descZh": "火焰弹的更强大版本",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/grenade_tier_2.xml",
+      "damage": 1.6,
+      "speedMin": 250,
+      "speedMax": 280,
+      "lifetime": 500,
+      "explosionDamage": 2.4,
+      "explosionRadius": 25,
+      "damageByType": {
+        "fire": 1.2
+      }
+    }
   },
   {
     "id": "GRENADE_TIER_3",
@@ -631,10 +1164,23 @@
     "maxUses": "20",
     "price": "220",
     "unlockFlag": "",
+    "castDelay": 80,
     "name": "Giant firebolt",
     "nameZh": "巨型火焰弹",
     "desc": "The most powerful version of Firebolt",
-    "descZh": "最强大形式的火焰弹"
+    "descZh": "最强大形式的火焰弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/grenade_tier_3.xml",
+      "damage": 2,
+      "speedMin": 250,
+      "speedMax": 280,
+      "lifetime": 500,
+      "explosionDamage": 2.9,
+      "explosionRadius": 40,
+      "damageByType": {
+        "fire": 1.8
+      }
+    }
   },
   {
     "id": "GRENADE_ANTI",
@@ -644,10 +1190,23 @@
     "maxUses": "25",
     "price": "170",
     "unlockFlag": "",
+    "castDelay": 30,
     "name": "Odd Firebolt",
     "nameZh": "怪异火焰弹",
     "desc": "A somewhat peculiar bouncy, explosive bolt",
-    "descZh": "特别能弹跳的爆炸魔法弹"
+    "descZh": "特别能弹跳的爆炸魔法弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/grenade_anti.xml",
+      "damage": 1,
+      "speedMin": 250,
+      "speedMax": 280,
+      "lifetime": 500,
+      "explosionDamage": 1.9,
+      "explosionRadius": 7,
+      "damageByType": {
+        "fire": 0.8
+      }
+    }
   },
   {
     "id": "GRENADE_LARGE",
@@ -657,10 +1216,23 @@
     "maxUses": "35",
     "price": "150",
     "unlockFlag": "",
+    "castDelay": 40,
     "name": "Dropper bolt",
     "nameZh": "坠落弹",
     "desc": "A very heavy explosive bolt",
-    "descZh": "极为沉重的爆炸魔法弹"
+    "descZh": "极为沉重的爆炸魔法弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/grenade_large.xml",
+      "damage": 2,
+      "speedMin": 50,
+      "speedMax": 80,
+      "lifetime": 500,
+      "explosionDamage": 3.9,
+      "explosionRadius": 16,
+      "damageByType": {
+        "fire": 1.8
+      }
+    }
   },
   {
     "id": "MINE",
@@ -670,10 +1242,21 @@
     "maxUses": "15",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 30,
+    "speedMultiplier": 0.75,
     "name": "Unstable crystal",
     "nameZh": "不稳晶体",
     "desc": "A crystal that explodes when someone comes nearby",
-    "descZh": "有人来到近旁便会爆炸的晶体"
+    "descZh": "有人来到近旁便会爆炸的晶体",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/mine.xml",
+      "damage": 0,
+      "speedMin": 250,
+      "speedMax": 280,
+      "lifetime": -1,
+      "explosionDamage": 4,
+      "explosionRadius": 30
+    }
   },
   {
     "id": "MINE_DEATH_TRIGGER",
@@ -683,10 +1266,21 @@
     "maxUses": "15",
     "price": "240",
     "unlockFlag": "",
+    "castDelay": 30,
+    "speedMultiplier": 0.75,
     "name": "Unstable crystal with trigger",
     "nameZh": "带有触发的不稳晶体",
     "desc": "A crystal that explodes and casts another spell when someone comes nearby",
-    "descZh": "有人来到近旁便会爆炸，同时施放另一法术的晶体"
+    "descZh": "有人来到近旁便会爆炸，同时施放另一法术的晶体",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/mine.xml",
+      "damage": 0,
+      "speedMin": 250,
+      "speedMax": 280,
+      "lifetime": -1,
+      "explosionDamage": 4,
+      "explosionRadius": 30
+    }
   },
   {
     "id": "PIPE_BOMB",
@@ -696,10 +1290,21 @@
     "maxUses": "20",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 30,
+    "speedMultiplier": 0.75,
     "name": "Dormant crystal",
     "nameZh": "休眠晶体",
     "desc": "A crystal that explodes when caught in an explosion",
-    "descZh": "被爆炸波及便会爆炸的晶体"
+    "descZh": "被爆炸波及便会爆炸的晶体",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/pipe_bomb.xml",
+      "damage": 0,
+      "speedMin": 250,
+      "speedMax": 280,
+      "lifetime": -1,
+      "explosionDamage": 5.5,
+      "explosionRadius": 30
+    }
   },
   {
     "id": "PIPE_BOMB_DEATH_TRIGGER",
@@ -709,10 +1314,21 @@
     "maxUses": "20",
     "price": "230",
     "unlockFlag": "",
+    "castDelay": 30,
+    "speedMultiplier": 0.75,
     "name": "Dormant crystal with trigger",
     "nameZh": "带有触发的休眠晶体",
     "desc": "A crystal that explodes and casts another spell when caught in an explosion",
-    "descZh": "被爆炸波及便会爆炸，同时施放另一法术的晶体"
+    "descZh": "被爆炸波及便会爆炸，同时施放另一法术的晶体",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/pipe_bomb.xml",
+      "damage": 0,
+      "speedMin": 250,
+      "speedMax": 280,
+      "lifetime": -1,
+      "explosionDamage": 5.5,
+      "explosionRadius": 30
+    }
   },
   {
     "id": "FISH",
@@ -722,10 +1338,18 @@
     "maxUses": "20",
     "price": "250",
     "unlockFlag": "card_unlocked_fish",
+    "castDelay": 80,
     "name": "Summon fish",
     "nameZh": "召唤鱼类",
     "desc": "FISH!",
-    "descZh": "是鱼！"
+    "descZh": "是鱼！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/fish.xml",
+      "damage": 0,
+      "speedMin": 250,
+      "speedMax": 280,
+      "lifetime": -1
+    }
   },
   {
     "id": "EXPLODING_DEER",
@@ -735,10 +1359,18 @@
     "maxUses": "10",
     "price": "170",
     "unlockFlag": "card_unlocked_exploding_deer",
+    "castDelay": 80,
     "name": "Summon deercoy",
     "nameZh": "召唤鹿诱饵",
     "desc": "Summons a seemingly-innocuous deer",
-    "descZh": "召唤一只看上去无害的鹿"
+    "descZh": "召唤一只看上去无害的鹿",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/exploding_deer.xml",
+      "damage": 0,
+      "speedMin": 250,
+      "speedMax": 280,
+      "lifetime": -1
+    }
   },
   {
     "id": "EXPLODING_DUCKS",
@@ -748,10 +1380,24 @@
     "maxUses": "20",
     "price": "200",
     "unlockFlag": "card_unlocked_exploding_deer",
+    "castDelay": 60,
+    "rechargeTime": 20,
     "name": "Flock of Ducks",
     "nameZh": "鸭群",
     "desc": "Summons a chaotic flock of spicy ducks",
-    "descZh": "召唤一群无秩序的火辣鸭子"
+    "descZh": "召唤一群无秩序的火辣鸭子",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/duck.xml",
+      "damage": 1.6,
+      "speedMin": 250,
+      "speedMax": 280,
+      "lifetime": 300,
+      "explosionDamage": 2.4,
+      "explosionRadius": 25,
+      "damageByType": {
+        "fire": 1.2
+      }
+    }
   },
   {
     "id": "WORM_SHOT",
@@ -761,10 +1407,22 @@
     "maxUses": "10",
     "price": "200",
     "unlockFlag": "card_unlocked_exploding_deer",
+    "castDelay": 80,
+    "rechargeTime": 40,
+    "spreadDegrees": 20,
     "name": "Worm Launcher",
     "nameZh": "蠕虫发射器",
     "desc": "Summons a giant worm to cause havoc for a moment!",
-    "descZh": "召唤一条巨型蠕虫大闹特闹！"
+    "descZh": "召唤一条巨型蠕虫大闹特闹！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/worm_shot.xml",
+      "damage": 0.1,
+      "speedMin": 200,
+      "speedMax": 300,
+      "lifetime": 100,
+      "explosionDamage": 0,
+      "explosionRadius": 30
+    }
   },
   {
     "id": "BOMB_DETONATOR",
@@ -777,7 +1435,14 @@
     "name": "Explosive Detonator",
     "nameZh": "炸药引爆器",
     "desc": "All nearby explosive spells cast by you instantly detonate",
-    "descZh": "附近你施放的所有易爆法术立即引爆"
+    "descZh": "附近你施放的所有易爆法术立即引爆",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/bomb_detonator.xml",
+      "damage": 0,
+      "speedMin": 26,
+      "speedMax": 26,
+      "lifetime": 3
+    }
   },
   {
     "id": "LASER",
@@ -787,10 +1452,20 @@
     "maxUses": "-1",
     "price": "180",
     "unlockFlag": "",
+    "castDelay": -22,
     "name": "Concentrated light",
     "nameZh": "汇聚之光",
     "desc": "A pinpointed beam of light",
-    "descZh": "汇聚起来的一束光线"
+    "descZh": "汇聚起来的一束光线",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/laser.xml",
+      "damage": 0.39,
+      "speedMin": 130,
+      "speedMax": 150,
+      "lifetime": 30,
+      "explosionDamage": 0.22,
+      "explosionRadius": 3
+    }
   },
   {
     "id": "MEGALASER",
@@ -800,10 +1475,18 @@
     "maxUses": "-1",
     "price": "300",
     "unlockFlag": "",
+    "castDelay": 90,
     "name": "Intense concentrated light",
     "nameZh": "强烈汇聚之光",
     "desc": "A spectral wand is summoned that casts a huge beam of light",
-    "descZh": "召唤一把施放巨大光束的幽魂魔杖"
+    "descZh": "召唤一把施放巨大光束的幽魂魔杖",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/megalaser.xml",
+      "damage": 5,
+      "speedMin": 1,
+      "speedMax": 1,
+      "lifetime": 32
+    }
   },
   {
     "id": "LIGHTNING",
@@ -813,10 +1496,19 @@
     "maxUses": "-1",
     "price": "250",
     "unlockFlag": "",
+    "castDelay": 50,
     "name": "Lightning bolt",
     "nameZh": "闪电弹",
     "desc": "The primordial force of nature",
-    "descZh": "大自然的原始力量"
+    "descZh": "大自然的原始力量",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/lightning.xml",
+      "damage": 0,
+      "lifetime": 2,
+      "damageByType": {
+        "electricity": 1
+      }
+    }
   },
   {
     "id": "BALL_LIGHTNING",
@@ -826,10 +1518,21 @@
     "maxUses": "-1",
     "price": "250",
     "unlockFlag": "",
+    "castDelay": 50,
     "name": "Ball Lightning",
     "nameZh": "球状闪电",
     "desc": "Summons three short range electrical orbs",
-    "descZh": "召唤三个短射程的电球"
+    "descZh": "召唤三个短射程的电球",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/ball_lightning.xml",
+      "damage": 0,
+      "speedMin": 600,
+      "speedMax": 1000,
+      "lifetime": 30,
+      "damageByType": {
+        "electricity": 0.5
+      }
+    }
   },
   {
     "id": "LASER_EMITTER",
@@ -839,10 +1542,18 @@
     "maxUses": "-1",
     "price": "180",
     "unlockFlag": "",
+    "castDelay": 6,
     "name": "Plasma beam",
     "nameZh": "电浆束",
     "desc": "An instantaneous, dangerous beam of light",
-    "descZh": "即时的一束危险光线"
+    "descZh": "即时的一束危险光线",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/orb_laseremitter.xml",
+      "damage": 0.8,
+      "speedMin": 40,
+      "speedMax": 40,
+      "lifetime": 100
+    }
   },
   {
     "id": "LASER_EMITTER_FOUR",
@@ -852,10 +1563,18 @@
     "maxUses": "-1",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Plasma Beam Cross",
     "nameZh": "电浆束十字",
     "desc": "Four deadly plasma beams in a cross-shape. Look out, they can hurt you as well!",
-    "descZh": "四道致命的电浆束组成十字。小心，它们也会一样伤到你自己！"
+    "descZh": "四道致命的电浆束组成十字。小心，它们也会一样伤到你自己！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/orb_laseremitter.xml",
+      "damage": 0.8,
+      "speedMin": 40,
+      "speedMax": 40,
+      "lifetime": 100
+    }
   },
   {
     "id": "LASER_EMITTER_CUTTER",
@@ -865,10 +1584,18 @@
     "maxUses": "-1",
     "price": "120",
     "unlockFlag": "",
+    "rechargeTime": 10,
     "name": "Plasma Cutter",
     "nameZh": "电浆切割器",
     "desc": "A plasma beam specialized in cutting materials!",
-    "descZh": "专长切割材料的电浆束！"
+    "descZh": "专长切割材料的电浆束！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/orb_laseremitter_cutter.xml",
+      "damage": 0.8,
+      "speedMin": 40,
+      "speedMax": 40,
+      "lifetime": 60
+    }
   },
   {
     "id": "DIGGER",
@@ -878,10 +1605,24 @@
     "maxUses": "-1",
     "price": "70",
     "unlockFlag": "",
+    "castDelay": 1,
     "name": "Digging bolt",
     "nameZh": "挖掘魔弹",
     "desc": "A bolt that is ideal for mining operations",
-    "descZh": "采矿作业的理想魔弹"
+    "descZh": "采矿作业的理想魔弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/digger.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 2,
+      "explosionDamage": 0,
+      "explosionRadius": 6,
+      "damageByType": {
+        "drill": 0.3
+      }
+    },
+    "rechargeTime": -10
   },
   {
     "id": "POWERDIGGER",
@@ -891,10 +1632,24 @@
     "maxUses": "-1",
     "price": "110",
     "unlockFlag": "",
+    "castDelay": 1,
     "name": "Digging blast",
     "nameZh": "挖掘爆破",
     "desc": "More powerful digging",
-    "descZh": "更强的挖掘力"
+    "descZh": "更强的挖掘力",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/powerdigger.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 2,
+      "explosionDamage": 0,
+      "explosionRadius": 7,
+      "damageByType": {
+        "drill": 0.1
+      }
+    },
+    "rechargeTime": -10
   },
   {
     "id": "CHAINSAW",
@@ -904,10 +1659,24 @@
     "maxUses": "-1",
     "price": "80",
     "unlockFlag": "",
+    "spreadDegrees": 6,
     "name": "Chainsaw",
     "nameZh": "链锯",
     "desc": "A good tool for cutting meat. Also has some magical properties...",
-    "descZh": "切肉的不错工具。同时也有一些魔法属性..."
+    "descZh": "切肉的不错工具。同时也有一些魔法属性...",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/chainsaw.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 400,
+      "lifetime": 1,
+      "explosionDamage": 0,
+      "explosionRadius": 3,
+      "damageByType": {
+        "slice": 0.51
+      }
+    },
+    "rechargeTime": -10
   },
   {
     "id": "LUMINOUS_DRILL",
@@ -917,10 +1686,19 @@
     "maxUses": "-1",
     "price": "150",
     "unlockFlag": "",
+    "castDelay": -35,
     "name": "Luminous drill",
     "nameZh": "光明穿凿",
     "desc": "A pinpointed, short-ranged beam of concentrated light",
-    "descZh": "尖锐的短射程汇聚光束"
+    "descZh": "尖锐的短射程汇聚光束",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/luminous_drill.xml",
+      "damage": 0.4,
+      "speedMin": 1400,
+      "speedMax": 1400,
+      "lifetime": 2
+    },
+    "rechargeTime": -10
   },
   {
     "id": "LASER_LUMINOUS_DRILL",
@@ -930,10 +1708,19 @@
     "maxUses": "-1",
     "price": "220",
     "unlockFlag": "",
+    "castDelay": -35,
     "name": "Luminous drill with timer",
     "nameZh": "带有定时的光明穿凿",
     "desc": "A pinpointed, short-ranged beam of concentrated light that casts another spell after a timer runs out",
-    "descZh": "在定时结束后施放另一法术的短射程尖锐汇聚光束"
+    "descZh": "在定时结束后施放另一法术的短射程尖锐汇聚光束",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/luminous_drill.xml",
+      "damage": 0.4,
+      "speedMin": 1400,
+      "speedMax": 1400,
+      "lifetime": 2
+    },
+    "rechargeTime": -10
   },
   {
     "id": "TENTACLE",
@@ -943,10 +1730,23 @@
     "maxUses": "-1",
     "price": "200",
     "unlockFlag": "card_unlocked_tentacle",
+    "castDelay": 40,
     "name": "Summon Tentacle",
     "nameZh": "召唤触手",
     "desc": "Calls a terrifying appendage from another dimension",
-    "descZh": "召唤一条来自异次元的绵延之物"
+    "descZh": "召唤一条来自异次元的绵延之物",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/tentacle.xml",
+      "damage": 0,
+      "speedMin": 8,
+      "speedMax": 8,
+      "lifetime": 60,
+      "explosionDamage": 0,
+      "explosionRadius": 0,
+      "damageByType": {
+        "melee": 0.8
+      }
+    }
   },
   {
     "id": "TENTACLE_TIMER",
@@ -956,10 +1756,23 @@
     "maxUses": "-1",
     "price": "250",
     "unlockFlag": "card_unlocked_tentacle",
+    "castDelay": 40,
     "name": "Summon Tentacle with timer",
     "nameZh": "带有定时的触手",
     "desc": "Calls a terrifying appendage from another dimension! Comes with a timer",
-    "descZh": "召唤一条来自异次元的绵延之物！附带定时"
+    "descZh": "召唤一条来自异次元的绵延之物！附带定时",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/tentacle.xml",
+      "damage": 0,
+      "speedMin": 8,
+      "speedMax": 8,
+      "lifetime": 60,
+      "explosionDamage": 0,
+      "explosionRadius": 0,
+      "damageByType": {
+        "melee": 0.8
+      }
+    }
   },
   {
     "id": "HEAL_BULLET",
@@ -969,10 +1782,24 @@
     "maxUses": "20",
     "price": "60",
     "unlockFlag": "",
+    "castDelay": 4,
+    "spreadDegrees": 2,
     "name": "Healing bolt",
     "nameZh": "治疗魔弹",
     "desc": "A magical bolt with rejuvenative powers",
-    "descZh": "带有复生之力的魔法弹"
+    "descZh": "带有复生之力的魔法弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/heal_bullet.xml",
+      "damage": 0,
+      "speedMin": 600,
+      "speedMax": 650,
+      "lifetime": 60,
+      "explosionDamage": 0,
+      "explosionRadius": 2,
+      "damageByType": {
+        "healing": -0.35
+      }
+    }
   },
   {
     "id": "ANTIHEAL",
@@ -982,10 +1809,21 @@
     "maxUses": "20",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 8,
+    "spreadDegrees": 3,
     "name": "Deadly heal",
     "nameZh": "致命治愈",
     "desc": "A projectile that at first deals damage, then heals over time",
-    "descZh": "起初会造成伤害，然后开始持续治疗的投射物"
+    "descZh": "起初会造成伤害，然后开始持续治疗的投射物",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/healhurt.xml",
+      "damage": 1.2,
+      "speedMin": 600,
+      "speedMax": 650,
+      "lifetime": 40,
+      "explosionDamage": 0,
+      "explosionRadius": 2
+    }
   },
   {
     "id": "SPIRAL_SHOT",
@@ -995,10 +1833,18 @@
     "maxUses": "15",
     "price": "190",
     "unlockFlag": "card_unlocked_spiral_shot",
+    "castDelay": 20,
     "name": "Spiral shot",
     "nameZh": "螺旋魔弹",
     "desc": "A mystical whirlwind of magic sparks",
-    "descZh": "魔法火花的神秘旋涡"
+    "descZh": "魔法火花的神秘旋涡",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/spiral_shot.xml",
+      "damage": 0.2,
+      "speedMin": 100,
+      "speedMax": 120,
+      "lifetime": 100
+    }
   },
   {
     "id": "MAGIC_SHIELD",
@@ -1008,10 +1854,18 @@
     "maxUses": "-1",
     "price": "100",
     "unlockFlag": "",
+    "castDelay": 20,
     "name": "Magic guard",
     "nameZh": "魔法护卫",
     "desc": "Four guarding lights rotate around you for a time",
-    "descZh": "四道护卫之光在你周围旋转一段时间"
+    "descZh": "四道护卫之光在你周围旋转一段时间",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/magic_shield_start.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 5
+    }
   },
   {
     "id": "BIG_MAGIC_SHIELD",
@@ -1021,10 +1875,18 @@
     "maxUses": "-1",
     "price": "120",
     "unlockFlag": "",
+    "castDelay": 30,
     "name": "Big magic guard",
     "nameZh": "大型魔法护卫",
     "desc": "Eight guarding lights rotate around you for a time",
-    "descZh": "八道护卫之光在你周围旋转一段时间"
+    "descZh": "八道护卫之光在你周围旋转一段时间",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/big_magic_shield_start.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 5
+    }
   },
   {
     "id": "CHAIN_BOLT",
@@ -1034,10 +1896,19 @@
     "maxUses": "-1",
     "price": "240",
     "unlockFlag": "",
+    "castDelay": 45,
+    "spreadDegrees": 14,
     "name": "Chain bolt",
     "nameZh": "连环魔弹",
     "desc": "Fires a mysterious bolt that jumps from enemy to enemy",
-    "descZh": "发射会在敌人之间跳跃的神秘魔弹"
+    "descZh": "发射会在敌人之间跳跃的神秘魔弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/chain_bolt.xml",
+      "damage": 1,
+      "speedMin": 40,
+      "speedMax": 40,
+      "lifetime": 44
+    }
   },
   {
     "id": "FIREBALL",
@@ -1047,10 +1918,24 @@
     "maxUses": "15",
     "price": "220",
     "unlockFlag": "",
+    "castDelay": 50,
+    "spreadDegrees": 4,
     "name": "Fireball",
     "nameZh": "火球",
     "desc": "A powerful exploding spell",
-    "descZh": "强力的爆炸法术"
+    "descZh": "强力的爆炸法术",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/fireball.xml",
+      "damage": 0,
+      "speedMin": 160,
+      "speedMax": 170,
+      "lifetime": 60,
+      "explosionDamage": 2,
+      "explosionRadius": 15,
+      "damageByType": {
+        "fire": 0.25
+      }
+    }
   },
   {
     "id": "METEOR",
@@ -1063,7 +1948,18 @@
     "name": "Meteor",
     "nameZh": "陨石",
     "desc": "A destructive projectile from the skies!",
-    "descZh": "从天而降的毁灭性投射物！"
+    "descZh": "从天而降的毁灭性投射物！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/meteor.xml",
+      "damage": 0,
+      "speedMin": 300,
+      "speedMax": 400,
+      "lifetime": 200,
+      "explosionRadius": 45,
+      "damageByType": {
+        "fire": 2.25
+      }
+    }
   },
   {
     "id": "FLAMETHROWER",
@@ -1073,10 +1969,23 @@
     "maxUses": "60",
     "price": "220",
     "unlockFlag": "",
+    "spreadDegrees": 4,
     "name": "Flamethrower",
     "nameZh": "火焰喷射器",
     "desc": "A stream of fire!!",
-    "descZh": "一道火流！"
+    "descZh": "一道火流！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/flamethrower.xml",
+      "damage": 0,
+      "speedMin": 160,
+      "speedMax": 170,
+      "lifetime": 80,
+      "explosionDamage": 0.5,
+      "explosionRadius": 8,
+      "damageByType": {
+        "fire": 0.45
+      }
+    }
   },
   {
     "id": "ICEBALL",
@@ -1086,10 +1995,24 @@
     "maxUses": "15",
     "price": "260",
     "unlockFlag": "",
+    "castDelay": 80,
+    "spreadDegrees": 8,
     "name": "Iceball",
     "nameZh": "冰球",
     "desc": "A magical ball of frozen fire",
-    "descZh": "冻结火焰的魔法球"
+    "descZh": "冻结火焰的魔法球",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/iceball.xml",
+      "damage": 0,
+      "speedMin": 160,
+      "speedMax": 170,
+      "lifetime": 60,
+      "explosionDamage": 2,
+      "explosionRadius": 15,
+      "damageByType": {
+        "ice": 0.25
+      }
+    }
   },
   {
     "id": "SLIMEBALL",
@@ -1099,10 +2022,22 @@
     "maxUses": "-1",
     "price": "130",
     "unlockFlag": "",
+    "castDelay": 10,
+    "spreadDegrees": 4,
+    "speedMultiplier": 1.1,
     "name": "Slimeball",
     "nameZh": "粘液球",
     "desc": "A dripping ball of poisonous slime",
-    "descZh": "有毒粘液的湿漉漉球体"
+    "descZh": "有毒粘液的湿漉漉球体",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/slime.xml",
+      "damage": 0.25,
+      "speedMin": 90,
+      "speedMax": 115,
+      "lifetime": 330,
+      "explosionDamage": 0.3,
+      "explosionRadius": 9
+    }
   },
   {
     "id": "DARKFLAME",
@@ -1112,10 +2047,20 @@
     "maxUses": "60",
     "price": "180",
     "unlockFlag": "",
+    "castDelay": 20,
     "name": "Path of dark flame",
     "nameZh": "黑焰之道",
     "desc": "A trail of dark, deadly flames",
-    "descZh": "致命黑焰之迹"
+    "descZh": "致命黑焰之迹",
+    "projectile": {
+      "file": "data/entities/projectiles/darkflame.xml",
+      "damage": 0.8,
+      "speedMin": 250,
+      "speedMax": 250,
+      "lifetime": 100,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "MISSILE",
@@ -1125,10 +2070,21 @@
     "maxUses": "20",
     "price": "200",
     "unlockFlag": "",
+    "rechargeTime": 30,
+    "spreadDegrees": 3,
     "name": "Summon missile",
     "nameZh": "召唤飞弹",
     "desc": "A missile!!!",
-    "descZh": "一枚飞弹！！！"
+    "descZh": "一枚飞弹！！！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/rocket_player.xml",
+      "damage": 1,
+      "speedMin": 80,
+      "speedMax": 80,
+      "lifetime": 100,
+      "explosionDamage": 0.5,
+      "explosionRadius": 10
+    }
   },
   {
     "id": "FUNKY_SPELL",
@@ -1138,10 +2094,22 @@
     "maxUses": "-1",
     "price": "50",
     "unlockFlag": "card_unlocked_funky",
+    "castDelay": -3,
+    "spreadDegrees": 2,
+    "critChance": 1,
     "name": "FUNKY_SPELL",
     "nameZh": "",
     "desc": "",
-    "descZh": ""
+    "descZh": "",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/machinegun_bullet.xml",
+      "damage": 0.15,
+      "speedMin": 400,
+      "speedMax": 500,
+      "lifetime": 50,
+      "explosionDamage": 0.4,
+      "explosionRadius": 2
+    }
   },
   {
     "id": "PEBBLE",
@@ -1151,10 +2119,18 @@
     "maxUses": "10",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 80,
     "name": "Summon rock spirit",
     "nameZh": "召唤岩石精灵",
     "desc": "Summons an autonomous rock ally",
-    "descZh": "召唤一个自动行动的岩石伙伴"
+    "descZh": "召唤一个自动行动的岩石伙伴",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/pebble_player.xml",
+      "damage": 0,
+      "speedMin": 220,
+      "speedMax": 240,
+      "lifetime": 60
+    }
   },
   {
     "id": "DYNAMITE",
@@ -1164,10 +2140,21 @@
     "maxUses": "16",
     "price": "160",
     "unlockFlag": "",
+    "castDelay": 50,
+    "spreadDegrees": 6,
     "name": "Dynamite",
     "nameZh": "炸药",
     "desc": "Summons a small explosive",
-    "descZh": "召唤一枚小型爆炸物"
+    "descZh": "召唤一枚小型爆炸物",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/tnt.xml",
+      "damage": 0,
+      "speedMin": 800,
+      "speedMax": 800,
+      "lifetime": 60,
+      "explosionDamage": 2,
+      "explosionRadius": 20
+    }
   },
   {
     "id": "GLITTER_BOMB",
@@ -1177,10 +2164,21 @@
     "maxUses": "16",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 50,
+    "spreadDegrees": 12,
     "name": "Glitter bomb",
     "nameZh": "闪烁炸弹",
     "desc": "Summons a bomb that explodes into volatile fragments",
-    "descZh": "召唤一枚会爆炸成易燃碎片的炸弹"
+    "descZh": "召唤一枚会爆炸成易燃碎片的炸弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/glitter_bomb.xml",
+      "damage": 0,
+      "speedMin": 800,
+      "speedMax": 800,
+      "lifetime": 60,
+      "explosionDamage": 2,
+      "explosionRadius": 20
+    }
   },
   {
     "id": "BUCKSHOT",
@@ -1190,10 +2188,21 @@
     "maxUses": "-1",
     "price": "160",
     "unlockFlag": "",
+    "castDelay": 8,
+    "spreadDegrees": 14,
     "name": "Triplicate bolt",
     "nameZh": "三联魔弹",
     "desc": "A formation of three small, fast bolts",
-    "descZh": "由三个小型快速魔弹组成"
+    "descZh": "由三个小型快速魔弹组成",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/buckshot_player.xml",
+      "damage": 0.185,
+      "speedMin": 500,
+      "speedMax": 600,
+      "lifetime": 120,
+      "explosionDamage": 0,
+      "explosionRadius": 4
+    }
   },
   {
     "id": "FREEZING_GAZE",
@@ -1203,10 +2212,21 @@
     "maxUses": "20",
     "price": "180",
     "unlockFlag": "",
+    "castDelay": 20,
     "name": "Freezing gaze",
     "nameZh": "冰冷凝视",
     "desc": "A heart-freezingly sinister aura",
-    "descZh": "令人心里发凉的险恶气氛"
+    "descZh": "令人心里发凉的险恶气氛",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/freezing_gaze_beam.xml",
+      "damage": 0,
+      "speedMin": 220,
+      "speedMax": 220,
+      "lifetime": 25,
+      "damageByType": {
+        "ice": 0.4
+      }
+    }
   },
   {
     "id": "GLOWING_BOLT",
@@ -1216,10 +2236,21 @@
     "maxUses": "-1",
     "price": "220",
     "unlockFlag": "",
+    "castDelay": 40,
+    "spreadDegrees": 6,
     "name": "Pinpoint of light",
     "nameZh": "汇聚之光",
     "desc": "An extremely concentrated point of light that explodes after a moment",
-    "descZh": "光极度集中的一点，一段时间后爆炸"
+    "descZh": "光极度集中的一点，一段时间后爆炸",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/glowing_bolt.xml",
+      "damage": 0.2,
+      "speedMin": 800,
+      "speedMax": 900,
+      "lifetime": 90,
+      "explosionDamage": 0.4,
+      "explosionRadius": 20
+    }
   },
   {
     "id": "SPORE_POD",
@@ -1229,10 +2260,18 @@
     "maxUses": "-1",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 40,
     "name": "Prickly Spore Pod",
     "nameZh": "多刺孢子荚",
     "desc": "Summons a spore pod that attaches to a surface and then grows and explodes into spikes",
-    "descZh": "召唤一个会附着在表面的孢子荚，之后它会生长并爆出尖刺"
+    "descZh": "召唤一个会附着在表面的孢子荚，之后它会生长并爆出尖刺",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/spore_pod.xml",
+      "damage": 0.1,
+      "speedMin": 210,
+      "speedMax": 240,
+      "lifetime": 100
+    }
   },
   {
     "id": "GLUE_SHOT",
@@ -1242,10 +2281,21 @@
     "maxUses": "-1",
     "price": "140",
     "unlockFlag": "",
+    "castDelay": 30,
+    "spreadDegrees": 5,
     "name": "Glue Ball",
     "nameZh": "胶球",
     "desc": "A projectile that explodes into a sticky mess",
-    "descZh": "投射物爆炸为黏嗒嗒的一片"
+    "descZh": "投射物爆炸为黏嗒嗒的一片",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/glue_shot.xml",
+      "damage": 0.1,
+      "speedMin": 300,
+      "speedMax": 350,
+      "lifetime": 40,
+      "explosionDamage": 0,
+      "explosionRadius": 4
+    }
   },
   {
     "id": "BOMB_HOLY",
@@ -1255,10 +2305,19 @@
     "maxUses": "2",
     "price": "400",
     "unlockFlag": "card_unlocked_bomb_holy",
+    "castDelay": 40,
+    "rechargeTime": 80,
     "name": "Holy Bomb",
     "nameZh": "神圣炸弹",
     "desc": "Summons a bomb that... well...",
-    "descZh": "召唤一枚炸弹，效果嘛... 呃..."
+    "descZh": "召唤一枚炸弹，效果嘛... 呃...",
+    "projectile": {
+      "file": "data/entities/projectiles/bomb_holy.xml",
+      "damage": 0,
+      "lifetime": 60,
+      "explosionDamage": 2,
+      "explosionRadius": 20
+    }
   },
   {
     "id": "BOMB_HOLY_GIGA",
@@ -1268,10 +2327,19 @@
     "maxUses": "2",
     "price": "600",
     "unlockFlag": "card_unlocked_bomb_holy_giga",
+    "castDelay": 120,
+    "rechargeTime": 160,
     "name": "Giga Holy Bomb",
     "nameZh": "巨型神圣炸弹",
     "desc": "Bigger and therefore holier",
-    "descZh": "个头更大，神圣更足"
+    "descZh": "个头更大，神圣更足",
+    "projectile": {
+      "file": "data/entities/projectiles/bomb_holy_giga.xml",
+      "damage": 0,
+      "lifetime": 60,
+      "explosionDamage": 2,
+      "explosionRadius": 20
+    }
   },
   {
     "id": "PROPANE_TANK",
@@ -1281,10 +2349,18 @@
     "maxUses": "10",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 100,
     "name": "Propane tank",
     "nameZh": "丙烷罐",
     "desc": "Summons a propane tank. Be careful what you wish for.",
-    "descZh": "召唤一个丙烷罐。许愿的时候，最好小心一点。"
+    "descZh": "召唤一个丙烷罐。许愿的时候，最好小心一点。",
+    "projectile": {
+      "file": "data/entities/projectiles/propane_tank.xml",
+      "damage": 0,
+      "lifetime": 60,
+      "explosionDamage": 2,
+      "explosionRadius": 20
+    }
   },
   {
     "id": "BOMB_CART",
@@ -1294,10 +2370,19 @@
     "maxUses": "6",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 60,
     "name": "Bomb cart",
     "nameZh": "炸弹矿车",
     "desc": "Summons a self-propeled mine cart loaded with explosives",
-    "descZh": "召唤一辆满载炸药的自推进矿车"
+    "descZh": "召唤一辆满载炸药的自推进矿车",
+    "projectile": {
+      "file": "data/entities/projectiles/bomb_cart.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "lifetime": 420,
+      "explosionDamage": 4,
+      "explosionRadius": 40
+    }
   },
   {
     "id": "CURSED_ORB",
@@ -1307,10 +2392,20 @@
     "maxUses": "-1",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 20,
     "name": "Cursed sphere",
     "nameZh": "诅咒之球",
     "desc": "A projectile that brings bad luck to anyone it hits",
-    "descZh": "将厄运带给被击中者的投射物"
+    "descZh": "将厄运带给被击中者的投射物",
+    "projectile": {
+      "file": "data/entities/projectiles/orb_cursed.xml",
+      "damage": 0.6,
+      "speedMin": 1,
+      "speedMax": 2,
+      "lifetime": 120,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "EXPANDING_ORB",
@@ -1320,10 +2415,20 @@
     "maxUses": "-1",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 30,
     "name": "Expanding Sphere",
     "nameZh": "扩张之球",
     "desc": "A slow projectile that increases its damage over time",
-    "descZh": "随时间推移提高伤害的缓慢投射物"
+    "descZh": "随时间推移提高伤害的缓慢投射物",
+    "projectile": {
+      "file": "data/entities/projectiles/orb_expanding.xml",
+      "damage": 3,
+      "speedMin": 45,
+      "speedMax": 55,
+      "lifetime": 180,
+      "explosionDamage": 0,
+      "explosionRadius": 4
+    }
   },
   {
     "id": "CRUMBLING_EARTH",
@@ -1336,7 +2441,15 @@
     "name": "Earthquake",
     "nameZh": "地震",
     "desc": "Calls the anger of the earth",
-    "descZh": "呼唤大地的愤怒"
+    "descZh": "呼唤大地的愤怒",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/crumbling_earth.xml",
+      "speedMin": 110,
+      "speedMax": 110,
+      "lifetime": 30,
+      "explosionDamage": 0,
+      "explosionRadius": 2
+    }
   },
   {
     "id": "SUMMON_ROCK",
@@ -1349,7 +2462,12 @@
     "name": "Rock",
     "nameZh": "岩石",
     "desc": "Create a mighty rock out of thin air",
-    "descZh": "强悍的岩石凭空出现"
+    "descZh": "强悍的岩石凭空出现",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/rock.xml",
+      "damage": 0,
+      "lifetime": -1
+    }
   },
   {
     "id": "SUMMON_EGG",
@@ -1362,7 +2480,15 @@
     "name": "Summon egg",
     "nameZh": "召唤蛋",
     "desc": "Summons an egg that houses a friendly creature",
-    "descZh": "召唤育有友好生物的蛋"
+    "descZh": "召唤育有友好生物的蛋",
+    "projectile": {
+      "file": "data/entities/items/pickup/egg_monster.xml",
+      "damage": 0,
+      "lifetime": -1,
+      "damageByType": {
+        "melee": 0.5
+      }
+    }
   },
   {
     "id": "SUMMON_HOLLOW_EGG",
@@ -1372,10 +2498,19 @@
     "maxUses": "-1",
     "price": "140",
     "unlockFlag": "",
+    "castDelay": -12,
     "name": "Summon hollow egg",
     "nameZh": "召唤空的蛋",
     "desc": "Summons an otherwise empty egg that casts a spell upon cracking open",
-    "descZh": "召唤一个空的蛋，在裂开之时释放法术"
+    "descZh": "召唤一个空的蛋，在裂开之时释放法术",
+    "projectile": {
+      "file": "data/entities/items/pickup/egg_hollow.xml",
+      "damage": 0,
+      "lifetime": -1,
+      "damageByType": {
+        "melee": 0.5
+      }
+    }
   },
   {
     "id": "TNTBOX",
@@ -1385,10 +2520,18 @@
     "maxUses": "15",
     "price": "150",
     "unlockFlag": "",
+    "castDelay": 30,
     "name": "Summon Explosive Box",
     "nameZh": "召唤炸药箱",
     "desc": "Summons a box of explosive matter",
-    "descZh": "召唤一箱爆炸物质"
+    "descZh": "召唤一箱爆炸物质",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/tntbox.xml",
+      "damage": 0,
+      "lifetime": 60,
+      "explosionDamage": 2,
+      "explosionRadius": 20
+    }
   },
   {
     "id": "TNTBOX_BIG",
@@ -1398,10 +2541,18 @@
     "maxUses": "15",
     "price": "170",
     "unlockFlag": "",
+    "castDelay": 30,
     "name": "Summon Large Explosive Box",
     "nameZh": "召唤大号炸药箱",
     "desc": "Summons a large box of explosive matter",
-    "descZh": "召唤一大箱爆炸物质"
+    "descZh": "召唤一大箱爆炸物质",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/tntbox_big.xml",
+      "damage": 0,
+      "lifetime": 60,
+      "explosionDamage": 2,
+      "explosionRadius": 20
+    }
   },
   {
     "id": "SWARM_FLY",
@@ -1411,10 +2562,25 @@
     "maxUses": "-1",
     "price": "90",
     "unlockFlag": "",
+    "castDelay": 60,
+    "rechargeTime": 20,
+    "spreadDegrees": 6,
     "name": "Summon fly swarm",
     "nameZh": "召唤苍蝇群",
     "desc": "Summons five flies to aid you in battle",
-    "descZh": "召唤五只苍蝇，为你助战"
+    "descZh": "召唤五只苍蝇，为你助战",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/swarm_fly.xml",
+      "damage": 0,
+      "speedMin": 50,
+      "speedMax": 150,
+      "lifetime": 750,
+      "explosionDamage": 0,
+      "explosionRadius": 1,
+      "damageByType": {
+        "melee": 0.14
+      }
+    }
   },
   {
     "id": "SWARM_FIREBUG",
@@ -1424,10 +2590,25 @@
     "maxUses": "-1",
     "price": "100",
     "unlockFlag": "",
+    "castDelay": 60,
+    "rechargeTime": 20,
+    "spreadDegrees": 12,
     "name": "Summon Firebug swarm",
     "nameZh": "召唤萤火虫群",
     "desc": "Summons four fire bugs to aid you in battle",
-    "descZh": "召唤四只萤火虫，为你助战"
+    "descZh": "召唤四只萤火虫，为你助战",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/swarm_firebug.xml",
+      "damage": 0,
+      "speedMin": 50,
+      "speedMax": 150,
+      "lifetime": 850,
+      "explosionDamage": 0,
+      "explosionRadius": 1,
+      "damageByType": {
+        "fire": 0.15
+      }
+    }
   },
   {
     "id": "SWARM_WASP",
@@ -1437,10 +2618,25 @@
     "maxUses": "-1",
     "price": "120",
     "unlockFlag": "",
+    "castDelay": 60,
+    "rechargeTime": 20,
+    "spreadDegrees": 24,
     "name": "Summon Wasp swarm",
     "nameZh": "召唤黄蜂群",
     "desc": "Summon six wasps to aid you in battle",
-    "descZh": "召唤六只黄蜂，为你助战"
+    "descZh": "召唤六只黄蜂，为你助战",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/swarm_wasp.xml",
+      "damage": 0,
+      "speedMin": 50,
+      "speedMax": 150,
+      "lifetime": 1100,
+      "explosionDamage": 0,
+      "explosionRadius": 1,
+      "damageByType": {
+        "melee": 0.28
+      }
+    }
   },
   {
     "id": "FRIEND_FLY",
@@ -1450,10 +2646,25 @@
     "maxUses": "-1",
     "price": "160",
     "unlockFlag": "",
+    "castDelay": 80,
+    "rechargeTime": 40,
+    "spreadDegrees": 24,
     "name": "Summon Friendly fly",
     "nameZh": "召唤友好苍蝇",
     "desc": "Summons a friendly fly that attacks your enemies!",
-    "descZh": "召唤一只友好的苍蝇，攻击你的敌人！"
+    "descZh": "召唤一只友好的苍蝇，攻击你的敌人！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/friend_fly.xml",
+      "damage": 0,
+      "speedMin": 50,
+      "speedMax": 150,
+      "lifetime": 1800,
+      "explosionDamage": 0,
+      "explosionRadius": 1,
+      "damageByType": {
+        "melee": 0.4
+      }
+    }
   },
   {
     "id": "ACIDSHOT",
@@ -1463,10 +2674,20 @@
     "maxUses": "20",
     "price": "180",
     "unlockFlag": "",
+    "castDelay": 10,
     "name": "Acid ball",
     "nameZh": "酸液球",
     "desc": "A terrifying acidic projectile",
-    "descZh": "可怕的酸蚀投射物"
+    "descZh": "可怕的酸蚀投射物",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/acidshot.xml",
+      "damage": 0.24,
+      "speedMin": 90,
+      "speedMax": 108,
+      "lifetime": 330,
+      "explosionDamage": 0,
+      "explosionRadius": 9
+    }
   },
   {
     "id": "THUNDERBALL",
@@ -1476,10 +2697,23 @@
     "maxUses": "3",
     "price": "300",
     "unlockFlag": "",
+    "castDelay": 120,
     "name": "Thunder charge",
     "nameZh": "雷霆放射",
     "desc": "A projectile with immense stored electricity",
-    "descZh": "储存有强大电力的投射物"
+    "descZh": "储存有强大电力的投射物",
+    "projectile": {
+      "file": "data/entities/projectiles/thunderball.xml",
+      "damage": 0,
+      "speedMin": 100,
+      "speedMax": 120,
+      "lifetime": 100,
+      "explosionDamage": 1.8,
+      "explosionRadius": 50,
+      "damageByType": {
+        "electricity": 1.5
+      }
+    }
   },
   {
     "id": "FIREBOMB",
@@ -1492,7 +2726,19 @@
     "name": "Firebomb",
     "nameZh": "火焰炸弹",
     "desc": "Slow, fiery bolt",
-    "descZh": "缓慢而炽烈的魔弹"
+    "descZh": "缓慢而炽烈的魔弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/firebomb.xml",
+      "damage": 0,
+      "speedMin": 120,
+      "speedMax": 140,
+      "lifetime": 70,
+      "explosionDamage": 0,
+      "explosionRadius": 7,
+      "damageByType": {
+        "fire": 0.4
+      }
+    }
   },
   {
     "id": "SOILBALL",
@@ -1505,7 +2751,16 @@
     "name": "Chunk of soil",
     "nameZh": "一把泥土",
     "desc": "Don't soil yourself",
-    "descZh": "别把自己弄脏了"
+    "descZh": "别把自己弄脏了",
+    "projectile": {
+      "file": "data/entities/projectiles/chunk_of_soil.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 10,
+      "lifetime": 1,
+      "explosionDamage": 0,
+      "explosionRadius": 15
+    }
   },
   {
     "id": "DEATH_CROSS",
@@ -1515,10 +2770,20 @@
     "maxUses": "-1",
     "price": "210",
     "unlockFlag": "",
+    "castDelay": 40,
     "name": "Death cross",
     "nameZh": "死亡十字",
     "desc": "A deadly energy cross that explodes after a short time",
-    "descZh": "短暂时间后爆炸的致命能量十字"
+    "descZh": "短暂时间后爆炸的致命能量十字",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/death_cross.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 68,
+      "explosionDamage": 3,
+      "explosionRadius": 25
+    }
   },
   {
     "id": "DEATH_CROSS_BIG",
@@ -1528,10 +2793,20 @@
     "maxUses": "8",
     "price": "310",
     "unlockFlag": "",
+    "castDelay": 70,
     "name": "Giga death cross",
     "nameZh": "巨大死亡十字",
     "desc": "A giant, deadly energy cross that explodes after a short time",
-    "descZh": "短暂时间后爆炸的致命巨大能量十字"
+    "descZh": "短暂时间后爆炸的致命巨大能量十字",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/death_cross_big.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 50,
+      "explosionDamage": 4,
+      "explosionRadius": 35
+    }
   },
   {
     "id": "INFESTATION",
@@ -1541,10 +2816,19 @@
     "maxUses": "-1",
     "price": "160",
     "unlockFlag": "",
+    "castDelay": -2,
+    "spreadDegrees": 25,
     "name": "Infestation",
     "nameZh": "侵扰",
     "desc": "A bunch of magical sparks that fly in every direction",
-    "descZh": "一批魔法火花向各个方向飞去"
+    "descZh": "一批魔法火花向各个方向飞去",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/infestation.xml",
+      "damage": 0.05,
+      "speedMin": 350,
+      "speedMax": 750,
+      "lifetime": 600
+    }
   },
   {
     "id": "WALL_HORIZONTAL",
@@ -1554,10 +2838,18 @@
     "maxUses": "-1",
     "price": "160",
     "unlockFlag": "",
+    "castDelay": 5,
     "name": "Horizontal barrier",
     "nameZh": "水平屏障",
     "desc": "A thin, horizontal barrier that harms passing creatures, including you",
-    "descZh": "一道薄薄的水平屏障伤害通过的生物 – 包括你在内"
+    "descZh": "一道薄薄的水平屏障伤害通过的生物 – 包括你在内",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/wall_horizontal.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 3
+    }
   },
   {
     "id": "WALL_VERTICAL",
@@ -1567,10 +2859,18 @@
     "maxUses": "-1",
     "price": "160",
     "unlockFlag": "",
+    "castDelay": 5,
     "name": "Vertical barrier",
     "nameZh": "垂直屏障",
     "desc": "A thin, vertical barrier that harms passing creatures, including you",
-    "descZh": "一道薄薄的垂直屏障伤害通过的生物 – 包括你在内"
+    "descZh": "一道薄薄的垂直屏障伤害通过的生物 – 包括你在内",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/wall_vertical.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 3
+    }
   },
   {
     "id": "WALL_SQUARE",
@@ -1580,10 +2880,18 @@
     "maxUses": "20",
     "price": "160",
     "unlockFlag": "",
+    "castDelay": 20,
     "name": "Square barrier",
     "nameZh": "方形屏障",
     "desc": "A thin, square-shaped barrier that harms passing creatures, including you",
-    "descZh": "一道方形的垂直屏障伤害通过的生物 – 包括你在内"
+    "descZh": "一道方形的垂直屏障伤害通过的生物 – 包括你在内",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/wall_square.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 3
+    }
   },
   {
     "id": "TEMPORARY_WALL",
@@ -1593,10 +2901,19 @@
     "maxUses": "20",
     "price": "100",
     "unlockFlag": "",
+    "castDelay": 40,
     "name": "Summon Wall",
     "nameZh": "召唤墙壁",
     "desc": "Summons a shortlived obstacle",
-    "descZh": "召唤持续时间很短的障碍物"
+    "descZh": "召唤持续时间很短的障碍物",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/temporary_wall.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 300,
+      "explosionRadius": 0
+    }
   },
   {
     "id": "TEMPORARY_PLATFORM",
@@ -1606,10 +2923,19 @@
     "maxUses": "20",
     "price": "90",
     "unlockFlag": "",
+    "castDelay": 40,
     "name": "Summon Platform",
     "nameZh": "召唤平台",
     "desc": "Summons a shortlived bit of ground",
-    "descZh": "召唤持续时间很短的一点点地面"
+    "descZh": "召唤持续时间很短的一点点地面",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/temporary_platform.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 300,
+      "explosionRadius": 0
+    }
   },
   {
     "id": "PURPLE_EXPLOSION_FIELD",
@@ -1619,10 +2945,19 @@
     "maxUses": "20",
     "price": "160",
     "unlockFlag": "",
+    "castDelay": 10,
+    "speedAdd": -2,
     "name": "Glittering field",
     "nameZh": "盛大场面",
     "desc": "Small explosions appear randomly over a large area",
-    "descZh": "在大区域内随机出现小型爆炸"
+    "descZh": "在大区域内随机出现小型爆炸",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/purple_explosion_field.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 600
+    }
   },
   {
     "id": "DELAYED_SPELL",
@@ -1632,10 +2967,18 @@
     "maxUses": "-1",
     "price": "240",
     "unlockFlag": "",
+    "castDelay": 10,
     "name": "Delayed spellcast",
     "nameZh": "延迟施法",
     "desc": "A static, magical phenomenon that casts 3 extra spells after a short while",
-    "descZh": "静态的魔法现象，在短暂时间后施放 3 个额外法术"
+    "descZh": "静态的魔法现象，在短暂时间后施放 3 个额外法术",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/delayed_spell.xml",
+      "damage": 0,
+      "speedMin": 26,
+      "speedMax": 26,
+      "lifetime": 100
+    }
   },
   {
     "id": "LONG_DISTANCE_CAST",
@@ -1645,10 +2988,20 @@
     "maxUses": "-1",
     "price": "90",
     "unlockFlag": "",
+    "castDelay": -5,
     "name": "Long-distance cast",
     "nameZh": "远距离施放",
     "desc": "Casts a spell some distance away from the caster",
-    "descZh": "在与施放者一定距离的位置施放法术"
+    "descZh": "在与施放者一定距离的位置施放法术",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/long_distance_cast.xml",
+      "damage": 0,
+      "speedMin": 1800,
+      "speedMax": 1800,
+      "lifetime": 4,
+      "explosionDamage": 0,
+      "explosionRadius": 2
+    }
   },
   {
     "id": "TELEPORT_CAST",
@@ -1658,10 +3011,20 @@
     "maxUses": "-1",
     "price": "190",
     "unlockFlag": "",
+    "castDelay": 20,
+    "spreadDegrees": 24,
     "name": "Teleporting cast",
     "nameZh": "传送施放",
     "desc": "Casts a spell from the closest enemy",
-    "descZh": "从最近的敌人位置施放法术"
+    "descZh": "从最近的敌人位置施放法术",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/teleport_cast.xml",
+      "damage": 0,
+      "speedMin": 26,
+      "speedMax": 26,
+      "lifetime": 2,
+      "explosionDamage": 0
+    }
   },
   {
     "id": "SUPER_TELEPORT_CAST",
@@ -1671,10 +3034,19 @@
     "maxUses": "-1",
     "price": "160",
     "unlockFlag": "",
+    "castDelay": 10,
+    "spreadDegrees": -6,
     "name": "Warp cast",
     "nameZh": "传送施放",
     "desc": "Makes a spell immediately jump a long distance, stopped by walls",
-    "descZh": "令法术立即跳跃长距离，可受墙壁阻止"
+    "descZh": "令法术立即跳跃长距离，可受墙壁阻止",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/super_teleport_cast.xml",
+      "damage": 0,
+      "speedMin": 100,
+      "speedMax": 100,
+      "lifetime": 5
+    }
   },
   {
     "id": "CASTER_CAST",
@@ -1684,6 +3056,7 @@
     "maxUses": "-1",
     "price": "70",
     "unlockFlag": "",
+    "spreadDegrees": -24,
     "name": "Inner spell",
     "nameZh": "随心法术",
     "desc": "Causes a projectile to be cast from where the caster is standing",
@@ -1697,10 +3070,19 @@
     "maxUses": "-1",
     "price": "80",
     "unlockFlag": "",
+    "castDelay": 10,
     "name": "Toxic mist",
     "nameZh": "毒雾",
     "desc": "A cloud of toxic mist",
-    "descZh": "毒雾构成的云"
+    "descZh": "毒雾构成的云",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/mist_radioactive.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 500,
+      "explosionRadius": 0
+    }
   },
   {
     "id": "MIST_ALCOHOL",
@@ -1710,10 +3092,19 @@
     "maxUses": "-1",
     "price": "80",
     "unlockFlag": "",
+    "castDelay": 10,
     "name": "mist of spirits",
     "nameZh": "烈酒云雾",
     "desc": "A cloud of potent alcohol",
-    "descZh": "烈酒构成的云"
+    "descZh": "烈酒构成的云",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/mist_alcohol.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 100,
+      "explosionRadius": 0
+    }
   },
   {
     "id": "MIST_SLIME",
@@ -1723,10 +3114,19 @@
     "maxUses": "-1",
     "price": "80",
     "unlockFlag": "",
+    "castDelay": 10,
     "name": "Slime mist",
     "nameZh": "粘液雾",
     "desc": "A cloud of slimy mist",
-    "descZh": "粘液雾构成的云"
+    "descZh": "粘液雾构成的云",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/mist_slime.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 500,
+      "explosionRadius": 0
+    }
   },
   {
     "id": "MIST_BLOOD",
@@ -1736,10 +3136,19 @@
     "maxUses": "10",
     "price": "120",
     "unlockFlag": "",
+    "castDelay": 10,
     "name": "Blood mist",
     "nameZh": "血雾",
     "desc": "A cloud of blood mist",
-    "descZh": "血雾构成的云"
+    "descZh": "血雾构成的云",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/mist_blood.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 500,
+      "explosionRadius": 0
+    }
   },
   {
     "id": "CIRCLE_FIRE",
@@ -1749,6 +3158,7 @@
     "maxUses": "15",
     "price": "170",
     "unlockFlag": "",
+    "castDelay": 20,
     "name": "Circle of fire",
     "nameZh": "烈火之环",
     "desc": "An expanding circle of burning air",
@@ -1762,6 +3172,7 @@
     "maxUses": "4",
     "price": "180",
     "unlockFlag": "",
+    "castDelay": 20,
     "name": "Circle of acid",
     "nameZh": "酸液之环",
     "desc": "An expanding circle of dripping acid",
@@ -1775,6 +3186,7 @@
     "maxUses": "15",
     "price": "160",
     "unlockFlag": "",
+    "castDelay": 20,
     "name": "Circle of oil",
     "nameZh": "油液之环",
     "desc": "An expanding circle of slick oil",
@@ -1788,6 +3200,7 @@
     "maxUses": "15",
     "price": "160",
     "unlockFlag": "",
+    "castDelay": 20,
     "name": "Circle of water",
     "nameZh": "清水之环",
     "desc": "An expanding circle of water",
@@ -1801,10 +3214,19 @@
     "maxUses": "-1",
     "price": "110",
     "unlockFlag": "",
+    "castDelay": -15,
     "name": "Water",
     "nameZh": "水",
     "desc": "Transmute drops of water from nothing",
-    "descZh": "凭空出现的水滴"
+    "descZh": "凭空出现的水滴",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/material_water.xml",
+      "damage": 0,
+      "speedMin": 123,
+      "speedMax": 135,
+      "lifetime": 360
+    },
+    "rechargeTime": -10
   },
   {
     "id": "MATERIAL_OIL",
@@ -1814,10 +3236,19 @@
     "maxUses": "-1",
     "price": "140",
     "unlockFlag": "",
+    "castDelay": -15,
     "name": "Oil",
     "nameZh": "油",
     "desc": "Transmute drops of oil from nothing",
-    "descZh": "凭空出现的油滴"
+    "descZh": "凭空出现的油滴",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/material_oil.xml",
+      "damage": 0,
+      "speedMin": 123,
+      "speedMax": 135,
+      "lifetime": 360
+    },
+    "rechargeTime": -10
   },
   {
     "id": "MATERIAL_BLOOD",
@@ -1827,10 +3258,19 @@
     "maxUses": "250",
     "price": "130",
     "unlockFlag": "",
+    "castDelay": -15,
     "name": "Blood",
     "nameZh": "血液",
     "desc": "Blood blood blood",
-    "descZh": "是血呀，血！"
+    "descZh": "是血呀，血！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/material_blood.xml",
+      "damage": 0,
+      "speedMin": 123,
+      "speedMax": 135,
+      "lifetime": 360
+    },
+    "rechargeTime": -10
   },
   {
     "id": "MATERIAL_ACID",
@@ -1840,10 +3280,19 @@
     "maxUses": "-1",
     "price": "150",
     "unlockFlag": "",
+    "castDelay": -15,
     "name": "Acid",
     "nameZh": "酸液",
     "desc": "Transmute drops of acid from nothing",
-    "descZh": "凭空出现的酸液滴"
+    "descZh": "凭空出现的酸液滴",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/material_acid.xml",
+      "damage": 0,
+      "speedMin": 123,
+      "speedMax": 135,
+      "lifetime": 360
+    },
+    "rechargeTime": -10
   },
   {
     "id": "MATERIAL_CEMENT",
@@ -1853,10 +3302,19 @@
     "maxUses": "-1",
     "price": "100",
     "unlockFlag": "card_unlocked_material_cement",
+    "castDelay": -15,
     "name": "Cement",
     "nameZh": "水泥",
     "desc": "Transmute drops of wet cement from nothing",
-    "descZh": "凭空出现的湿水泥"
+    "descZh": "凭空出现的湿水泥",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/material_cement.xml",
+      "damage": 0,
+      "speedMin": 123,
+      "speedMax": 135,
+      "lifetime": 360
+    },
+    "rechargeTime": -10
   },
   {
     "id": "TELEPORT_PROJECTILE",
@@ -1866,10 +3324,21 @@
     "maxUses": "-1",
     "price": "130",
     "unlockFlag": "",
+    "castDelay": 3,
+    "spreadDegrees": -2,
     "name": "Teleport bolt",
     "nameZh": "传送魔弹",
     "desc": "A magical bolt that moves you wherever it ends up flying",
-    "descZh": "将你传送到其结束飞行位置的魔法弹"
+    "descZh": "将你传送到其结束飞行位置的魔法弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/teleport_projectile.xml",
+      "damage": 0,
+      "speedMin": 750,
+      "speedMax": 850,
+      "lifetime": 40,
+      "explosionDamage": 0,
+      "explosionRadius": 2
+    }
   },
   {
     "id": "TELEPORT_PROJECTILE_SHORT",
@@ -1879,10 +3348,20 @@
     "maxUses": "-1",
     "price": "130",
     "unlockFlag": "",
+    "spreadDegrees": -2,
     "name": "Small Teleport Bolt",
     "nameZh": "小传送魔弹",
     "desc": "A shortlived magical bolt that moves you wherever it ends up flying",
-    "descZh": "将你传送到其结束飞行位置的短时存在魔法弹"
+    "descZh": "将你传送到其结束飞行位置的短时存在魔法弹",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/teleport_projectile_short.xml",
+      "damage": 0,
+      "speedMin": 1350,
+      "speedMax": 1350,
+      "lifetime": 8,
+      "explosionDamage": 0,
+      "explosionRadius": 2
+    }
   },
   {
     "id": "TELEPORT_PROJECTILE_STATIC",
@@ -1892,10 +3371,21 @@
     "maxUses": "-1",
     "price": "90",
     "unlockFlag": "",
+    "castDelay": 3,
+    "spreadDegrees": -2,
     "name": "Return",
     "nameZh": "返回",
     "desc": "After a period of time, you'll be returned to where you cast this spell",
-    "descZh": "一段时间之后，返回施放这个法术的地方"
+    "descZh": "一段时间之后，返回施放这个法术的地方",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/teleport_projectile_static.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 240,
+      "explosionDamage": 0,
+      "explosionRadius": 2
+    }
   },
   {
     "id": "SWAPPER_PROJECTILE",
@@ -1905,10 +3395,22 @@
     "maxUses": "-1",
     "price": "100",
     "unlockFlag": "",
+    "castDelay": 3,
+    "spreadDegrees": -2,
+    "critChance": 5,
     "name": "Swapper",
     "nameZh": "交换者",
     "desc": "It was theorized that the source of qualia would be transferred …But it turns out it was the whole body all along.",
-    "descZh": "从理论来将，性质的根源将会被转换... 但实际上，是整个身体被转换了。"
+    "descZh": "从理论来将，性质的根源将会被转换... 但实际上，是整个身体被转换了。",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/swapper.xml",
+      "damage": 0,
+      "speedMin": 750,
+      "speedMax": 850,
+      "lifetime": 40,
+      "explosionDamage": 0,
+      "explosionRadius": 2
+    }
   },
   {
     "id": "TELEPORT_PROJECTILE_CLOSER",
@@ -1918,10 +3420,20 @@
     "maxUses": "-1",
     "price": "130",
     "unlockFlag": "",
+    "spreadDegrees": -2,
     "name": "Homebringer Teleport Bolt",
     "nameZh": "“归家”传送魔弹",
     "desc": "Brings the target hit closer to you",
-    "descZh": "将被击中的目标传送到离你更近的地方"
+    "descZh": "将被击中的目标传送到离你更近的地方",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/teleport_projectile_closer.xml",
+      "damage": 0,
+      "speedMin": 750,
+      "speedMax": 850,
+      "lifetime": 40,
+      "explosionDamage": 0,
+      "explosionRadius": 2
+    }
   },
   {
     "id": "NUKE",
@@ -1931,10 +3443,22 @@
     "maxUses": "1",
     "price": "400",
     "unlockFlag": "card_unlocked_nuke",
+    "rechargeTime": 600,
+    "speedMultiplier": 0.75,
     "name": "Nuke",
     "nameZh": "核弹",
     "desc": "Take cover!",
-    "descZh": "快找掩体！"
+    "descZh": "快找掩体！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/nuke.xml",
+      "damage": 3,
+      "speedMin": 300,
+      "speedMax": 300,
+      "lifetime": 360,
+      "explosionDamage": 10,
+      "explosionRadius": 250
+    },
+    "castDelay": 20
   },
   {
     "id": "NUKE_GIGA",
@@ -1944,10 +3468,22 @@
     "maxUses": "1",
     "price": "800",
     "unlockFlag": "card_unlocked_nukegiga",
+    "rechargeTime": 800,
+    "speedMultiplier": 0.5,
     "name": "Giga Nuke",
     "nameZh": "巨型核弹",
     "desc": "What do you expect?",
-    "descZh": "你还期待什么呢？"
+    "descZh": "你还期待什么呢？",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/nuke_giga.xml",
+      "damage": 10,
+      "speedMin": 900,
+      "speedMax": 900,
+      "lifetime": 360,
+      "explosionDamage": 20,
+      "explosionRadius": 400
+    },
+    "castDelay": 50
   },
   {
     "id": "FIREWORK",
@@ -1957,10 +3493,20 @@
     "maxUses": "25",
     "price": "220",
     "unlockFlag": "card_unlocked_firework",
+    "castDelay": 60,
     "name": "Fireworks!",
     "nameZh": "烟火！",
     "desc": "A fiery, explosive projectile",
-    "descZh": "炽烈易爆的投射物"
+    "descZh": "炽烈易爆的投射物",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/fireworks/firework_pink.xml",
+      "damage": 1,
+      "speedMin": 70,
+      "speedMax": 80,
+      "lifetime": 30,
+      "explosionDamage": 1.2,
+      "explosionRadius": 15
+    }
   },
   {
     "id": "SUMMON_WANDGHOST",
@@ -2087,6 +3633,8 @@
     "maxUses": "5",
     "price": "600",
     "unlockFlag": "card_unlocked_destruction",
+    "castDelay": 150,
+    "rechargeTime": 240,
     "name": "Destruction",
     "nameZh": "破坏",
     "desc": "Instantly decimates foes around you, at the cost of your HP",
@@ -2100,6 +3648,8 @@
     "maxUses": "3",
     "price": "600",
     "unlockFlag": "card_unlocked_polymorph",
+    "castDelay": 140,
+    "rechargeTime": 240,
     "name": "Muodonmuutos",
     "nameZh": "墨东姆托",
     "desc": "Baa",
@@ -2178,6 +3728,7 @@
     "maxUses": "-1",
     "price": "100",
     "unlockFlag": "",
+    "spreadDegrees": 10,
     "name": "Double scatter spell",
     "nameZh": "二重散射法术",
     "desc": "Simultaneously casts 2 spells with low accuracy",
@@ -2191,6 +3742,7 @@
     "maxUses": "-1",
     "price": "120",
     "unlockFlag": "",
+    "spreadDegrees": 20,
     "name": "Triple scatter spell",
     "nameZh": "三重散射法术",
     "desc": "Simultaneously casts 3 spells with low accuracy",
@@ -2204,6 +3756,7 @@
     "maxUses": "-1",
     "price": "140",
     "unlockFlag": "",
+    "spreadDegrees": 40,
     "name": "Quadruple scatter spell",
     "nameZh": "四重散射法术",
     "desc": "Simultaneously casts 4 spells with low accuracy",
@@ -2217,6 +3770,7 @@
     "maxUses": "-1",
     "price": "30",
     "unlockFlag": "",
+    "spreadDegrees": -5,
     "name": "Formation - behind your back",
     "nameZh": "阵型 - 背后",
     "desc": "Casts two spells: one ahead of and one behind the caster",
@@ -2230,6 +3784,7 @@
     "maxUses": "-1",
     "price": "30",
     "unlockFlag": "",
+    "spreadDegrees": -8,
     "name": "Formation - bifurcated",
     "nameZh": "阵型 - 分叉",
     "desc": "Casts 2 spells in a bifurcated pattern",
@@ -2243,6 +3798,7 @@
     "maxUses": "-1",
     "price": "30",
     "unlockFlag": "",
+    "spreadDegrees": -8,
     "name": "Formation - above and below",
     "nameZh": "阵型 - 上下",
     "desc": "Casts 3 spells - ahead, above and below the caster",
@@ -2256,6 +3812,7 @@
     "maxUses": "-1",
     "price": "50",
     "unlockFlag": "",
+    "spreadDegrees": -5,
     "name": "Formation - trifurcated",
     "nameZh": "阵型 - 三叉",
     "desc": "Casts 3 spells in a trifurcated pattern",
@@ -2269,6 +3826,7 @@
     "maxUses": "-1",
     "price": "50",
     "unlockFlag": "",
+    "spreadDegrees": -15,
     "name": "Formation - hexagon",
     "nameZh": "阵型 - 六边形",
     "desc": "Casts 6 spells in a hexagonal pattern",
@@ -2282,6 +3840,7 @@
     "maxUses": "-1",
     "price": "50",
     "unlockFlag": "",
+    "spreadDegrees": -12,
     "name": "Formation - pentagon",
     "nameZh": "阵型 - 五边形",
     "desc": "Casts 5 spells in a pentagonal pattern",
@@ -2386,6 +3945,7 @@
     "maxUses": "-1",
     "price": "100",
     "unlockFlag": "",
+    "spreadDegrees": -60,
     "name": "Reduce spread",
     "nameZh": "降低散射",
     "desc": "Reduces the spread of a spell",
@@ -2399,6 +3959,9 @@
     "maxUses": "-1",
     "price": "100",
     "unlockFlag": "",
+    "castDelay": -7,
+    "rechargeTime": -15,
+    "spreadDegrees": 720,
     "name": "Heavy spread",
     "nameZh": "沉重散射",
     "desc": "Gives a projectile a much lower cast delay, but no respect to your aim",
@@ -2412,6 +3975,8 @@
     "maxUses": "-1",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": -10,
+    "rechargeTime": -20,
     "name": "Reduce recharge time",
     "nameZh": "缩减充能时间",
     "desc": "Reduces the time between spellcasts",
@@ -2425,6 +3990,8 @@
     "maxUses": "-1",
     "price": "250",
     "unlockFlag": "",
+    "castDelay": 13,
+    "lifetimeAdd": 75,
     "name": "Increase lifetime",
     "nameZh": "延长存在时间",
     "desc": "Increases the lifetime of a spell",
@@ -2438,6 +4005,8 @@
     "maxUses": "-1",
     "price": "90",
     "unlockFlag": "",
+    "castDelay": -15,
+    "lifetimeAdd": -42,
     "name": "Reduce lifetime",
     "nameZh": "缩减存在时间",
     "desc": "Reduces the lifetime of a spell",
@@ -2451,6 +4020,7 @@
     "maxUses": "-1",
     "price": "50",
     "unlockFlag": "card_unlocked_pyramid",
+    "castDelay": -15,
     "name": "Nolla",
     "nameZh": "零时",
     "desc": "The duration of a projectile is set to zero",
@@ -2467,7 +4037,8 @@
     "name": "Slow But Steady",
     "nameZh": "缓慢但坚定",
     "desc": "The reload time of the wand is set to exactly 1.5 seconds",
-    "descZh": "魔杖的装填时间设定为 1.5 秒整"
+    "descZh": "魔杖的装填时间设定为 1.5 秒整",
+    "rechargeTime": 90
   },
   {
     "id": "EXPLOSION_REMOVE",
@@ -2477,6 +4048,11 @@
     "maxUses": "-1",
     "price": "50",
     "unlockFlag": "",
+    "castDelay": -15,
+    "explosionRadius": -30,
+    "damageMods": {
+      "explosion": -0.8
+    },
     "name": "Remove Explosion",
     "nameZh": "移除爆炸",
     "desc": "Makes a projectile no longer explode",
@@ -2490,6 +4066,11 @@
     "maxUses": "-1",
     "price": "160",
     "unlockFlag": "",
+    "castDelay": 15,
+    "explosionRadius": -30,
+    "damageMods": {
+      "explosion": 0.8
+    },
     "name": "Concentrated Explosion",
     "nameZh": "聚爆",
     "desc": "Limits the radius of a projectile's explosion heavily",
@@ -2516,6 +4097,7 @@
     "maxUses": "-1",
     "price": "250",
     "unlockFlag": "",
+    "castDelay": 10,
     "name": "Add mana",
     "nameZh": "额外法力",
     "desc": "Adds 30 mana to the wand",
@@ -2529,6 +4111,8 @@
     "maxUses": "-1",
     "price": "150",
     "unlockFlag": "",
+    "castDelay": -20,
+    "rechargeTime": -20,
     "name": "Blood magic",
     "nameZh": "血液魔法",
     "desc": "Reduces a spell's mana cost and recharge time greatly, at the costs of four health points",
@@ -2542,6 +4126,7 @@
     "maxUses": "-1",
     "price": "200",
     "unlockFlag": "",
+    "statsApprox": true,
     "name": "Gold to Power",
     "nameZh": "黄金变力量",
     "desc": "Spends 5% of your current gold and adds damage to a projectile proportional to the amount spent",
@@ -2555,6 +4140,7 @@
     "maxUses": "-1",
     "price": "150",
     "unlockFlag": "",
+    "statsApprox": true,
     "name": "Blood to Power",
     "nameZh": "血液变力量",
     "desc": "A projectile gains additional damage at the cost of 20% of your health",
@@ -2568,6 +4154,8 @@
     "maxUses": "-1",
     "price": "250",
     "unlockFlag": "card_unlocked_mestari",
+    "castDelay": 20,
+    "rechargeTime": 20,
     "name": "Spell duplication",
     "nameZh": "法术复制",
     "desc": "Duplicates every spell cast before it",
@@ -2581,6 +4169,7 @@
     "maxUses": "-1",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 5,
     "name": "Quantum Split",
     "nameZh": "量子分割",
     "desc": "Makes a projectile split into three projectiles whose existences are entangled",
@@ -2620,6 +4209,7 @@
     "maxUses": "-1",
     "price": "10",
     "unlockFlag": "",
+    "speedMultiplier": 2,
     "name": "Slithering path",
     "nameZh": "蛇行",
     "desc": "Makes a projectile move rapidly in a slithering manner, like a snake",
@@ -2633,6 +4223,7 @@
     "maxUses": "-1",
     "price": "10",
     "unlockFlag": "",
+    "speedMultiplier": 2,
     "name": "Chaotic path",
     "nameZh": "混乱之路",
     "desc": "Causes a projectile to chaotically fly wherever it wishes",
@@ -2646,6 +4237,7 @@
     "maxUses": "-1",
     "price": "20",
     "unlockFlag": "",
+    "lifetimeAdd": 25,
     "name": "Ping-pong path",
     "nameZh": "乒乓回弹",
     "desc": "Makes a projectile fly back and forth",
@@ -2659,6 +4251,7 @@
     "maxUses": "-1",
     "price": "30",
     "unlockFlag": "",
+    "castDelay": 10,
     "name": "Avoiding arc",
     "nameZh": "规避弧度",
     "desc": "Makes a projectile shy away from obstacles",
@@ -2672,6 +4265,7 @@
     "maxUses": "-1",
     "price": "30",
     "unlockFlag": "",
+    "castDelay": 10,
     "name": "Floating arc",
     "nameZh": "悬浮弧度",
     "desc": "Makes a projectile float above the ground",
@@ -2685,6 +4279,8 @@
     "maxUses": "-1",
     "price": "30",
     "unlockFlag": "",
+    "castDelay": -8,
+    "speedMultiplier": 1.2,
     "name": "Fly downwards",
     "nameZh": "向下飞行",
     "desc": "Causes a projectile to aim straight downwards a short time after casting",
@@ -2698,6 +4294,8 @@
     "maxUses": "-1",
     "price": "20",
     "unlockFlag": "",
+    "castDelay": -8,
+    "speedMultiplier": 1.2,
     "name": "Fly upwards",
     "nameZh": "向上飞行",
     "desc": "Causes a projectile to aim straight upwards a short time after casting",
@@ -2711,6 +4309,10 @@
     "maxUses": "-1",
     "price": "20",
     "unlockFlag": "",
+    "castDelay": -6,
+    "damageMods": {
+      "projectile": 0.3
+    },
     "name": "Horizontal path",
     "nameZh": "水平路径",
     "desc": "Forces a projectile on a horizontal path, but increases its damage",
@@ -2724,6 +4326,10 @@
     "maxUses": "-1",
     "price": "30",
     "unlockFlag": "",
+    "castDelay": -4,
+    "damageMods": {
+      "projectile": 0.2
+    },
     "name": "Linear arc",
     "nameZh": "线性弧",
     "desc": "Makes a projectile fly only in cardinal or diagonal lines",
@@ -2737,6 +4343,11 @@
     "maxUses": "-1",
     "price": "30",
     "unlockFlag": "",
+    "castDelay": -6,
+    "lifetimeAdd": 25,
+    "damageMods": {
+      "projectile": 0.1
+    },
     "name": "Orbiting Arc",
     "nameZh": "盘旋魔弹",
     "desc": "A projectile orbits the point of its origin",
@@ -2750,6 +4361,11 @@
     "maxUses": "-1",
     "price": "30",
     "unlockFlag": "",
+    "castDelay": -6,
+    "lifetimeAdd": 50,
+    "damageMods": {
+      "projectile": 0.1
+    },
     "name": "Spiral Arc",
     "nameZh": "螺旋魔弹",
     "desc": "A projectile flies in a spiralling pattern",
@@ -2763,6 +4379,9 @@
     "maxUses": "-1",
     "price": "170",
     "unlockFlag": "",
+    "castDelay": -12,
+    "lifetimeAdd": 80,
+    "speedMultiplier": 0.33,
     "name": "Phasing Arc",
     "nameZh": "相位弧度",
     "desc": "Makes a projectile fly much slower, but teleport short distances over its flight",
@@ -2776,6 +4395,11 @@
     "maxUses": "-1",
     "price": "40",
     "unlockFlag": "",
+    "castDelay": -20,
+    "lifetimeAdd": 80,
+    "damageMods": {
+      "projectile": 0.1
+    },
     "name": "True Orbit",
     "nameZh": "真实环绕",
     "desc": "Makes a projectile rotate around the caster like an orbiting planet",
@@ -2789,6 +4413,7 @@
     "maxUses": "-1",
     "price": "50",
     "unlockFlag": "",
+    "bounces": 10,
     "name": "Bounce",
     "nameZh": "弹跳",
     "desc": "Makes a projectile bounce on impact",
@@ -2828,6 +4453,7 @@
     "maxUses": "-1",
     "price": "110",
     "unlockFlag": "",
+    "castDelay": -20,
     "name": "Anti Homing",
     "nameZh": "反追踪",
     "desc": "Makes a projectile accelerate away from your foes",
@@ -2932,6 +4558,9 @@
     "maxUses": "-1",
     "price": "175",
     "unlockFlag": "",
+    "castDelay": 8,
+    "spreadDegrees": 6,
+    "speedMultiplier": 0.75,
     "name": "Projectile Area Teleport",
     "nameZh": "投射物区域传送",
     "desc": "If a valid target appears somewhere in the proximity of a projectile, the projectile will teleport right on top of the target",
@@ -2945,6 +4574,9 @@
     "maxUses": "-1",
     "price": "190",
     "unlockFlag": "",
+    "damageMods": {
+      "projectile": -0.6
+    },
     "name": "Piercing shot",
     "nameZh": "穿刺魔弹",
     "desc": "Makes a projectile fly through enemies, but harmful to the caster",
@@ -2958,6 +4590,8 @@
     "maxUses": "-1",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 50,
+    "rechargeTime": 40,
     "name": "Drilling shot",
     "nameZh": "穿凿魔弹",
     "desc": "Gives a projectile the power to go through the ground",
@@ -2971,6 +4605,10 @@
     "maxUses": "-1",
     "price": "140",
     "unlockFlag": "",
+    "castDelay": 5,
+    "damageMods": {
+      "projectile": 0.4
+    },
     "name": "Damage Plus",
     "nameZh": "伤害增强",
     "desc": "Increases the damage done by a projectile",
@@ -2984,6 +4622,8 @@
     "maxUses": "-1",
     "price": "200",
     "unlockFlag": "card_unlocked_pyramid",
+    "castDelay": 5,
+    "statsApprox": true,
     "name": "Random damage",
     "nameZh": "随机伤害",
     "desc": "Randomly increases or lowers the damage done by projectiles",
@@ -2997,6 +4637,11 @@
     "maxUses": "-1",
     "price": "160",
     "unlockFlag": "",
+    "castDelay": 8,
+    "spreadDegrees": 6,
+    "damageMods": {
+      "projectile": 1.3
+    },
     "name": "Bloodlust",
     "nameZh": "嗜血",
     "desc": "A projectile gains a hefty damage boost, but is also able to hurt you",
@@ -3010,6 +4655,12 @@
     "maxUses": "20",
     "price": "240",
     "unlockFlag": "",
+    "castDelay": 15,
+    "rechargeTime": 10,
+    "damageMods": {
+      "projectile": 0.025
+    },
+    "statsApprox": true,
     "name": "Mana To Damage",
     "nameZh": "法力转伤害",
     "desc": "If the wand has more than 50 mana, all mana over that is converted into additional damage",
@@ -3023,6 +4674,7 @@
     "maxUses": "-1",
     "price": "140",
     "unlockFlag": "",
+    "critChance": 15,
     "name": "Critical Plus",
     "nameZh": "暴击增强",
     "desc": "Gives a projectile +15% chance of a critical hit",
@@ -3049,6 +4701,7 @@
     "maxUses": "-1",
     "price": "140",
     "unlockFlag": "",
+    "castDelay": 40,
     "name": "Spells to Power",
     "nameZh": "法术变力量",
     "desc": "Converts any nearby projectiles cast by you into extra damage",
@@ -3062,6 +4715,7 @@
     "maxUses": "-1",
     "price": "120",
     "unlockFlag": "",
+    "castDelay": 20,
     "name": "Essence to Power",
     "nameZh": "精华变力量",
     "desc": "Increases a projectile's damage based on the number of creatures nearby",
@@ -3075,6 +4729,8 @@
     "maxUses": "-1",
     "price": "50",
     "unlockFlag": "",
+    "castDelay": -5,
+    "lifetimeAdd": 280,
     "name": "Null shot",
     "nameZh": "归零魔弹",
     "desc": "Increases a projectile's duration dramatically but removes all damage & explosion from it",
@@ -3088,6 +4744,11 @@
     "maxUses": "-1",
     "price": "150",
     "unlockFlag": "",
+    "castDelay": 10,
+    "damageMods": {
+      "projectile": 1.75
+    },
+    "speedMultiplier": 0.3,
     "name": "Heavy Shot",
     "nameZh": "沉重一击",
     "desc": "Greatly increases the damage done by a projectile, at the cost of its speed",
@@ -3101,6 +4762,13 @@
     "maxUses": "-1",
     "price": "60",
     "unlockFlag": "",
+    "castDelay": -3,
+    "spreadDegrees": -6,
+    "explosionRadius": -10,
+    "damageMods": {
+      "projectile": -1
+    },
+    "speedMultiplier": 7.5,
     "name": "Light shot",
     "nameZh": "轻巧魔弹",
     "desc": "Makes a projectile move considerably faster, but deal less damage",
@@ -3114,6 +4782,7 @@
     "maxUses": "-1",
     "price": "100",
     "unlockFlag": "",
+    "knockback": 5,
     "name": "Knockback",
     "nameZh": "击退",
     "desc": "Gives a projectile the power to knock back the foes it hits",
@@ -3153,6 +4822,7 @@
     "maxUses": "-1",
     "price": "100",
     "unlockFlag": "",
+    "speedMultiplier": 2.5,
     "name": "Speed Up",
     "nameZh": "加速",
     "desc": "Increases the speed at which a projectile flies through the air",
@@ -3166,6 +4836,8 @@
     "maxUses": "-1",
     "price": "190",
     "unlockFlag": "",
+    "castDelay": 8,
+    "speedMultiplier": 0.32,
     "name": "Accelerating shot",
     "nameZh": "加速魔弹",
     "desc": "Causes a projectile to accelerate as it flies",
@@ -3179,6 +4851,8 @@
     "maxUses": "-1",
     "price": "80",
     "unlockFlag": "",
+    "castDelay": -8,
+    "speedMultiplier": 1.68,
     "name": "Decelerating shot",
     "nameZh": "减速魔弹",
     "desc": "Makes a projectile decelerate as it flies",
@@ -3192,6 +4866,12 @@
     "maxUses": "-1",
     "price": "120",
     "unlockFlag": "",
+    "castDelay": 40,
+    "explosionRadius": 15,
+    "damageMods": {
+      "explosion": 0.2
+    },
+    "speedMultiplier": 0.75,
     "name": "Explosive projectile",
     "nameZh": "易爆的投射物",
     "desc": "Makes a projectile more destructive to the environment",
@@ -3205,6 +4885,11 @@
     "maxUses": "-1",
     "price": "160",
     "unlockFlag": "",
+    "castDelay": 20,
+    "explosionRadius": 4,
+    "damageMods": {
+      "explosion": 0.2
+    },
     "name": "Clusterbolt",
     "nameZh": "霰爆弹",
     "desc": "Makes a projectile release a cluster of explosive bolts upon hitting a wall",
@@ -3218,6 +4903,7 @@
     "maxUses": "-1",
     "price": "80",
     "unlockFlag": "",
+    "castDelay": 10,
     "name": "Water to poison",
     "nameZh": "化水为毒",
     "desc": "Makes any water within a projectile's range turns into poison",
@@ -3231,6 +4917,7 @@
     "maxUses": "-1",
     "price": "80",
     "unlockFlag": "",
+    "castDelay": 10,
     "name": "Blood to acid",
     "nameZh": "溶血为酸",
     "desc": "Makes any blood within a projectile's range turns into acid",
@@ -3244,6 +4931,7 @@
     "maxUses": "-1",
     "price": "80",
     "unlockFlag": "",
+    "castDelay": 10,
     "name": "Lava to blood",
     "nameZh": "熔岩化血",
     "desc": "Makes any lava within a projectile's range turn into blood",
@@ -3257,6 +4945,7 @@
     "maxUses": "-1",
     "price": "120",
     "unlockFlag": "",
+    "castDelay": 20,
     "name": "Liquid Detonation",
     "nameZh": "液体引爆",
     "desc": "Converts nearby nonmagical liquids into explosive gunpowder",
@@ -3270,6 +4959,7 @@
     "maxUses": "-1",
     "price": "120",
     "unlockFlag": "",
+    "castDelay": 10,
     "name": "Toxic sludge to acid",
     "nameZh": "毒性淤泥酸液化",
     "desc": "Makes any toxic sludge within a projectile's range turn into acid",
@@ -3283,6 +4973,7 @@
     "maxUses": "8",
     "price": "140",
     "unlockFlag": "",
+    "castDelay": 60,
     "name": "Ground to sand",
     "nameZh": "化地为砂",
     "desc": "Makes any hard, solid materials within a projectile's range turn into sand",
@@ -3296,6 +4987,7 @@
     "maxUses": "8",
     "price": "180",
     "unlockFlag": "",
+    "castDelay": 20,
     "name": "Chaotic transmutation",
     "nameZh": "混乱转化",
     "desc": "Transmutes various liquids and powdery substances within a projectile's range into something else",
@@ -3309,6 +5001,7 @@
     "maxUses": "30",
     "price": "240",
     "unlockFlag": "",
+    "castDelay": 40,
     "name": "Chaos magic",
     "nameZh": "混沌魔法",
     "desc": "Makes a projectile launch a random spell (out of a limited selection) when it hits something",
@@ -3322,6 +5015,7 @@
     "maxUses": "-1",
     "price": "80",
     "unlockFlag": "card_unlocked_necromancy",
+    "castDelay": 10,
     "name": "Necromancy",
     "nameZh": "死灵之术",
     "desc": "Makes corpses of creatures killed by a projectile rise to your aid",
@@ -3348,10 +5042,20 @@
     "maxUses": "-1",
     "price": "160",
     "unlockFlag": "",
+    "castDelay": 3,
     "name": "Explosion",
     "nameZh": "爆炸",
     "desc": "A powerful explosion",
-    "descZh": "强力的爆炸"
+    "descZh": "强力的爆炸",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/explosion.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 0,
+      "explosionDamage": 2.75,
+      "explosionRadius": 15
+    }
   },
   {
     "id": "EXPLOSION_LIGHT",
@@ -3361,10 +5065,20 @@
     "maxUses": "-1",
     "price": "160",
     "unlockFlag": "",
+    "castDelay": 3,
     "name": "Magical Explosion",
     "nameZh": "魔法爆炸",
     "desc": "A large explosion that doesn't damage the ground",
-    "descZh": "不会破坏地面的大型爆炸"
+    "descZh": "不会破坏地面的大型爆炸",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/explosion_light.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 0,
+      "explosionDamage": 3.75,
+      "explosionRadius": 35
+    }
   },
   {
     "id": "FIRE_BLAST",
@@ -3374,10 +5088,20 @@
     "maxUses": "-1",
     "price": "120",
     "unlockFlag": "",
+    "castDelay": 3,
     "name": "Explosion of brimstone",
     "nameZh": "火焰爆炸",
     "desc": "A fiery explosion",
-    "descZh": "炽烈的爆炸"
+    "descZh": "炽烈的爆炸",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/fireblast.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 0,
+      "explosionDamage": 0.3,
+      "explosionRadius": 30
+    }
   },
   {
     "id": "POISON_BLAST",
@@ -3387,10 +5111,20 @@
     "maxUses": "-1",
     "price": "140",
     "unlockFlag": "",
+    "castDelay": 3,
     "name": "Explosion of poison",
     "nameZh": "毒素爆炸",
     "desc": "An alchemical explosion",
-    "descZh": "化学性的爆炸"
+    "descZh": "化学性的爆炸",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/poison_blast.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 0,
+      "explosionDamage": 0.3,
+      "explosionRadius": 9
+    }
   },
   {
     "id": "ALCOHOL_BLAST",
@@ -3400,10 +5134,20 @@
     "maxUses": "-1",
     "price": "140",
     "unlockFlag": "",
+    "castDelay": 3,
     "name": "Explosion of spirits",
     "nameZh": "烈酒爆炸",
     "desc": "An inebriating explosion",
-    "descZh": "令人酩酊大醉的爆炸"
+    "descZh": "令人酩酊大醉的爆炸",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/alcohol_blast.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 0,
+      "explosionDamage": 0.3,
+      "explosionRadius": 12
+    }
   },
   {
     "id": "THUNDER_BLAST",
@@ -3413,10 +5157,20 @@
     "maxUses": "-1",
     "price": "180",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Explosion of thunder",
     "nameZh": "雷霆爆炸",
     "desc": "An electric explosion",
-    "descZh": "电气性质的爆炸"
+    "descZh": "电气性质的爆炸",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/thunder_blast.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 3,
+      "explosionDamage": 1.8,
+      "explosionRadius": 28
+    }
   },
   {
     "id": "BERSERK_FIELD",
@@ -3426,10 +5180,20 @@
     "maxUses": "15",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Circle of fervour",
     "nameZh": "激情之环",
     "desc": "A field of berserk magic",
-    "descZh": "狂暴魔法的领域"
+    "descZh": "狂暴魔法的领域",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/berserk_field.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 9999999,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "POLYMORPH_FIELD",
@@ -3439,10 +5203,20 @@
     "maxUses": "5",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Circle of transmogrification",
     "nameZh": "变形之环",
     "desc": "A field of sheep-like magic",
-    "descZh": "变羊魔法的领域"
+    "descZh": "变羊魔法的领域",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/polymorph_field.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 9999999,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "CHAOS_POLYMORPH_FIELD",
@@ -3452,10 +5226,20 @@
     "maxUses": "10",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Circle of unstable metamorphosis",
     "nameZh": "不稳变形之环",
     "desc": "A field of transformative magic",
-    "descZh": "变形魔法的领域"
+    "descZh": "变形魔法的领域",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/chaos_polymorph_field.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 9999999,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "ELECTROCUTION_FIELD",
@@ -3465,10 +5249,20 @@
     "maxUses": "15",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Circle of thunder",
     "nameZh": "雷霆之环",
     "desc": "A field of electrifying magic",
-    "descZh": "电击魔法的领域"
+    "descZh": "电击魔法的领域",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/electrocution_field.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 9999999,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "FREEZE_FIELD",
@@ -3478,10 +5272,20 @@
     "maxUses": "15",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Circle of stillness",
     "nameZh": "静止之环",
     "desc": "A field of freezing magic",
-    "descZh": "冻结魔法的领域"
+    "descZh": "冻结魔法的领域",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/freeze_field.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 9999999,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "REGENERATION_FIELD",
@@ -3491,10 +5295,23 @@
     "maxUses": "2",
     "price": "250",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Circle of vigour",
     "nameZh": "活力之环",
     "desc": "A field of regenerative magic",
-    "descZh": "再生魔法的领域"
+    "descZh": "再生魔法的领域",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/regeneration_field.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 9999999,
+      "explosionDamage": 0,
+      "explosionRadius": 1,
+      "damageByType": {
+        "healing": -0.05
+      }
+    }
   },
   {
     "id": "TELEPORTATION_FIELD",
@@ -3504,10 +5321,20 @@
     "maxUses": "15",
     "price": "150",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Circle of displacement",
     "nameZh": "位移之环",
     "desc": "A field of teleportative magic",
-    "descZh": "传送魔法的领域"
+    "descZh": "传送魔法的领域",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/teleportation_field.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 9999999,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "LEVITATION_FIELD",
@@ -3517,10 +5344,20 @@
     "maxUses": "15",
     "price": "120",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Circle of buoyancy",
     "nameZh": "浮力之环",
     "desc": "A field of levitative magic",
-    "descZh": "飘浮魔法的领域"
+    "descZh": "飘浮魔法的领域",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/levitation_field.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 9999999,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "SHIELD_FIELD",
@@ -3530,10 +5367,20 @@
     "maxUses": "10",
     "price": "160",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Circle of shielding",
     "nameZh": "遮蔽之环",
     "desc": "A field of protective magic",
-    "descZh": "防护魔法的领域"
+    "descZh": "防护魔法的领域",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/shield_field.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 9999999,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "PROJECTILE_TRANSMUTATION_FIELD",
@@ -3543,10 +5390,20 @@
     "maxUses": "6",
     "price": "250",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Projectile transmutation field",
     "nameZh": "投射物转化领域",
     "desc": "Projectiles caught within the field transform into harmless critters",
-    "descZh": "领域捕获到的投射物会转化为无害的小生物"
+    "descZh": "领域捕获到的投射物会转化为无害的小生物",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/projectile_transmutation_field.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 9999999,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "PROJECTILE_THUNDER_FIELD",
@@ -3556,10 +5413,20 @@
     "maxUses": "6",
     "price": "300",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Projectile thunder field",
     "nameZh": "投射物雷电领域",
     "desc": "Projectiles caught within the field transform into blasts of lightning",
-    "descZh": "领域捕获到的投射物会转化为闪电爆炸"
+    "descZh": "领域捕获到的投射物会转化为闪电爆炸",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/projectile_thunder_field.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 9999999,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "PROJECTILE_GRAVITY_FIELD",
@@ -3569,10 +5436,20 @@
     "maxUses": "6",
     "price": "250",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Projectile gravity field",
     "nameZh": "投射物重力领域",
     "desc": "Projectiles caught within the field are attracted towards its center",
-    "descZh": "领域捕获到的投射物会向领域中心聚拢"
+    "descZh": "领域捕获到的投射物会向领域中心聚拢",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/projectile_gravity_field.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 9999999,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "VACUUM_POWDER",
@@ -3582,10 +5459,20 @@
     "maxUses": "20",
     "price": "150",
     "unlockFlag": "",
+    "castDelay": 10,
     "name": "Powder Vacuum Field",
     "nameZh": "粉末真空场",
     "desc": "Sucks powder-like materials nearby and releases them upon expiring",
-    "descZh": "吸入附近的粉末状材料，并在失效时将它们释放"
+    "descZh": "吸入附近的粉末状材料，并在失效时将它们释放",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/vacuum_powder.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 9999999,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "VACUUM_LIQUID",
@@ -3595,10 +5482,20 @@
     "maxUses": "20",
     "price": "150",
     "unlockFlag": "",
+    "castDelay": 10,
     "name": "Liquid Vacuum Field",
     "nameZh": "液体真空场",
     "desc": "Sucks liquid materials nearby and releases them upon expiring",
-    "descZh": "吸入附近的液体材料，并在失效时将它们释放"
+    "descZh": "吸入附近的液体材料，并在失效时将它们释放",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/vacuum_liquid.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 9999999,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "VACUUM_ENTITIES",
@@ -3608,10 +5505,20 @@
     "maxUses": "20",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 10,
     "name": "Vacuum Field",
     "nameZh": "真空场",
     "desc": "Sucks nearby projectiles and creatures into the middle of the field instantaneously",
-    "descZh": "立即将附近的投射物和生物吸入力场的中心"
+    "descZh": "立即将附近的投射物和生物吸入力场的中心",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/vacuum_entities.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 9999999,
+      "explosionDamage": 0,
+      "explosionRadius": 1
+    }
   },
   {
     "id": "SEA_LAVA",
@@ -3621,6 +5528,7 @@
     "maxUses": "3",
     "price": "350",
     "unlockFlag": "card_unlocked_sea_lava",
+    "castDelay": 15,
     "name": "Sea of lava",
     "nameZh": "岩浆之海",
     "desc": "Summons a large body of lava below the caster",
@@ -3634,6 +5542,7 @@
     "maxUses": "3",
     "price": "350",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Sea of alcohol",
     "nameZh": "酒精之海",
     "desc": "Summons a large body of tasty alcohol below the caster",
@@ -3647,6 +5556,7 @@
     "maxUses": "3",
     "price": "350",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Sea of oil",
     "nameZh": "油脂之海",
     "desc": "Summons a large body of oil below the caster",
@@ -3660,6 +5570,7 @@
     "maxUses": "3",
     "price": "350",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Sea of water",
     "nameZh": "水之海",
     "desc": "Summons a large body of water below the caster",
@@ -3673,6 +5584,7 @@
     "maxUses": "3",
     "price": "350",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Summon Swamp",
     "nameZh": "召唤沼泽",
     "desc": "Summons a large swamp below the caster",
@@ -3686,6 +5598,7 @@
     "maxUses": "3",
     "price": "350",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Sea of acid",
     "nameZh": "酸液之海",
     "desc": "Summons a large body of acid below the caster",
@@ -3699,6 +5612,7 @@
     "maxUses": "3",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Sea of flammable gas",
     "nameZh": "可燃气体之海",
     "desc": "Summons a large body of flammable gas below the caster",
@@ -3712,6 +5626,7 @@
     "maxUses": "2",
     "price": "350",
     "unlockFlag": "card_unlocked_sea_mimic",
+    "castDelay": 15,
     "name": "Sea of Mimicium",
     "nameZh": "拟态之海",
     "desc": "Summons a large body of mimicium under the caster",
@@ -3725,10 +5640,18 @@
     "maxUses": "10",
     "price": "140",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Rain cloud",
     "nameZh": "雨云",
     "desc": "Creates a watery weather phenomenon",
-    "descZh": "产生降水天气现象"
+    "descZh": "产生降水天气现象",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/cloud_water.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 999
+    }
   },
   {
     "id": "CLOUD_OIL",
@@ -3738,10 +5661,18 @@
     "maxUses": "15",
     "price": "100",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Oil cloud",
     "nameZh": "油脂之云",
     "desc": "Creates a rain of oil",
-    "descZh": "产生一阵油液之雨"
+    "descZh": "产生一阵油液之雨",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/cloud_oil.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 999
+    }
   },
   {
     "id": "CLOUD_BLOOD",
@@ -3751,10 +5682,18 @@
     "maxUses": "3",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 30,
     "name": "Blood cloud",
     "nameZh": "血云",
     "desc": "Creates a rain of blood",
-    "descZh": "产生一阵血雨"
+    "descZh": "产生一阵血雨",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/cloud_blood.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 999
+    }
   },
   {
     "id": "CLOUD_ACID",
@@ -3764,10 +5703,18 @@
     "maxUses": "8",
     "price": "180",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Acid cloud",
     "nameZh": "酸云",
     "desc": "Creates an rain of acid",
-    "descZh": "产生一阵酸液之雨"
+    "descZh": "产生一阵酸液之雨",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/cloud_acid.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 999
+    }
   },
   {
     "id": "CLOUD_THUNDER",
@@ -3777,10 +5724,18 @@
     "maxUses": "5",
     "price": "190",
     "unlockFlag": "card_unlocked_cloud_thunder",
+    "castDelay": 30,
     "name": "Thundercloud",
     "nameZh": "雷云",
     "desc": "Creates a stormy cloud",
-    "descZh": "产生一片雷云"
+    "descZh": "产生一片雷云",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/cloud_thunder.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 999
+    }
   },
   {
     "id": "ELECTRIC_CHARGE",
@@ -3790,6 +5745,9 @@
     "maxUses": "-1",
     "price": "150",
     "unlockFlag": "",
+    "damageMods": {
+      "electricity": 0.1
+    },
     "name": "Electric charge",
     "nameZh": "电荷放射",
     "desc": "Gives a projectile an electric charge, that it will release on impact",
@@ -3816,6 +5774,9 @@
     "maxUses": "-1",
     "price": "140",
     "unlockFlag": "",
+    "damageMods": {
+      "ice": 0.2
+    },
     "name": "Freeze charge",
     "nameZh": "冰冻放射",
     "desc": "Gives a projectile a frozen charge, that it will release on impact",
@@ -3959,6 +5920,7 @@
     "maxUses": "-1",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 25,
     "name": "Downwards bolt bundle",
     "nameZh": "下方向集束魔弹",
     "desc": "Makes a projectile separate into a bundle of 5 explosive bolts as soon as it moves downwards",
@@ -3972,6 +5934,7 @@
     "maxUses": "-1",
     "price": "200",
     "unlockFlag": "",
+    "castDelay": 20,
     "name": "Octagonal bolt bundle",
     "nameZh": "八角形集束魔弹",
     "desc": "Makes a projectile launch 8 magical bolts if it moves slowly enough",
@@ -3985,6 +5948,8 @@
     "maxUses": "-1",
     "price": "0",
     "unlockFlag": "",
+    "castDelay": -10,
+    "speedMultiplier": 1.2,
     "name": "Fizzle",
     "nameZh": "闪灭",
     "desc": "Gives a spell a small probability of short-circuiting",
@@ -3998,6 +5963,8 @@
     "maxUses": "-1",
     "price": "180",
     "unlockFlag": "",
+    "castDelay": 25,
+    "bounces": 1,
     "name": "Explosive bounce",
     "nameZh": "易爆的弹跳",
     "desc": "Makes a projectile explode as it bounces",
@@ -4011,6 +5978,8 @@
     "maxUses": "-1",
     "price": "120",
     "unlockFlag": "",
+    "castDelay": 8,
+    "bounces": 1,
     "name": "Bubbly bounce",
     "nameZh": "泡泡弹跳",
     "desc": "Makes a projectile shoot bubble sparks as it bounces",
@@ -4024,6 +5993,8 @@
     "maxUses": "-1",
     "price": "180",
     "unlockFlag": "",
+    "castDelay": 12,
+    "bounces": 1,
     "name": "Concentrated light bounce",
     "nameZh": "汇聚之光弹跳",
     "desc": "Makes a projectile release a bundle of concentrated light as it bounces",
@@ -4037,6 +6008,8 @@
     "maxUses": "-1",
     "price": "180",
     "unlockFlag": "",
+    "castDelay": 12,
+    "bounces": 1,
     "name": "Plasma Beam Bounce",
     "nameZh": "电浆束弹跳",
     "desc": "A projectile launches a plasma beam upon bouncing",
@@ -4050,6 +6023,8 @@
     "maxUses": "-1",
     "price": "250",
     "unlockFlag": "",
+    "castDelay": 32,
+    "bounces": 1,
     "name": "Larpa Bounce",
     "nameZh": "拉帕弹跳",
     "desc": "A projectile will launch a copy of itself when it bounces",
@@ -4063,6 +6038,8 @@
     "maxUses": "-1",
     "price": "100",
     "unlockFlag": "",
+    "castDelay": 9,
+    "bounces": 1,
     "name": "Sparkly bounce",
     "nameZh": "火花弹跳",
     "desc": "Makes a projectile release damaging sparks as it bounces",
@@ -4076,6 +6053,8 @@
     "maxUses": "-1",
     "price": "180",
     "unlockFlag": "",
+    "castDelay": 25,
+    "bounces": 1,
     "name": "Lightning bounce",
     "nameZh": "闪电弹跳",
     "desc": "Makes a projectile release powerful lightning as it bounces",
@@ -4089,6 +6068,8 @@
     "maxUses": "20",
     "price": "220",
     "unlockFlag": "",
+    "castDelay": 40,
+    "bounces": 1,
     "name": "Vacuum bounce",
     "nameZh": "吸尘弹跳",
     "desc": "Makes a projectile remove earth as it bounces",
@@ -4349,6 +6330,12 @@
     "maxUses": "-1",
     "price": "240",
     "unlockFlag": "",
+    "spreadDegrees": 10,
+    "explosionRadius": -5,
+    "lifetimeAdd": -30,
+    "damageMods": {
+      "projectile": -0.2
+    },
     "name": "Chain Spell",
     "nameZh": "连锁法术",
     "desc": "Causes a projectile to cast a copy of itself upon expiring, up to 5 times",
@@ -4430,7 +6417,19 @@
     "name": "All-seeing eye",
     "nameZh": "全知之眼",
     "desc": "See into the unexplored. But not everywhere...",
-    "descZh": "窥视未曾探索区域，但并非毫无限制..."
+    "descZh": "窥视未曾探索区域，但并非毫无限制...",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/xray.xml",
+      "damage": 0,
+      "speedMin": 0,
+      "speedMax": 0,
+      "lifetime": 1000,
+      "explosionDamage": 0,
+      "explosionRadius": 0,
+      "damageByType": {
+        "drill": 0.01
+      }
+    }
   },
   {
     "id": "UNSTABLE_GUNPOWDER",
@@ -4596,6 +6595,7 @@
     "maxUses": "-1",
     "price": "180",
     "unlockFlag": "",
+    "speedMultiplier": 0.4,
     "name": "Projectile energy shield",
     "nameZh": "投射物能量盾",
     "desc": "Gives a projectile a shield that deflects other projectiles",
@@ -4622,10 +6622,18 @@
     "maxUses": "-1",
     "price": "10",
     "unlockFlag": "card_unlocked_ocarina",
+    "castDelay": 15,
     "name": "Ocarina - note A",
     "nameZh": "陶笛 - 音符 A",
     "desc": "Music for your ears!",
-    "descZh": "悦耳的音乐！"
+    "descZh": "悦耳的音乐！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/ocarina/ocarina_a.xml",
+      "damage": 0,
+      "speedMin": 250,
+      "speedMax": 450,
+      "lifetime": 2
+    }
   },
   {
     "id": "OCARINA_B",
@@ -4635,10 +6643,18 @@
     "maxUses": "-1",
     "price": "10",
     "unlockFlag": "card_unlocked_ocarina",
+    "castDelay": 15,
     "name": "Ocarina - note B",
     "nameZh": "陶笛 - 音符 B",
     "desc": "Music for your ears!",
-    "descZh": "悦耳的音乐！"
+    "descZh": "悦耳的音乐！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/ocarina/ocarina_b.xml",
+      "damage": 0,
+      "speedMin": 250,
+      "speedMax": 450,
+      "lifetime": 2
+    }
   },
   {
     "id": "OCARINA_C",
@@ -4648,10 +6664,18 @@
     "maxUses": "-1",
     "price": "10",
     "unlockFlag": "card_unlocked_ocarina",
+    "castDelay": 15,
     "name": "Ocarina - note C",
     "nameZh": "陶笛 - 音符 C",
     "desc": "Music for your ears!",
-    "descZh": "悦耳的音乐！"
+    "descZh": "悦耳的音乐！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/ocarina/ocarina_c.xml",
+      "damage": 0,
+      "speedMin": 250,
+      "speedMax": 450,
+      "lifetime": 2
+    }
   },
   {
     "id": "OCARINA_D",
@@ -4661,10 +6685,18 @@
     "maxUses": "-1",
     "price": "10",
     "unlockFlag": "card_unlocked_ocarina",
+    "castDelay": 15,
     "name": "Ocarina - note D",
     "nameZh": "陶笛 - 音符 D",
     "desc": "Music for your ears!",
-    "descZh": "悦耳的音乐！"
+    "descZh": "悦耳的音乐！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/ocarina/ocarina_d.xml",
+      "damage": 0,
+      "speedMin": 250,
+      "speedMax": 450,
+      "lifetime": 2
+    }
   },
   {
     "id": "OCARINA_E",
@@ -4674,10 +6706,18 @@
     "maxUses": "-1",
     "price": "10",
     "unlockFlag": "card_unlocked_ocarina",
+    "castDelay": 15,
     "name": "Ocarina - note E",
     "nameZh": "陶笛 - 音符 E",
     "desc": "Music for your ears!",
-    "descZh": "悦耳的音乐！"
+    "descZh": "悦耳的音乐！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/ocarina/ocarina_e.xml",
+      "damage": 0,
+      "speedMin": 250,
+      "speedMax": 450,
+      "lifetime": 2
+    }
   },
   {
     "id": "OCARINA_F",
@@ -4687,10 +6727,18 @@
     "maxUses": "-1",
     "price": "10",
     "unlockFlag": "card_unlocked_ocarina",
+    "castDelay": 15,
     "name": "Ocarina - note F",
     "nameZh": "陶笛 - 音符 F",
     "desc": "Music for your ears!",
-    "descZh": "悦耳的音乐！"
+    "descZh": "悦耳的音乐！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/ocarina/ocarina_f.xml",
+      "damage": 0,
+      "speedMin": 250,
+      "speedMax": 450,
+      "lifetime": 2
+    }
   },
   {
     "id": "OCARINA_GSHARP",
@@ -4700,10 +6748,18 @@
     "maxUses": "-1",
     "price": "10",
     "unlockFlag": "card_unlocked_ocarina",
+    "castDelay": 15,
     "name": "Ocarina - note G#",
     "nameZh": "陶笛 - 音符 G#",
     "desc": "Music for your ears!",
-    "descZh": "悦耳的音乐！"
+    "descZh": "悦耳的音乐！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/ocarina/ocarina_gsharp.xml",
+      "damage": 0,
+      "speedMin": 250,
+      "speedMax": 450,
+      "lifetime": 2
+    }
   },
   {
     "id": "OCARINA_A2",
@@ -4713,10 +6769,18 @@
     "maxUses": "-1",
     "price": "10",
     "unlockFlag": "card_unlocked_ocarina",
+    "castDelay": 15,
     "name": "Ocarina - note A2",
     "nameZh": "陶笛 - 音符 A2",
     "desc": "Music for your ears!",
-    "descZh": "悦耳的音乐！"
+    "descZh": "悦耳的音乐！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/ocarina/ocarina_a2.xml",
+      "damage": 0,
+      "speedMin": 250,
+      "speedMax": 450,
+      "lifetime": 2
+    }
   },
   {
     "id": "KANTELE_A",
@@ -4726,10 +6790,18 @@
     "maxUses": "-1",
     "price": "10",
     "unlockFlag": "card_unlocked_kantele",
+    "castDelay": 15,
     "name": "Kantele - note A",
     "nameZh": "齐特琴 - 音符 A",
     "desc": "Music for your ears!",
-    "descZh": "悦耳的音乐！"
+    "descZh": "悦耳的音乐！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/kantele/kantele_a.xml",
+      "damage": 0,
+      "speedMin": 250,
+      "speedMax": 450,
+      "lifetime": 2
+    }
   },
   {
     "id": "KANTELE_D",
@@ -4739,10 +6811,18 @@
     "maxUses": "-1",
     "price": "10",
     "unlockFlag": "card_unlocked_kantele",
+    "castDelay": 15,
     "name": "Kantele - note D",
     "nameZh": "齐特琴 - 音符 D",
     "desc": "Music for your ears!",
-    "descZh": "悦耳的音乐！"
+    "descZh": "悦耳的音乐！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/kantele/kantele_d.xml",
+      "damage": 0,
+      "speedMin": 250,
+      "speedMax": 450,
+      "lifetime": 2
+    }
   },
   {
     "id": "KANTELE_DIS",
@@ -4752,10 +6832,18 @@
     "maxUses": "-1",
     "price": "10",
     "unlockFlag": "card_unlocked_kantele",
+    "castDelay": 15,
     "name": "Kantele - note D#",
     "nameZh": "齐特琴 - 音符 D#",
     "desc": "Music for your ears!",
-    "descZh": "悦耳的音乐！"
+    "descZh": "悦耳的音乐！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/kantele/kantele_dis.xml",
+      "damage": 0,
+      "speedMin": 250,
+      "speedMax": 450,
+      "lifetime": 2
+    }
   },
   {
     "id": "KANTELE_E",
@@ -4765,10 +6853,18 @@
     "maxUses": "-1",
     "price": "10",
     "unlockFlag": "card_unlocked_kantele",
+    "castDelay": 15,
     "name": "Kantele - note E",
     "nameZh": "齐特琴 - 音符 E",
     "desc": "Music for your ears!",
-    "descZh": "悦耳的音乐！"
+    "descZh": "悦耳的音乐！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/kantele/kantele_e.xml",
+      "damage": 0,
+      "speedMin": 250,
+      "speedMax": 450,
+      "lifetime": 2
+    }
   },
   {
     "id": "KANTELE_G",
@@ -4778,10 +6874,18 @@
     "maxUses": "-1",
     "price": "10",
     "unlockFlag": "card_unlocked_kantele",
+    "castDelay": 15,
     "name": "Kantele - note G",
     "nameZh": "齐特琴 - 音符 G",
     "desc": "Music for your ears!",
-    "descZh": "悦耳的音乐！"
+    "descZh": "悦耳的音乐！",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/kantele/kantele_g.xml",
+      "damage": 0,
+      "speedMin": 250,
+      "speedMax": 450,
+      "lifetime": 2
+    }
   },
   {
     "id": "RANDOM_SPELL",
@@ -4882,6 +6986,8 @@
     "maxUses": "2",
     "price": "600",
     "unlockFlag": "card_unlocked_alchemy",
+    "castDelay": 100,
+    "rechargeTime": 100,
     "name": "Spells to nukes",
     "nameZh": "核弹置换术",
     "desc": "Transforms every projectile currently in the air into a nuke, not a good idea",
@@ -4895,6 +7001,8 @@
     "maxUses": "-1",
     "price": "400",
     "unlockFlag": "card_unlocked_alchemy",
+    "castDelay": 50,
+    "rechargeTime": 50,
     "name": "Spells to giga sawblades",
     "nameZh": "巨型锯刃置换术",
     "desc": "Transforms every projectile currently in the air into a giant sawblade",
@@ -4908,6 +7016,8 @@
     "maxUses": "10",
     "price": "400",
     "unlockFlag": "card_unlocked_alchemy",
+    "castDelay": 50,
+    "rechargeTime": 50,
     "name": "Spells to magic missiles",
     "nameZh": "魔法飞弹置换术",
     "desc": "Transforms every projectile currently in the air into a magic missile",
@@ -4921,6 +7031,8 @@
     "maxUses": "15",
     "price": "350",
     "unlockFlag": "card_unlocked_alchemy",
+    "castDelay": 40,
+    "rechargeTime": 40,
     "name": "Spells to death crosses",
     "nameZh": "死亡十字置换术",
     "desc": "Transforms every projectile currently in the air into a death cross",
@@ -4934,6 +7046,8 @@
     "maxUses": "10",
     "price": "500",
     "unlockFlag": "card_unlocked_alchemy",
+    "castDelay": 100,
+    "rechargeTime": 100,
     "name": "Spells to black holes",
     "nameZh": "黑洞置换术",
     "desc": "Transforms every projectile currently in the air into a black hole",
@@ -4947,6 +7061,8 @@
     "maxUses": "-1",
     "price": "600",
     "unlockFlag": "card_unlocked_alchemy",
+    "castDelay": 100,
+    "rechargeTime": 100,
     "name": "Spells to acid",
     "nameZh": "酸液置换术",
     "desc": "Transforms every projectile currently in the air into a pool of acid",
@@ -4960,6 +7076,8 @@
     "maxUses": "1",
     "price": "1000",
     "unlockFlag": "card_unlocked_everything",
+    "castDelay": 100,
+    "rechargeTime": 100,
     "name": "The end of everything",
     "nameZh": "万物之终结",
     "desc": "You're heavily advised not to cast this spell.",
@@ -4973,6 +7091,7 @@
     "maxUses": "7",
     "price": "100",
     "unlockFlag": "",
+    "castDelay": 80,
     "name": "Summon portal",
     "nameZh": "召唤传送门",
     "desc": "Summons a strange portal",
@@ -5025,6 +7144,7 @@
     "maxUses": "-1",
     "price": "260",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Chaos larpa",
     "nameZh": "混沌拉帕",
     "desc": "Makes a projectile cast copies of itself in random directions",
@@ -5038,6 +7158,7 @@
     "maxUses": "-1",
     "price": "290",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Downwards larpa",
     "nameZh": "下方向拉帕",
     "desc": "Makes a projectile cast copies of itself with a downwards trajectory",
@@ -5051,6 +7172,7 @@
     "maxUses": "-1",
     "price": "290",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Upwards larpa",
     "nameZh": "上方向拉帕",
     "desc": "Makes a projectile cast copies of itself with an upwards trajectory",
@@ -5064,6 +7186,7 @@
     "maxUses": "-1",
     "price": "300",
     "unlockFlag": "card_unlocked_alchemy",
+    "castDelay": 20,
     "name": "Copy trail",
     "nameZh": "复制轨迹",
     "desc": "Makes a projectile leave a trail of copies of itself",
@@ -5077,6 +7200,7 @@
     "maxUses": "30",
     "price": "150",
     "unlockFlag": "",
+    "castDelay": 15,
     "name": "Larpa Explosion",
     "nameZh": "拉帕爆炸",
     "desc": "A projectile will shoot out 8 copies of itself when it expires or hits the ground",
@@ -5090,6 +7214,7 @@
     "maxUses": "-1",
     "price": "200",
     "unlockFlag": "card_unlocked_duplicate",
+    "castDelay": 15,
     "name": "Alpha",
     "nameZh": "初始",
     "desc": "Casts a copy of the first spell in your wand",
@@ -5103,6 +7228,7 @@
     "maxUses": "-1",
     "price": "200",
     "unlockFlag": "card_unlocked_duplicate",
+    "castDelay": 15,
     "name": "Gamma",
     "nameZh": "伽马校正",
     "desc": "Casts a copy of the last spell in your wand",
@@ -5116,6 +7242,7 @@
     "maxUses": "-1",
     "price": "200",
     "unlockFlag": "card_unlocked_duplicate",
+    "castDelay": 35,
     "name": "Tau",
     "nameZh": "陶",
     "desc": "Copies the two following spells in the wand when cast",
@@ -5129,6 +7256,7 @@
     "maxUses": "-1",
     "price": "600",
     "unlockFlag": "card_unlocked_duplicate",
+    "castDelay": 50,
     "name": "Omega",
     "nameZh": "终结",
     "desc": "Casts copies of every spell in your wand",
@@ -5142,6 +7270,7 @@
     "maxUses": "-1",
     "price": "500",
     "unlockFlag": "card_unlocked_duplicate",
+    "castDelay": 50,
     "name": "Mu",
     "nameZh": "谬",
     "desc": "Every modifier-type spell in the current wand is applied to a projectile",
@@ -5155,6 +7284,7 @@
     "maxUses": "-1",
     "price": "500",
     "unlockFlag": "card_unlocked_duplicate",
+    "castDelay": 50,
     "name": "Phi",
     "nameZh": "斐",
     "desc": "Casts a copy of every projectile-type spell in the current wand",
@@ -5168,6 +7298,7 @@
     "maxUses": "-1",
     "price": "500",
     "unlockFlag": "card_unlocked_duplicate",
+    "castDelay": 30,
     "name": "Sigma",
     "nameZh": "西格玛",
     "desc": "Copies every static projectile -type spell in the wand when cast",
@@ -5194,6 +7325,11 @@
     "maxUses": "-1",
     "price": "200",
     "unlockFlag": "card_unlocked_musicbox",
+    "castDelay": 20,
+    "explosionRadius": -5,
+    "damageMods": {
+      "projectile": -0.2
+    },
     "name": "Divide by 2",
     "nameZh": "一分为二",
     "desc": "Casts the next spell twice, but with reduced damage",
@@ -5207,6 +7343,11 @@
     "maxUses": "-1",
     "price": "250",
     "unlockFlag": "card_unlocked_musicbox",
+    "castDelay": 35,
+    "explosionRadius": -10,
+    "damageMods": {
+      "projectile": -0.4
+    },
     "name": "Divide by 3",
     "nameZh": "一分为三",
     "desc": "Casts the next spell 3 times, but with reduced damage",
@@ -5220,6 +7361,11 @@
     "maxUses": "-1",
     "price": "300",
     "unlockFlag": "card_unlocked_musicbox",
+    "castDelay": 50,
+    "explosionRadius": -20,
+    "damageMods": {
+      "projectile": -0.6
+    },
     "name": "Divide by 4",
     "nameZh": "一分为四",
     "desc": "Casts the next spell 4 times, but with reduced damage",
@@ -5233,6 +7379,12 @@
     "maxUses": "5",
     "price": "400",
     "unlockFlag": "card_unlocked_divide",
+    "castDelay": 80,
+    "rechargeTime": 20,
+    "explosionRadius": -40,
+    "damageMods": {
+      "projectile": -1.5
+    },
     "name": "Divide by 10",
     "nameZh": "一分为十",
     "desc": "Casts the next spell 10 times, but with reduced damage",
@@ -5246,10 +7398,23 @@
     "maxUses": "2",
     "price": "300",
     "unlockFlag": "card_unlocked_rain",
+    "castDelay": 100,
+    "rechargeTime": 60,
     "name": "Meteorisade",
     "nameZh": "",
     "desc": "Alea iacta est",
-    "descZh": ""
+    "descZh": "",
+    "projectile": {
+      "file": "data/entities/projectiles/deck/meteor_rain_meteor.xml",
+      "damage": 0,
+      "speedMin": 300,
+      "speedMax": 400,
+      "lifetime": 120,
+      "explosionRadius": 45,
+      "damageByType": {
+        "fire": 2.25
+      }
+    }
   },
   {
     "id": "WORM_RAIN",
@@ -5259,6 +7424,8 @@
     "maxUses": "2",
     "price": "300",
     "unlockFlag": "card_unlocked_rain",
+    "castDelay": 100,
+    "rechargeTime": 60,
     "name": "Matosade",
     "nameZh": "",
     "desc": "Alea iacta est",
@@ -5272,6 +7439,7 @@
     "maxUses": "-1",
     "price": "120",
     "unlockFlag": "card_unlocked_mestari",
+    "rechargeTime": -25,
     "name": "Wand Refresh",
     "nameZh": "魔杖刷新",
     "desc": "Reloads the wand immediately",
@@ -5363,6 +7531,7 @@
     "maxUses": "-1",
     "price": "40",
     "unlockFlag": "card_unlocked_paint",
+    "castDelay": -8,
     "name": "Red Glimmer",
     "nameZh": "红色闪光",
     "desc": "Gives a projectile a red sparkly trail",
@@ -5376,6 +7545,7 @@
     "maxUses": "-1",
     "price": "40",
     "unlockFlag": "card_unlocked_paint",
+    "castDelay": -8,
     "name": "Orange Glimmer",
     "nameZh": "橙色闪光",
     "desc": "Gives a projectile a orange sparkly trail",
@@ -5389,6 +7559,7 @@
     "maxUses": "-1",
     "price": "40",
     "unlockFlag": "card_unlocked_paint",
+    "castDelay": -8,
     "name": "Green Glimmer",
     "nameZh": "绿色闪光",
     "desc": "Gives a projectile a green sparkly trail",
@@ -5402,6 +7573,7 @@
     "maxUses": "-1",
     "price": "40",
     "unlockFlag": "card_unlocked_paint",
+    "castDelay": -8,
     "name": "Yellow Glimmer",
     "nameZh": "黄色闪光",
     "desc": "Gives a projectile a yellow sparkly trail",
@@ -5415,6 +7587,7 @@
     "maxUses": "-1",
     "price": "40",
     "unlockFlag": "card_unlocked_paint",
+    "castDelay": -8,
     "name": "Purple Glimmer",
     "nameZh": "紫色闪光",
     "desc": "Gives a projectile a purple sparkly trail",
@@ -5428,6 +7601,7 @@
     "maxUses": "-1",
     "price": "40",
     "unlockFlag": "card_unlocked_paint",
+    "castDelay": -8,
     "name": "Blue Glimmer",
     "nameZh": "蓝色闪光",
     "desc": "Gives a projectile a blue sparkly trail",
@@ -5441,6 +7615,7 @@
     "maxUses": "-1",
     "price": "40",
     "unlockFlag": "card_unlocked_paint",
+    "castDelay": -8,
     "name": "Rainbow Glimmer",
     "nameZh": "彩虹闪光",
     "desc": "Gives a projectile a randomly colored sparkly trail",
@@ -5454,6 +7629,7 @@
     "maxUses": "-1",
     "price": "40",
     "unlockFlag": "card_unlocked_paint",
+    "castDelay": -8,
     "name": "Invisible Spell",
     "nameZh": "隐形法术",
     "desc": "Turns a projectile invisible",
@@ -5480,6 +7656,8 @@
     "maxUses": "25",
     "price": "10",
     "unlockFlag": "card_unlocked_cessation",
+    "castDelay": 600,
+    "rechargeTime": 600,
     "name": "Cessation",
     "nameZh": "不复存在",
     "desc": "The caster enters the realm of no realm",

@@ -833,6 +833,23 @@ SetWandSprite( entity_id, ability_comp, wand.file,
 
 ---
 
+## 18. 详情增强:法术/天赋/效果/物品/材料的富详情 tooltip(2026-07-22,代码完成)
+
+**需求**:图标化展示已就绪,但详情不足 —— 法术缺施法延迟/充能/散射/暴击/伤害等数值,天赋缺叠加规则等,效果缺描述与默认时长,物品缺描述。优先从游戏数据提取,wiki 仅作抽查校验(用户确认:法术函数体数值采用正则启发式 + 手工覆盖表;范围 = 四类 + 材料简要属性)。
+
+**单位约定**(对照游戏文件验证):字典 JSON 存游戏内部单位,换算只在前端 `ui/format.js` 一处 —— 帧 ÷60 = 秒;伤害内部值 ×25 = 显示值(light_bullet.xml damage=0.12 → 游戏显示 3)。
+
+- **工具**:新 `tools/lib/gamedata.js`(openWak + `<Base>` 展开从 build-items.js 抽出共享,展开链改 async 以兼容镜像下载);三个构建脚本的 WAK_GUESSES 补本机 `E:/games/Noita/data/data.wak`;新 `fetchOptional`(单文件缺失告警跳过,构建降级不中止)。
+- **法术**(build-dict.js):action() 体正则启发式提取自引用增量(`c.fire_rate_wait`/`current_reload_time`(全局,非 c.reload_time)/spread/crit/`damage_*_add`/explosion_radius/bounces/lifetime_add/knockback/速度加与乘),同名多匹配求和(乘法求积);速度/爆炸半径钳制模板先剔除;「匹配位于首个 `if` 之后」或「存在未消费的数值赋值行」→ `statsApprox` 标记 + 构建日志清单。弹射物基础数值:`related_projectiles`(缺失回退函数体首个 `add_projectile*`)→ wak 读 XML → Base 展开 → ProjectileComponent(damage/speed/lifetime/damage_by_type)+ config_explosion(damage/radius),产出 `projectile{}`;186/219 命中(caster_cast.xml 游戏数据本身缺失)。新 `tools/spell-overrides.js` 人工覆盖表(26 → 4:挖掘/材料族充能 -10、巨型黑白洞、绝对赋值类、复制/汇集族「恢复现场」误报等;MONEY_MAGIC/BLOOD_TO_POWER/DAMAGE_RANDOM/DAMAGE_FOREVER 刻意保留 statsApprox = 动态数值)。
+- **天赋**:补静态字段 stackableMax/maxInPool/stackableRare/oneOff/usableByEnemies/doNotRemove/removeOtherPerks(稀疏输出)。
+- **效果**:新合并式构建段 —— status_list.lua(英文名/中英描述/有害/防火)+ effect_entity XML 的 `GameEffectComponent`(effect 属性桥接状态污渍 id ↔ GAME_EFFECT 枚举;frames → durationFrames,88 条补 72/含时长 70)。**只写生成键**(name/desc/descZh/durationFrames/protectsFromFire/isHarmful),策展字段(nameZh/group/danger/recommended/selectable/icon)永不覆写、不删不增条目、保持每条一行格式;测试断言策展字段存活。
+- **物品/材料**:items.json 补英文 `desc`;materials.json 补 burnable/onFire/statusEffects(接触附着效果)/hp/dangerFire/dangerRadioactive/dangerPoison。注:可倒 `water` 本身不带 status_effects(WET 污渍硬编码),water_static/blood/lava 等才有。
+- **前端**:四处复制的 tooltip 面板 CSS 收敛为全局 `styles/game-tooltip.css`(`.game-tt`+`.tt-*`,组件差异留 scoped 覆盖);新 `ui/format.js`(唯一换算点);新 `shared/SpellTooltip.vue`(数值行按字段稀疏渲染,原版统计小图标),SlotStrip 与 SpellPickerModal(行悬浮,placement=right)共用;EffectPerkWall 天赋补叠加/特性行、效果补描述/默认时长/有害/防火(已保存行同样接入字典);ItemSlotStrip/ItemPickerModal 补描述(目录按 itemName 关联)并把选择器原生 title 升级为同款面板;PotionEditModal 材料选项与详情行附简要属性标记(接触效果解析为效果显示名)。i18n 复用既有 `dmg.*` 伤害类型键族(`spell.tt.dmg` 参数化),新增 spell.tt/perk.tt/eff.tt/mat.* 键(zh/en)。
+- **测试**:新 test/dicts.test.js(+6 项共 558 全绿):火花弹全字段(castDelay=3/spread=-1/crit=5/damage=0.12/速度/存在时间)、沉重一击(modifier 无 projectile)、覆盖表生效(DIGGER=-10 且无近似标记)、动态法术保留近似标记、全量 schema 扫描(有限数/伤害类型已知)、effects 策展字段存活 + WET 生成字段、材料/物品字段。lint / build 绿。
+- **维护流程**(写入 build-dict.js 头注释):游戏更新重跑后看日志「近似值法术」清单 → 复核补 spell-overrides.js → 再跑;wiki 抽查样本 LIGHT_BULLET/BOMB/DIGGER/HEAVY_SHOT/SPEED/BOUNCE 等(本次网络受限未在线抽查,数值已对照游戏文件与既知 wiki 值核实)。
+
+---
+
 ## 附录 A：法术卡实体模板（实测提取，`{}` 为参数）
 
 ```xml

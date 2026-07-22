@@ -10,6 +10,7 @@
 // 搬动 DOM 后按锚点区间卸载会漏删,残留幽灵格;详见 SlotStrip.vue 顶部注释。
 import { useSlotDrag } from '@/composables/useSlotDrag'
 import { dictName, getLang } from '@/locales'
+import { useDictStore } from '@/stores/dict'
 import { useLogStore } from '@/stores/log'
 
 const props = defineProps({
@@ -20,6 +21,18 @@ const emit = defineEmits(['pick', 'edit', 'move'])
 
 const { t } = useI18n()
 const logStore = useLogStore()
+const dict = useDictStore()
+
+// 道具描述来自物品目录(items.json 的 desc/descZh),按 itemName 关联
+onMounted(() => dict.ensureItemsCatalog())
+const catalogByItemName = computed(() =>
+  new Map((dict.itemsCatalog ?? []).filter(x => x.itemName).map(x => [x.itemName, x])))
+function descOf(it) {
+  const d = catalogByItemName.value.get(it.itemName)
+  if (!d)
+    return ''
+  return getLang() === 'zh' ? (d.descZh || d.desc) : (d.desc || d.descZh)
+}
 
 const stripEl = ref(null)
 const renderKey = ref(0) // 拖拽后 DOM 由 Sortable 动过,bump 强制按状态重建
@@ -107,12 +120,15 @@ useSlotDrag(stripEl, (fromIdx, toIdx) => {
             <span v-if="i >= capacity" class="slot-dup">!</span>
           </div>
         </template>
-        <div class="item-tt">
+        <div class="game-tt">
           <div class="tt-head">
             <img v-if="iconOf(it)" :src="iconOf(it)" alt="" class="tt-icon">
             <span class="tt-name">{{ nameOf(it) }}</span>
           </div>
-          <div class="tt-kind">
+          <div v-if="descOf(it)" class="tt-desc">
+            {{ descOf(it) }}
+          </div>
+          <div class="tt-kindline">
             {{ kindLabel(it.kind) }}
           </div>
           <template v-if="it.isContainer">
@@ -195,28 +211,7 @@ useSlotDrag(stripEl, (fromIdx, toIdx) => {
   text-shadow: 1px 1px 0 #000;
 }
 
-/* ---- 游戏风格 tooltip(与 SlotStrip 的 .spell-tt 同款面板) ---- */
-.item-tt {
-  background: rgba(14, 12, 18, 0.96);
-  border: 2px solid #b8b4c0;
-  outline: 2px solid #17131f;
-  padding: 10px 12px;
-  min-width: 200px;
-  max-width: 300px;
-  color: #e8e4da;
-  font-size: 12px;
-  line-height: 1.5;
-}
-.tt-head { display: flex; align-items: center; gap: 8px; }
-.tt-icon { width: 24px; height: 24px; image-rendering: pixelated; }
-.tt-name { font-size: 14px; font-weight: 600; color: #fff; }
-.tt-kind { color: #b5aec6; margin-top: 4px; }
-.tt-cap { color: #9e97ad; margin-top: 6px; }
-.tt-mat { display: flex; justify-content: space-between; gap: 12px; }
-.tt-mat span:first-child { color: #8faef5; }
-.tt-count { color: #ffe9a8; }
-.tt-empty { color: #6d6680; margin-top: 2px; }
-.tt-hint { margin-top: 6px; color: #9e97ad; }
-.tt-warn { margin-top: 6px; color: #ff8a7e; }
-.tt-id { margin-top: 6px; color: #6d6680; font-size: 11px; }
+/* tooltip 面板样式为全局 .game-tt(styles/game-tooltip.css);此处仅保留
+   道具专属的类别行(与 .tt-kind 徽标语义不同,故独立命名) */
+.tt-kindline { color: #b5aec6; margin-top: 4px; }
 </style>

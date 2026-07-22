@@ -139,7 +139,7 @@ save.onReload(discardEdits => load(!discardEdits))
             <span v-if="isWandDirty(i)" class="wand-dirty">*</span>
           </div>
         </template>
-        <div class="wand-tt">
+        <div class="game-tt wand-tt">
           <div class="tt-head">
             <img v-if="wandSprite(i)" :src="wandSprite(i)" alt="" class="tt-wand-icon">
             <span class="tt-name">{{ wandName(i) }}</span>
@@ -254,21 +254,10 @@ save.onReload(discardEdits => load(!discardEdits))
   text-shadow: 1px 1px 0 #000;
 }
 
-/* ---- 游戏风格 tooltip(与法术槽同款深色面板) ---- */
-.wand-tt {
-  background: rgba(14, 12, 18, 0.96);
-  border: 2px solid #b8b4c0;
-  outline: 2px solid #17131f;
-  padding: 10px 12px;
-  min-width: 220px;
-  max-width: 320px;
-  color: #e8e4da;
-  font-size: 12px;
-  line-height: 1.5;
-}
-.tt-head { display: flex; align-items: center; gap: 8px; }
+/* tooltip 面板样式为全局 .game-tt(styles/game-tooltip.css);此处仅保留
+   法杖面板的差异化规则:更宽的面板、两栏参数、法杖横图、乱序徽标等 */
+.wand-tt { min-width: 220px; max-width: 320px; }
 .tt-wand-icon { height: 22px; max-width: 60px; object-fit: contain; image-rendering: pixelated; }
-.tt-name { font-size: 14px; font-weight: 600; color: #fff; }
 .tt-shuffle {
   margin-left: auto;
   font-size: 11px;
@@ -277,9 +266,8 @@ save.onReload(discardEdits => load(!discardEdits))
   color: #8faef5;
 }
 .tt-shuffle.on { border-color: #7a6236; color: #d8a24a; }
-.tt-stats { margin-top: 6px; column-count: 2; column-gap: 16px; }
-.tt-row { display: flex; align-items: center; gap: 8px; line-height: 20px; break-inside: avoid; }
-.tt-lbl { flex: none; width: 78px; color: #9e97ad; }
+.game-tt .tt-stats { column-count: 2; column-gap: 16px; }
+.game-tt .tt-lbl { width: 78px; }
 .tt-spells {
   margin-top: 8px;
   display: flex;
@@ -289,5 +277,4 @@ save.onReload(discardEdits => load(!discardEdits))
 .tt-spells img { width: 20px; height: 20px; image-rendering: pixelated; }
 .tt-spells img.ac { outline: 1px solid #d8a24a; }
 .tt-dirty { margin-top: 6px; color: #d8a24a; }
-.tt-id { margin-top: 6px; color: #6d6680; font-size: 11px; }
 </style>

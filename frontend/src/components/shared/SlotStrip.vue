@@ -11,8 +11,8 @@
 // 锚点(生产环境为空文本节点)留在原位而 Sortable 把格子移走,按锚点区间
 // 卸载就会漏删,残留幽灵格(表现:拖到末格后多出一格、法术看似被复制)。
 import { useSlotDrag } from '@/composables/useSlotDrag'
-import { dictName, getLang } from '@/locales'
 import { useDictStore } from '@/stores/dict'
+import SpellTooltip from './SpellTooltip.vue'
 
 const props = defineProps({
   capacity: { type: Number, default: 0 },
@@ -58,24 +58,6 @@ function bgUrl(spell) {
 function spellIconUrl(spell) {
   return iconUrl(dictOf(spell)?.sprite)
 }
-function nameOf(spell) {
-  const d = dictOf(spell)
-  return dictName({ ...spell, id: spell.actionId, name: d?.name }) || spell.actionId
-}
-function descOf(spell) {
-  const d = dictOf(spell)
-  if (!d)
-    return ''
-  return getLang() === 'zh' ? (d.descZh || d.desc) : (d.desc || d.descZh)
-}
-function typeLabel(spell) {
-  const type = dictOf(spell)?.type
-  return type ? t(`spelltype.${type}`) : '?'
-}
-function usesLabel(spell) {
-  return spell.usesRemaining === '-1' ? t('wand.tt.unlimited') : spell.usesRemaining
-}
-
 function onCellClick(spell, displaySlot) {
   if (!spell) {
     emit('pick', displaySlot)
@@ -120,41 +102,7 @@ useSlotDrag(stripEl, (fromIdx, toIdx) => {
             <span v-if="spell.usesRemaining !== '-1'" class="slot-uses">{{ spell.usesRemaining }}</span>
           </div>
         </template>
-        <div class="spell-tt">
-          <div class="tt-head">
-            <img v-if="spellIconUrl(spell)" :src="spellIconUrl(spell)" alt="" class="tt-icon">
-            <span class="tt-name">{{ nameOf(spell) }}</span>
-          </div>
-          <div v-if="descOf(spell)" class="tt-desc">
-            {{ descOf(spell) }}
-          </div>
-          <div class="tt-stats">
-            <div class="tt-row">
-              <span class="tt-lbl"><img src="/icons/inventory/icon_action_type.png" alt="">{{ t('wand.tt.type') }}</span>
-              <span>{{ typeLabel(spell) }}</span>
-            </div>
-            <div class="tt-row">
-              <span class="tt-lbl"><img src="/icons/inventory/icon_action_max_uses.png" alt="">{{ t('wand.tt.uses') }}</span>
-              <span>{{ usesLabel(spell) }}<template v-if="dictOf(spell) && dictOf(spell).maxUses !== '-1'">
-                / {{ dictOf(spell).maxUses }}</template></span>
-            </div>
-            <div class="tt-row">
-              <span class="tt-lbl"><img src="/icons/inventory/icon_mana_drain.png" alt="">{{ t('wand.tt.mana') }}</span>
-              <span class="tt-mana">{{ dictOf(spell)?.mana ?? '?' }}</span>
-            </div>
-            <div v-if="dictOf(spell)?.price" class="tt-row">
-              <span class="tt-lbl"><span class="tt-lbl-pad" />{{ t('wand.tt.price') }}</span>
-              <span class="tt-gold">{{ dictOf(spell).price }}</span>
-            </div>
-            <div v-if="spell.alwaysCast" class="tt-row tt-ac">
-              <span class="tt-lbl"><img src="/icons/inventory/icon_gun_permanent_actions.png" alt=""></span>
-              <span>{{ t('wand.tt.ac') }}</span>
-            </div>
-          </div>
-          <div class="tt-id">
-            {{ spell.actionId }} · {{ t('wand.slotLabel', { slot: spell.slot }) }}
-          </div>
-        </div>
+        <SpellTooltip :entry="dictOf(spell)" :spell="spell" />
       </NPopover>
       <template v-else>
         +
@@ -212,37 +160,5 @@ useSlotDrag(stripEl, (fromIdx, toIdx) => {
   color: #ffe9a8;
   text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000;
 }
-
-/* ---- 游戏风格 tooltip(仿原版深色面板 + 浅色像素描边) ---- */
-.spell-tt {
-  background: rgba(14, 12, 18, 0.96);
-  border: 2px solid #b8b4c0;
-  outline: 2px solid #17131f;
-  padding: 10px 12px;
-  min-width: 200px;
-  max-width: 300px;
-  color: #e8e4da;
-  font-size: 12px;
-  line-height: 1.5;
-}
-.tt-head { display: flex; align-items: center; gap: 8px; }
-.tt-icon { width: 24px; height: 24px; image-rendering: pixelated; }
-.tt-name { font-size: 14px; font-weight: 600; color: #fff; }
-.tt-desc { color: #b5aec6; margin: 6px 0 2px; }
-.tt-stats { margin-top: 6px; }
-.tt-row { display: flex; align-items: center; gap: 8px; line-height: 20px; }
-.tt-lbl {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  width: 92px;
-  flex: none;
-  color: #9e97ad;
-}
-.tt-lbl img { width: 14px; height: 14px; image-rendering: pixelated; }
-.tt-lbl-pad { width: 14px; height: 14px; }
-.tt-mana { color: #8faef5; }
-.tt-gold { color: #ffd75e; }
-.tt-ac { color: #d8a24a; }
-.tt-id { margin-top: 6px; color: #6d6680; font-size: 11px; }
+/* tooltip 面板样式为全局 .game-tt(styles/game-tooltip.css),内容体见 SpellTooltip.vue */
 </style>

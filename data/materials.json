@@ -8,6 +8,7 @@
   {
     "id": "fire",
     "kind": "fire",
+    "onFire": true,
     "name": "fire",
     "nameZh": "火焰"
   },
@@ -26,36 +27,44 @@
   {
     "id": "flame",
     "kind": "fire",
+    "onFire": true,
     "name": "fire",
     "nameZh": "火焰"
   },
   {
     "id": "sand_static",
     "kind": "powder",
+    "hp": 19000,
     "name": "ground",
     "nameZh": "地面"
   },
   {
     "id": "nest_static",
     "kind": "powder",
+    "burnable": true,
+    "hp": 5000,
     "name": "nest",
     "nameZh": "巢穴"
   },
   {
     "id": "bluefungi_static",
     "kind": "powder",
+    "burnable": true,
+    "hp": 20,
     "name": "blue fungus",
     "nameZh": "蓝色真菌"
   },
   {
     "id": "rock_static",
     "kind": "powder",
+    "hp": 100000,
     "name": "rock",
     "nameZh": "岩石"
   },
   {
     "id": "water_static",
     "kind": "static",
+    "statusEffects": "WET",
     "name": "Water",
     "nameZh": "水"
   },
@@ -74,144 +83,169 @@
   {
     "id": "spore_pod_stalk",
     "kind": "static",
+    "burnable": true,
     "name": "blue fungus",
     "nameZh": "蓝色真菌"
   },
   {
     "id": "lavarock_static",
     "kind": "powder",
+    "hp": 90000,
     "name": "volcanic rock",
     "nameZh": "火山岩"
   },
   {
     "id": "static_magic_material",
     "kind": "powder",
+    "hp": 90000,
     "name": "australium",
     "nameZh": "澳元素"
   },
   {
     "id": "meteorite_static",
     "kind": "powder",
+    "hp": 10000,
     "name": "meteorite",
     "nameZh": "陨石"
   },
   {
     "id": "templerock_static",
     "kind": "powder",
+    "hp": 10000,
     "name": "brickwork",
     "nameZh": "砖块"
   },
   {
     "id": "steel_static",
     "kind": "powder",
+    "hp": 130000,
     "name": "steel",
     "nameZh": "钢"
   },
   {
     "id": "rock_static_glow",
     "kind": "powder",
+    "hp": 60000,
     "name": "glowing matter",
     "nameZh": "发光物质"
   },
   {
     "id": "snow_static",
     "kind": "powder",
+    "hp": 1000,
     "name": "packed snow",
     "nameZh": "压实的雪"
   },
   {
     "id": "ice_static",
     "kind": "powder",
+    "hp": 30000,
     "name": "ice",
     "nameZh": "寒冰"
   },
   {
     "id": "ice_acid_static",
     "kind": "powder",
+    "hp": 30000,
     "name": "frozen acid",
     "nameZh": "冻结的酸液"
   },
   {
     "id": "ice_cold_static",
     "kind": "powder",
+    "hp": 30000,
     "name": "ice",
     "nameZh": "寒冰"
   },
   {
     "id": "ice_radioactive_static",
     "kind": "powder",
+    "hp": 30000,
     "name": "toxic ice",
     "nameZh": "毒冰"
   },
   {
     "id": "ice_poison_static",
     "kind": "powder",
+    "hp": 30000,
     "name": "Frozen poison",
     "nameZh": "冻结的毒液"
   },
   {
     "id": "ice_meteor_static",
     "kind": "powder",
+    "hp": 30000,
     "name": "ice",
     "nameZh": "寒冰"
   },
   {
     "id": "tubematerial",
     "kind": "powder",
+    "hp": 30000,
     "name": "neon tube",
     "nameZh": "霓虹灯"
   },
   {
     "id": "glass_static",
     "kind": "powder",
+    "hp": 30000,
     "name": "glass",
     "nameZh": "玻璃"
   },
   {
     "id": "waterrock",
     "kind": "solid",
+    "hp": 10000,
     "name": "rock",
     "nameZh": "岩石"
   },
   {
     "id": "ice_glass",
     "kind": "solid",
+    "hp": 10000,
     "name": "ice",
     "nameZh": "寒冰"
   },
   {
     "id": "ice_glass_b2",
     "kind": "solid",
+    "hp": 10000,
     "name": "ice",
     "nameZh": "寒冰"
   },
   {
     "id": "glass_brittle",
     "kind": "solid",
+    "hp": 10000,
     "name": "brittle glass",
     "nameZh": "易碎玻璃"
   },
   {
     "id": "snowrock_static",
     "kind": "powder",
+    "hp": 70000,
     "name": "frozen rock",
     "nameZh": "冻结岩石"
   },
   {
     "id": "concrete_static",
     "kind": "powder",
+    "hp": 30000,
     "name": "concrete",
     "nameZh": "混凝土"
   },
   {
     "id": "wood_static",
     "kind": "powder",
+    "burnable": true,
+    "hp": 2000,
     "name": "wood",
     "nameZh": "木材"
   },
   {
     "id": "cheese_static",
     "kind": "powder",
+    "hp": 1000,
     "name": "cheese",
     "nameZh": "奶酪"
   },
@@ -248,12 +282,14 @@
   {
     "id": "acid_gas",
     "kind": "gas",
+    "burnable": true,
     "name": "flammable gas",
     "nameZh": "可燃气体"
   },
   {
     "id": "acid_gas_static",
     "kind": "gas",
+    "burnable": true,
     "name": "flammable gas",
     "nameZh": "可燃气体"
   },
@@ -290,6 +326,7 @@
   {
     "id": "magic_gas_hp_regeneration",
     "kind": "gas",
+    "statusEffects": "HP_REGENERATION",
     "name": "Healium",
     "nameZh": "治疗基质"
   },
@@ -302,6 +339,7 @@
   {
     "id": "magic_gas_worm_blood",
     "kind": "gas",
+    "statusEffects": "NIGHTVISION",
     "name": "worm gas",
     "nameZh": "蠕虫气体"
   },
@@ -314,24 +352,28 @@
   {
     "id": "magic_gas_polymorph",
     "kind": "gas",
+    "statusEffects": "POLYMORPH",
     "name": "polymorphine cloud",
     "nameZh": "变形云"
   },
   {
     "id": "magic_gas_weakness",
     "kind": "gas",
+    "statusEffects": "WEAKNESS",
     "name": "diminution cloud",
     "nameZh": "缩小云"
   },
   {
     "id": "magic_gas_teleport",
     "kind": "gas",
+    "statusEffects": "TELEPORTATION",
     "name": "teleportatium cloud",
     "nameZh": "传送云"
   },
   {
     "id": "magic_gas_fungus",
     "kind": "gas",
+    "statusEffects": "TRIP",
     "name": "funky cloud",
     "nameZh": "迷幻云"
   },
@@ -344,24 +386,28 @@
   {
     "id": "water_temp",
     "kind": "liquid",
+    "statusEffects": "WET",
     "name": "Water",
     "nameZh": "水"
   },
   {
     "id": "water_ice",
     "kind": "liquid",
+    "statusEffects": "WET",
     "name": "chilly water",
     "nameZh": "冰水"
   },
   {
     "id": "water_swamp",
     "kind": "liquid",
+    "statusEffects": "WET",
     "name": "swamp",
     "nameZh": "沼泽"
   },
   {
     "id": "oil",
     "kind": "liquid",
+    "burnable": true,
     "name": "oil",
     "nameZh": "油"
   },
@@ -404,6 +450,8 @@
   {
     "id": "alcohol_gas",
     "kind": "gas",
+    "burnable": true,
+    "statusEffects": "ALCOHOLIC",
     "name": "Whiskey fumes",
     "nameZh": "威士忌烟雾"
   },
@@ -416,12 +464,14 @@
   {
     "id": "material_confusion",
     "kind": "liquid",
+    "statusEffects": "CONFUSION",
     "name": "flummoxium",
     "nameZh": "除草基质"
   },
   {
     "id": "material_darkness",
     "kind": "liquid",
+    "statusEffects": "POISONED",
     "name": "Ominous liquid",
     "nameZh": "不祥液体"
   },
@@ -434,18 +484,21 @@
   {
     "id": "magic_liquid_weakness",
     "kind": "liquid",
+    "statusEffects": "WEAKNESS",
     "name": "diminution",
     "nameZh": "缩小"
   },
   {
     "id": "magic_liquid_movement_faster",
     "kind": "liquid",
+    "statusEffects": "MOVEMENT_FASTER_2X",
     "name": "acceleratium",
     "nameZh": "加速基质"
   },
   {
     "id": "magic_liquid_faster_levitation",
     "kind": "liquid",
+    "statusEffects": "FASTER_LEVITATION",
     "name": "levitatium",
     "nameZh": "漂浮基质"
   },
@@ -458,126 +511,150 @@
   {
     "id": "magic_liquid_worm_attractor",
     "kind": "liquid",
+    "statusEffects": "WORM_ATTRACTOR",
     "name": "worm pheromone",
     "nameZh": "蠕虫费洛蒙"
   },
   {
     "id": "magic_liquid_protection_all",
     "kind": "liquid",
+    "statusEffects": "PROTECTION_ALL",
     "name": "ambrosia",
     "nameZh": "灵丹妙药"
   },
   {
     "id": "magic_liquid_mana_regeneration",
     "kind": "liquid",
+    "statusEffects": "MANA_REGENERATION",
     "name": "concentrated mana",
     "nameZh": "汇聚法力"
   },
   {
     "id": "magic_liquid_unstable_teleportation",
     "kind": "liquid",
+    "burnable": true,
+    "statusEffects": "UNSTABLE_TELEPORTATION",
     "name": "unstable teleportatium",
     "nameZh": "不稳传送基质"
   },
   {
     "id": "magic_liquid_teleportation",
     "kind": "liquid",
+    "burnable": true,
+    "statusEffects": "TELEPORTATION",
     "name": "teleportatium",
     "nameZh": "传送基质"
   },
   {
     "id": "magic_liquid_hp_regeneration",
     "kind": "liquid",
+    "statusEffects": "HP_REGENERATION",
     "name": "healthium",
     "nameZh": "生命基质"
   },
   {
     "id": "magic_liquid_hp_regeneration_unstable",
     "kind": "liquid",
+    "statusEffects": "HP_REGENERATION",
     "name": "lively concoction",
     "nameZh": "活泼混合物"
   },
   {
     "id": "magic_liquid_polymorph",
     "kind": "liquid",
+    "statusEffects": "POLYMORPH",
     "name": "polymorphine",
     "nameZh": "变形魔药"
   },
   {
     "id": "magic_liquid_random_polymorph",
     "kind": "liquid",
+    "statusEffects": "POLYMORPH_RANDOM",
     "name": "chaotic polymorphine",
     "nameZh": "混乱变形魔药"
   },
   {
     "id": "magic_liquid_unstable_polymorph",
     "kind": "liquid",
+    "statusEffects": "POLYMORPH_UNSTABLE",
     "name": "unstable polymorphine",
     "nameZh": "不稳变形魔药"
   },
   {
     "id": "magic_liquid_berserk",
     "kind": "liquid",
+    "statusEffects": "BERSERK",
     "name": "berserkium",
     "nameZh": "狂暴基质"
   },
   {
     "id": "magic_liquid_charm",
     "kind": "liquid",
+    "statusEffects": "CHARM",
     "name": "pheromone",
     "nameZh": "费洛蒙"
   },
   {
     "id": "magic_liquid_invisibility",
     "kind": "liquid",
+    "statusEffects": "INVISIBILITY",
     "name": "invisiblium",
     "nameZh": "隐形魔药"
   },
   {
     "id": "cloud_radioactive",
     "kind": "liquid",
+    "dangerRadioactive": true,
     "name": "toxic mist",
     "nameZh": "毒雾"
   },
   {
     "id": "cloud_blood",
     "kind": "liquid",
+    "statusEffects": "BLOODY",
     "name": "blood mist",
     "nameZh": "血雾"
   },
   {
     "id": "cloud_slime",
     "kind": "liquid",
+    "statusEffects": "SLIMY",
     "name": "slime mist",
     "nameZh": "粘液雾"
   },
   {
     "id": "swamp",
     "kind": "liquid",
+    "statusEffects": "WET",
     "name": "swamp",
     "nameZh": "沼泽"
   },
   {
     "id": "mud",
     "kind": "powder",
+    "statusEffects": "WET",
+    "hp": 2000,
     "name": "mud",
     "nameZh": "淤泥"
   },
   {
     "id": "blood",
     "kind": "liquid",
+    "statusEffects": "BLOODY",
     "name": "blood",
     "nameZh": "血液"
   },
   {
     "id": "blood_fading",
     "kind": "liquid",
+    "statusEffects": "BLOODY",
     "name": "blood",
     "nameZh": "血液"
   },
   {
     "id": "blood_fungi",
     "kind": "liquid",
+    "statusEffects": "SLIMY",
     "name": "fungus blood",
     "nameZh": "真菌血液"
   },
@@ -590,6 +667,8 @@
   {
     "id": "porridge",
     "kind": "liquid",
+    "burnable": true,
+    "hp": 1000,
     "name": "Hearty Porridge",
     "nameZh": "满足之粥"
   },
@@ -602,12 +681,14 @@
   {
     "id": "radioactive_liquid",
     "kind": "liquid",
+    "dangerRadioactive": true,
     "name": "toxic sludge",
     "nameZh": "毒性淤泥"
   },
   {
     "id": "radioactive_liquid_fading",
     "kind": "liquid",
+    "dangerRadioactive": true,
     "name": "toxic sludge",
     "nameZh": "毒性淤泥"
   },
@@ -620,48 +701,79 @@
   {
     "id": "gold_molten",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "statusEffects": "ON_FIRE",
+    "dangerFire": true,
     "name": "molten gold",
     "nameZh": "熔化金液"
   },
   {
     "id": "wax_molten",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "dangerFire": true,
     "name": "molten wax",
     "nameZh": "熔化蜡油"
   },
   {
     "id": "silver_molten",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "statusEffects": "ON_FIRE",
+    "dangerFire": true,
     "name": "molten silver",
     "nameZh": "熔化银汁"
   },
   {
     "id": "copper_molten",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "statusEffects": "ON_FIRE",
+    "dangerFire": true,
     "name": "molten copper",
     "nameZh": "熔化铜水"
   },
   {
     "id": "brass_molten",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "statusEffects": "ON_FIRE",
+    "dangerFire": true,
     "name": "molten brass",
     "nameZh": "熔化黄铜水"
   },
   {
     "id": "glass_molten",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "statusEffects": "ON_FIRE",
+    "dangerFire": true,
     "name": "molten glass",
     "nameZh": "熔融玻璃"
   },
   {
     "id": "glass_broken_molten",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "statusEffects": "ON_FIRE",
+    "dangerFire": true,
     "name": "molten glass",
     "nameZh": "熔融玻璃"
   },
   {
     "id": "steel_molten",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "statusEffects": "ON_FIRE",
+    "dangerFire": true,
     "name": "molten metal",
     "nameZh": "熔化金属"
   },
@@ -674,36 +786,42 @@
   {
     "id": "cement",
     "kind": "liquid",
+    "hp": 1000,
     "name": "cement",
     "nameZh": "水泥"
   },
   {
     "id": "concrete_sand",
     "kind": "powder",
+    "hp": 15000,
     "name": "concrete",
     "nameZh": "混凝土"
   },
   {
     "id": "sand",
     "kind": "powder",
+    "hp": 800,
     "name": "sand",
     "nameZh": "砂"
   },
   {
     "id": "bone",
     "kind": "powder",
+    "hp": 10000,
     "name": "bone dust",
     "nameZh": "骨灰"
   },
   {
     "id": "soil",
     "kind": "powder",
+    "hp": 2000,
     "name": "soil",
     "nameZh": "泥土"
   },
   {
     "id": "sandstone",
     "kind": "powder",
+    "hp": 9000,
     "name": "sandstone",
     "nameZh": "砂岩"
   },
@@ -722,6 +840,8 @@
   {
     "id": "glue",
     "kind": "powder",
+    "burnable": true,
+    "hp": 100,
     "name": "Glue",
     "nameZh": "粘胶"
   },
@@ -734,330 +854,423 @@
   {
     "id": "slush",
     "kind": "liquid",
+    "statusEffects": "WET",
     "name": "Slush",
     "nameZh": "烂泥"
   },
   {
     "id": "vomit",
     "kind": "liquid",
+    "statusEffects": "SLIMY",
     "name": "Vomit",
     "nameZh": "呕吐物"
   },
   {
     "id": "explosion_dirt",
     "kind": "powder",
+    "hp": 1000,
     "name": "dirt",
     "nameZh": "尘土"
   },
   {
     "id": "vine",
     "kind": "powder",
+    "burnable": true,
+    "hp": 10,
     "name": "vine",
     "nameZh": "藤蔓"
   },
   {
     "id": "root",
     "kind": "powder",
+    "burnable": true,
+    "hp": 5,
     "name": "vine",
     "nameZh": "藤蔓"
   },
   {
     "id": "snow",
     "kind": "powder",
+    "hp": 1000,
     "name": "snow",
     "nameZh": "雪"
   },
   {
     "id": "snow_sticky",
     "kind": "powder",
+    "hp": 1000,
     "name": "snow",
     "nameZh": "雪"
   },
   {
     "id": "rotten_meat",
     "kind": "powder",
+    "burnable": true,
+    "hp": 5000,
     "name": "rotten meat",
     "nameZh": "腐肉"
   },
   {
     "id": "meat_slime_sand",
     "kind": "powder",
+    "burnable": true,
+    "hp": 5000,
     "name": "slimy meat",
     "nameZh": "发黏的肉"
   },
   {
     "id": "rotten_meat_radioactive",
     "kind": "powder",
+    "hp": 5000,
     "name": "toxic meat",
     "nameZh": "有毒的肉"
   },
   {
     "id": "ice",
     "kind": "powder",
+    "hp": 5000,
     "name": "ice",
     "nameZh": "寒冰"
   },
   {
     "id": "sand_herb",
     "kind": "powder",
+    "burnable": true,
     "name": "herb",
     "nameZh": "药草"
   },
   {
     "id": "wax",
     "kind": "powder",
+    "hp": 8000,
     "name": "wax",
     "nameZh": "蜡"
   },
   {
     "id": "gold",
     "kind": "powder",
+    "hp": 8000,
     "name": "gold",
     "nameZh": "黄金"
   },
   {
     "id": "silver",
     "kind": "powder",
+    "hp": 8000,
     "name": "silver",
     "nameZh": "银"
   },
   {
     "id": "copper",
     "kind": "powder",
+    "hp": 8000,
     "name": "copper",
     "nameZh": "铜"
   },
   {
     "id": "brass",
     "kind": "powder",
+    "hp": 8000,
     "name": "brass",
     "nameZh": "黄铜"
   },
   {
     "id": "diamond",
     "kind": "powder",
+    "hp": 200000,
     "name": "diamond",
     "nameZh": "钻石"
   },
   {
     "id": "coal",
     "kind": "powder",
+    "burnable": true,
+    "hp": 1000,
     "name": "coal",
     "nameZh": "煤"
   },
   {
     "id": "sulphur",
     "kind": "powder",
+    "burnable": true,
+    "hp": 1000,
     "name": "sulphur",
     "nameZh": "硫磺"
   },
   {
     "id": "salt",
     "kind": "powder",
+    "hp": 1000,
     "name": "salt",
     "nameZh": "盐"
   },
   {
     "id": "sodium_unstable",
     "kind": "powder",
+    "burnable": true,
+    "onFire": true,
+    "hp": 1000,
     "name": "wet sodium",
     "nameZh": "湿钠"
   },
   {
     "id": "gunpowder",
     "kind": "powder",
+    "burnable": true,
+    "hp": 1000,
     "name": "gunpowder",
     "nameZh": "火药"
   },
   {
     "id": "gunpowder_explosive",
     "kind": "powder",
+    "burnable": true,
+    "hp": 1000,
     "name": "gunpowder",
     "nameZh": "火药"
   },
   {
     "id": "gunpowder_tnt",
     "kind": "powder",
+    "burnable": true,
+    "hp": 1000,
     "name": "gunpowder",
     "nameZh": "火药"
   },
   {
     "id": "gunpowder_unstable",
     "kind": "powder",
+    "burnable": true,
+    "onFire": true,
+    "hp": 1000,
     "name": "gunpowder",
     "nameZh": "火药"
   },
   {
     "id": "gunpowder_unstable_big",
     "kind": "powder",
+    "burnable": true,
+    "onFire": true,
+    "hp": 1000,
     "name": "gunpowder",
     "nameZh": "火药"
   },
   {
     "id": "monster_powder_test",
     "kind": "powder",
+    "burnable": true,
+    "onFire": true,
+    "hp": 1000,
     "name": "Monstrous powder",
     "nameZh": "怪异粉尘"
   },
   {
     "id": "rat_powder",
     "kind": "powder",
+    "hp": 1000,
     "name": "Ratty powder",
     "nameZh": "老鼠粉尘"
   },
   {
     "id": "fungus_powder",
     "kind": "powder",
+    "hp": 1000,
     "name": "fungal soil",
     "nameZh": "菌丝土"
   },
   {
     "id": "orb_powder",
     "kind": "powder",
+    "burnable": true,
+    "onFire": true,
+    "hp": 1000,
     "name": "Guiding powder",
     "nameZh": "导引粉末"
   },
   {
     "id": "gunpowder_unstable_boss_limbs",
     "kind": "powder",
+    "burnable": true,
+    "onFire": true,
+    "hp": 1000,
     "name": "slimy meat",
     "nameZh": "发黏的肉"
   },
   {
     "id": "plastic_red",
     "kind": "powder",
+    "hp": 100,
     "name": "plastic",
     "nameZh": "塑料"
   },
   {
     "id": "plastic_grey",
     "kind": "powder",
+    "hp": 100,
     "name": "plastic",
     "nameZh": "塑料"
   },
   {
     "id": "plastic_red_molten",
     "kind": "liquid",
+    "hp": 100,
     "name": "molten plastic",
     "nameZh": "熔融塑料"
   },
   {
     "id": "plastic_grey_molten",
     "kind": "liquid",
+    "hp": 100,
     "name": "molten plastic",
     "nameZh": "熔融塑料"
   },
   {
     "id": "grass",
     "kind": "powder",
+    "burnable": true,
+    "hp": 200,
     "name": "grass",
     "nameZh": "草"
   },
   {
     "id": "grass_holy",
     "kind": "powder",
+    "burnable": true,
+    "hp": 200,
     "name": "Divine Ground",
     "nameZh": "神圣地面"
   },
   {
     "id": "grass_darker",
     "kind": "powder",
+    "burnable": true,
+    "hp": 200,
     "name": "grass",
     "nameZh": "草"
   },
   {
     "id": "grass_ice",
     "kind": "powder",
+    "burnable": true,
+    "hp": 200,
     "name": "ice",
     "nameZh": "寒冰"
   },
   {
     "id": "grass_dry",
     "kind": "powder",
+    "burnable": true,
+    "hp": 200,
     "name": "grass",
     "nameZh": "草"
   },
   {
     "id": "fungi",
     "kind": "powder",
+    "burnable": true,
     "name": "weird fungus",
     "nameZh": "怪异真菌"
   },
   {
     "id": "spore",
     "kind": "powder",
+    "burnable": true,
     "name": "seed",
     "nameZh": "种子"
   },
   {
     "id": "moss",
     "kind": "powder",
+    "burnable": true,
+    "hp": 200,
     "name": "moss",
     "nameZh": "苔藓"
   },
   {
     "id": "plant_material",
     "kind": "powder",
+    "burnable": true,
+    "hp": 200,
     "name": "plant material",
     "nameZh": "植物材料"
   },
   {
     "id": "plant_material_red",
     "kind": "powder",
+    "burnable": true,
+    "hp": 200,
     "name": "seed",
     "nameZh": "种子"
   },
   {
     "id": "plant_material_dark",
     "kind": "powder",
+    "burnable": true,
+    "hp": 200,
     "name": "plant material",
     "nameZh": "植物材料"
   },
   {
     "id": "ceiling_plant_material",
     "kind": "powder",
+    "burnable": true,
+    "hp": 200,
     "name": "seed",
     "nameZh": "种子"
   },
   {
     "id": "mushroom_seed",
     "kind": "powder",
+    "burnable": true,
+    "hp": 200,
     "name": "fungal spore",
     "nameZh": "真菌孢子"
   },
   {
     "id": "plant_seed",
     "kind": "powder",
+    "burnable": true,
+    "hp": 200,
     "name": "plant seed",
     "nameZh": "植物种子"
   },
   {
     "id": "mushroom",
     "kind": "powder",
+    "burnable": true,
+    "hp": 200,
     "name": "fungal spore",
     "nameZh": "真菌孢子"
   },
   {
     "id": "mushroom_giant_red",
     "kind": "powder",
+    "burnable": true,
+    "hp": 200,
     "name": "fungal spore",
     "nameZh": "真菌孢子"
   },
   {
     "id": "mushroom_giant_blue",
     "kind": "powder",
+    "burnable": true,
+    "hp": 200,
     "name": "fungal spore",
     "nameZh": "真菌孢子"
   },
   {
     "id": "glowshroom",
     "kind": "powder",
+    "burnable": true,
+    "hp": 200,
     "name": "glowing fungal spore",
     "nameZh": "发光真菌孢子"
   },
   {
     "id": "bush_seed",
     "kind": "powder",
+    "burnable": true,
+    "hp": 200,
     "name": "evergreen seed",
     "nameZh": "常绿种子"
   },
@@ -1070,192 +1283,239 @@
   {
     "id": "lava",
     "kind": "liquid",
+    "statusEffects": "ON_FIRE",
+    "dangerFire": true,
     "name": "lava",
     "nameZh": "岩浆"
   },
   {
     "id": "wood_player",
     "kind": "powder",
+    "burnable": true,
+    "hp": 2000,
     "name": "wood",
     "nameZh": "木材"
   },
   {
     "id": "wood_player_b2",
     "kind": "solid",
+    "burnable": true,
+    "hp": 2000,
     "name": "wood",
     "nameZh": "木材"
   },
   {
     "id": "wood",
     "kind": "solid",
+    "burnable": true,
+    "hp": 3000,
     "name": "wood",
     "nameZh": "木材"
   },
   {
     "id": "wax_b2",
     "kind": "solid",
+    "burnable": true,
+    "hp": 2000,
     "name": "wax",
     "nameZh": "蜡"
   },
   {
     "id": "fuse",
     "kind": "solid",
+    "burnable": true,
+    "hp": 2000,
     "name": "bomb",
     "nameZh": "炸弹"
   },
   {
     "id": "wood_loose",
     "kind": "solid",
+    "burnable": true,
+    "hp": 2000,
     "name": "wood",
     "nameZh": "木材"
   },
   {
     "id": "rock_loose",
     "kind": "solid",
+    "hp": 10000,
     "name": "rock",
     "nameZh": "岩石"
   },
   {
     "id": "ice_ceiling",
     "kind": "solid",
+    "hp": 3000,
     "name": "ice",
     "nameZh": "寒冰"
   },
   {
     "id": "brick",
     "kind": "solid",
+    "burnable": true,
+    "hp": 4000,
     "name": "brick wall",
     "nameZh": "砖墙"
   },
   {
     "id": "concrete_collapsed",
     "kind": "solid",
+    "burnable": true,
+    "hp": 10000,
     "name": "collapsed concrete",
     "nameZh": "坍塌的混凝土"
   },
   {
     "id": "tnt",
     "kind": "solid",
+    "burnable": true,
+    "hp": 10000,
     "name": "tnt",
     "nameZh": "tnt"
   },
   {
     "id": "tnt_static",
     "kind": "solid",
+    "burnable": true,
+    "hp": 500,
     "name": "tnt",
     "nameZh": "tnt"
   },
   {
     "id": "trailer_text",
     "kind": "powder",
+    "hp": 500,
     "name": "text",
     "nameZh": "文本"
   },
   {
     "id": "meteorite",
     "kind": "solid",
+    "onFire": true,
+    "hp": 5000,
     "name": "meteorite",
     "nameZh": "陨石"
   },
   {
     "id": "sulphur_box2d",
     "kind": "solid",
+    "onFire": true,
+    "hp": 5000,
     "name": "sulphur",
     "nameZh": "硫磺"
   },
   {
     "id": "meteorite_test",
     "kind": "solid",
+    "hp": 5000,
     "name": "meteorite",
     "nameZh": "陨石"
   },
   {
     "id": "meteorite_green",
     "kind": "solid",
+    "hp": 5000,
     "name": "green meteorite",
     "nameZh": "绿色陨石"
   },
   {
     "id": "steel",
     "kind": "solid",
+    "hp": 100000,
     "name": "steel",
     "nameZh": "钢"
   },
   {
     "id": "steel_rust",
     "kind": "solid",
+    "hp": 8000,
     "name": "rusted steel",
     "nameZh": "锈蚀的钢"
   },
   {
     "id": "metal_rust_rust",
     "kind": "solid",
+    "hp": 8000,
     "name": "rusted metal",
     "nameZh": "锈蚀金属"
   },
   {
     "id": "metal_rust_barrel_rust",
     "kind": "solid",
+    "hp": 8000,
     "name": "rusted metal",
     "nameZh": "锈蚀金属"
   },
   {
     "id": "plastic",
     "kind": "solid",
+    "hp": 4000,
     "name": "plastic",
     "nameZh": "塑料"
   },
   {
     "id": "aluminium",
     "kind": "solid",
+    "hp": 5000,
     "name": "aluminium",
     "nameZh": "铝"
   },
   {
     "id": "rock_static_box2d",
     "kind": "solid",
+    "hp": 10000,
     "name": "rock",
     "nameZh": "岩石"
   },
   {
     "id": "rock_box2d",
     "kind": "solid",
+    "hp": 15000,
     "name": "rock",
     "nameZh": "岩石"
   },
   {
     "id": "crystal",
     "kind": "solid",
+    "hp": 500000,
     "name": "crystal",
     "nameZh": "晶体"
   },
   {
     "id": "magic_crystal",
     "kind": "solid",
+    "hp": 500000,
     "name": "Magical crystal",
     "nameZh": "魔法晶体"
   },
   {
     "id": "crystal_magic",
     "kind": "solid",
+    "hp": 500000,
     "name": "crystal",
     "nameZh": "晶体"
   },
   {
     "id": "aluminium_oxide",
     "kind": "solid",
+    "hp": 2500,
     "name": "aluminium",
     "nameZh": "铝"
   },
   {
     "id": "meat",
     "kind": "solid",
+    "burnable": true,
+    "hp": 1000,
     "name": "meat",
     "nameZh": "肉"
   },
   {
     "id": "meat_slime",
     "kind": "solid",
+    "burnable": true,
+    "hp": 10000,
     "name": "slimy meat",
     "nameZh": "发黏的肉"
   },
@@ -1268,12 +1528,14 @@
   {
     "id": "poo",
     "kind": "powder",
+    "hp": 200,
     "name": "excrement",
     "nameZh": "粪便"
   },
   {
     "id": "mammi",
     "kind": "powder",
+    "hp": 200,
     "name": "mämmi",
     "nameZh": "麦米"
   },
@@ -1310,30 +1572,35 @@
   {
     "id": "glass",
     "kind": "solid",
+    "hp": 200,
     "name": "glass",
     "nameZh": "玻璃"
   },
   {
     "id": "glass_broken",
     "kind": "powder",
+    "hp": 1000,
     "name": "glass",
     "nameZh": "玻璃"
   },
   {
     "id": "neon_tube_purple",
     "kind": "solid",
+    "hp": 200,
     "name": "neon tube",
     "nameZh": "霓虹灯"
   },
   {
     "id": "blood_thick",
     "kind": "powder",
+    "hp": 1000,
     "name": "blood",
     "nameZh": "血液"
   },
   {
     "id": "snow_b2",
     "kind": "solid",
+    "hp": 40,
     "name": "snow",
     "nameZh": "雪"
   },
@@ -1346,6 +1613,7 @@
   {
     "id": "fire_blue",
     "kind": "fire",
+    "onFire": true,
     "name": "fire",
     "nameZh": "火焰"
   },
@@ -1430,468 +1698,553 @@
   {
     "id": "sand_static_rainforest",
     "kind": "powder",
+    "hp": 70000,
     "name": "lush ground",
     "nameZh": "葱郁地面"
   },
   {
     "id": "sand_static_rainforest_dark",
     "kind": "powder",
+    "hp": 700000,
     "name": "lush ground",
     "nameZh": "葱郁地面"
   },
   {
     "id": "bone_static",
     "kind": "powder",
+    "hp": 20000,
     "name": "bone wall",
     "nameZh": "骨墙"
   },
   {
     "id": "rust_static",
     "kind": "powder",
+    "hp": 30000,
     "name": "rusted metal",
     "nameZh": "锈蚀金属"
   },
   {
     "id": "sand_static_bright",
     "kind": "powder",
+    "hp": 19000,
     "name": "granite ground",
     "nameZh": "花岗岩地面"
   },
   {
     "id": "meat_static",
     "kind": "powder",
+    "hp": 10000,
     "name": "meat",
     "nameZh": "肉"
   },
   {
     "id": "sand_static_red",
     "kind": "powder",
+    "hp": 19000,
     "name": "rusty ground",
     "nameZh": "锈蚀地面"
   },
   {
     "id": "rock_static_intro",
     "kind": "powder",
+    "hp": 160000,
     "name": "rock",
     "nameZh": "岩石"
   },
   {
     "id": "rock_static_trip_secret",
     "kind": "powder",
+    "hp": 160000,
     "name": "rock",
     "nameZh": "岩石"
   },
   {
     "id": "rock_static_trip_secret2",
     "kind": "powder",
+    "hp": 160000,
     "name": "rock",
     "nameZh": "岩石"
   },
   {
     "id": "rock_static_cursed",
     "kind": "powder",
+    "hp": 160000,
     "name": "Cursed rock",
     "nameZh": "诅咒岩石"
   },
   {
     "id": "rock_static_purple",
     "kind": "powder",
+    "hp": 160000,
     "name": "rock",
     "nameZh": "岩石"
   },
   {
     "id": "rock_hard",
     "kind": "powder",
+    "hp": 200000,
     "name": "dense rock",
     "nameZh": "致密岩石"
   },
   {
     "id": "rock_static_fungal",
     "kind": "powder",
+    "hp": 150000,
     "name": "fungal soil",
     "nameZh": "菌丝土"
   },
   {
     "id": "wood_tree",
     "kind": "powder",
+    "hp": 200000,
     "name": "wood",
     "nameZh": "木材"
   },
   {
     "id": "rock_static_noedge",
     "kind": "powder",
+    "hp": 200000,
     "name": "rock",
     "nameZh": "岩石"
   },
   {
     "id": "rock_hard_border",
     "kind": "powder",
+    "hp": 200000,
     "name": "extremely dense rock",
     "nameZh": "极度致密岩石"
   },
   {
     "id": "rock_magic_gate",
     "kind": "powder",
+    "hp": 400000,
     "name": "magic gate",
     "nameZh": "魔法门"
   },
   {
     "id": "rock_magic_bottom",
     "kind": "powder",
+    "hp": 400000,
     "name": "magic wall",
     "nameZh": "魔法墙"
   },
   {
     "id": "rock_eroding",
     "kind": "solid",
+    "hp": 100,
     "name": "eroding rock",
     "nameZh": "侵蚀岩石"
   },
   {
     "id": "rock_vault",
     "kind": "powder",
+    "hp": 200000,
     "name": "vault rock",
     "nameZh": "拱顶石"
   },
   {
     "id": "coal_static",
     "kind": "powder",
+    "hp": 25000,
     "name": "coal vein",
     "nameZh": "煤矿矿脉"
   },
   {
     "id": "rock_static_grey",
     "kind": "powder",
+    "hp": 150000,
     "name": "grey rock",
     "nameZh": "灰色岩石"
   },
   {
     "id": "rock_static_radioactive",
     "kind": "powder",
+    "hp": 20000,
     "name": "toxic rock",
     "nameZh": "附有毒液的岩石"
   },
   {
     "id": "rock_static_cursed_green",
     "kind": "powder",
+    "hp": 180000,
     "name": "Greed-cursed rock",
     "nameZh": "贪婪诅咒的岩石"
   },
   {
     "id": "rock_static_poison",
     "kind": "powder",
+    "hp": 20000,
     "name": "poisonous rock",
     "nameZh": "有毒岩石"
   },
   {
     "id": "skullrock",
     "kind": "powder",
+    "hp": 200000,
     "name": "hell rock",
     "nameZh": "地狱岩"
   },
   {
     "id": "rock_static_wet",
     "kind": "powder",
+    "hp": 200000,
     "name": "damp rock",
     "nameZh": "潮湿岩石"
   },
   {
     "id": "templebrick_static",
     "kind": "powder",
+    "hp": 1000000,
     "name": "brickwork",
     "nameZh": "砖块"
   },
   {
     "id": "templebrick_static_broken",
     "kind": "powder",
+    "hp": 80000,
     "name": "brickwork",
     "nameZh": "砖块"
   },
   {
     "id": "templebrick_static_soft",
     "kind": "powder",
+    "hp": 80000,
     "name": "brickwork",
     "nameZh": "砖块"
   },
   {
     "id": "templebrick_noedge_static",
     "kind": "powder",
+    "hp": 1000000,
     "name": "brickwork",
     "nameZh": "砖块"
   },
   {
     "id": "templerock_soft",
     "kind": "powder",
+    "hp": 10000,
     "name": "brickwork",
     "nameZh": "砖块"
   },
   {
     "id": "templebrick_thick_static",
     "kind": "powder",
+    "hp": 100000,
     "name": "brickwork",
     "nameZh": "砖块"
   },
   {
     "id": "templebrick_thick_static_noedge",
     "kind": "powder",
+    "hp": 100000,
     "name": "brickwork",
     "nameZh": "砖块"
   },
   {
     "id": "templeslab_static",
     "kind": "powder",
+    "hp": 100000,
     "name": "brickwork",
     "nameZh": "砖块"
   },
   {
     "id": "templeslab_crumbling_static",
     "kind": "powder",
+    "hp": 100000,
     "name": "brickwork",
     "nameZh": "砖块"
   },
   {
     "id": "templebrickdark_static",
     "kind": "powder",
+    "hp": 200000,
     "name": "brickwork",
     "nameZh": "砖块"
   },
   {
     "id": "wizardstone",
     "kind": "powder",
+    "hp": 120000,
     "name": "Odd brickwork",
     "nameZh": "奇特的砖块"
   },
   {
     "id": "templebrick_golden_static",
     "kind": "powder",
+    "hp": 200000,
     "name": "Fool's gold",
     "nameZh": "愚人的黄金"
   },
   {
     "id": "templebrick_diamond_static",
     "kind": "powder",
+    "hp": 200000,
     "name": "Diamond brickwork",
     "nameZh": "钻石砖块"
   },
   {
     "id": "templebrick_static_ruined",
     "kind": "powder",
+    "hp": 10000,
     "name": "Ruined brick wall",
     "nameZh": "残破砖墙"
   },
   {
     "id": "glowstone",
     "kind": "powder",
+    "hp": 40000,
     "name": "glowing stone",
     "nameZh": "发光石"
   },
   {
     "id": "glowstone_altar",
     "kind": "powder",
+    "hp": 40000,
     "name": "glowing stone",
     "nameZh": "发光石"
   },
   {
     "id": "glowstone_altar_hdr",
     "kind": "powder",
+    "hp": 40000,
     "name": "glowing stone",
     "nameZh": "发光石"
   },
   {
     "id": "glowstone_potion",
     "kind": "powder",
+    "hp": 40000,
     "name": "glowing stone",
     "nameZh": "发光石"
   },
   {
     "id": "templebrick_red",
     "kind": "powder",
+    "hp": 200000,
     "name": "brickwork",
     "nameZh": "砖块"
   },
   {
     "id": "templebrick_moss_static",
     "kind": "powder",
+    "hp": 10000,
     "name": "mossy brickwork",
     "nameZh": "苔砖块"
   },
   {
     "id": "the_end",
     "kind": "powder",
+    "hp": 100000,
     "name": "hell rock",
     "nameZh": "地狱岩"
   },
   {
     "id": "steelmoss_static",
     "kind": "powder",
+    "hp": 130000,
     "name": "rusted steel",
     "nameZh": "锈蚀的钢"
   },
   {
     "id": "steel_rusted_no_holes",
     "kind": "powder",
+    "hp": 130000,
     "name": "rusted steel",
     "nameZh": "锈蚀的钢"
   },
   {
     "id": "steel_grey_static",
     "kind": "powder",
+    "hp": 900000,
     "name": "dense steel",
     "nameZh": "高密度钢"
   },
   {
     "id": "steelfrost_static",
     "kind": "powder",
+    "hp": 130000,
     "name": "Frozen steel",
     "nameZh": "冻结的钢"
   },
   {
     "id": "steelmoss_slanted",
     "kind": "powder",
+    "hp": 130000,
     "name": "mossy steel",
     "nameZh": "苔钢"
   },
   {
     "id": "steelsmoke_static",
     "kind": "powder",
+    "hp": 130000,
     "name": "smoking steel",
     "nameZh": "冒烟的钢"
   },
   {
     "id": "steelpipe_static",
     "kind": "powder",
+    "hp": 90000,
     "name": "metal pipe",
     "nameZh": "钢管"
   },
   {
     "id": "steel_static_strong",
     "kind": "powder",
+    "hp": 130000,
     "name": "dense steel",
     "nameZh": "高密度钢"
   },
   {
     "id": "steel_static_unmeltable",
     "kind": "powder",
+    "hp": 130000,
     "name": "hardened steel",
     "nameZh": "硬化钢"
   },
   {
     "id": "rock_static_intro_breakable",
     "kind": "powder",
+    "hp": 30000,
     "name": "rock",
     "nameZh": "岩石"
   },
   {
     "id": "ice_blood_static",
     "kind": "powder",
+    "hp": 20000,
     "name": "frozen blood",
     "nameZh": "冻结的血"
   },
   {
     "id": "ice_slime_static",
     "kind": "powder",
+    "hp": 20000,
     "name": "Frozen slime",
     "nameZh": "冻结的粘液"
   },
   {
     "id": "tube_physics",
     "kind": "solid",
+    "hp": 10000,
     "name": "neon tube",
     "nameZh": "霓虹灯"
   },
   {
     "id": "ice_acid_glass",
     "kind": "solid",
+    "hp": 10000,
     "name": "frozen acid",
     "nameZh": "冻结的酸液"
   },
   {
     "id": "ice_cold_glass",
     "kind": "solid",
+    "hp": 10000,
     "name": "ice",
     "nameZh": "寒冰"
   },
   {
     "id": "ice_radioactive_glass",
     "kind": "solid",
+    "hp": 10000,
     "name": "toxic ice",
     "nameZh": "毒冰"
   },
   {
     "id": "ice_poison_glass",
     "kind": "solid",
+    "hp": 10000,
     "name": "Frozen poison",
     "nameZh": "冻结的毒液"
   },
   {
     "id": "ice_blood_glass",
     "kind": "solid",
+    "hp": 10000,
     "name": "Frozen blood",
     "nameZh": "冻结的血"
   },
   {
     "id": "ice_slime_glass",
     "kind": "solid",
+    "hp": 10000,
     "name": "Frozen slime",
     "nameZh": "冻结的粘液"
   },
   {
     "id": "wood_static_wet",
     "kind": "powder",
+    "burnable": true,
+    "hp": 2000,
     "name": "damp wood",
     "nameZh": "潮湿木材"
   },
   {
     "id": "root_growth",
     "kind": "powder",
+    "burnable": true,
+    "hp": 100,
     "name": "vine",
     "nameZh": "藤蔓"
   },
   {
     "id": "wood_burns_forever",
     "kind": "powder",
+    "burnable": true,
+    "hp": 2000,
     "name": "wood",
     "nameZh": "木材"
   },
   {
     "id": "creepy_liquid_emitter",
     "kind": "powder",
+    "hp": 2000,
     "name": "brick wall",
     "nameZh": "砖墙"
   },
   {
     "id": "gold_static",
     "kind": "powder",
+    "hp": 2000,
     "name": "gold vein",
     "nameZh": "金矿矿脉"
   },
   {
     "id": "gold_static_radioactive",
     "kind": "powder",
+    "statusEffects": "RADIOACTIVE",
+    "hp": 2000,
+    "dangerRadioactive": true,
     "name": "toxic gold",
     "nameZh": "淬毒黄金"
   },
   {
     "id": "gold_static_dark",
     "kind": "powder",
+    "hp": 2000,
     "name": "vibrant gold vein",
     "nameZh": "醒目的金矿矿脉"
   },
   {
     "id": "wood_static_vertical",
     "kind": "powder",
+    "burnable": true,
+    "hp": 2000,
     "name": "wood",
     "nameZh": "木材"
   },
   {
     "id": "wood_static_gas",
     "kind": "powder",
+    "burnable": true,
+    "hp": 2000,
     "name": "pressurized wood",
     "nameZh": "耐压木材"
   },
   {
     "id": "corruption_static",
     "kind": "powder",
+    "hp": 20000,
     "name": "corrupted rock",
     "nameZh": "崩溃的岩石"
   },
@@ -1910,12 +2263,14 @@
   {
     "id": "poison_gas",
     "kind": "gas",
+    "burnable": true,
     "name": "poison gas",
     "nameZh": "毒气"
   },
   {
     "id": "fungal_gas",
     "kind": "gas",
+    "burnable": true,
     "name": "fungal gas",
     "nameZh": "真菌气体"
   },
@@ -1928,12 +2283,14 @@
   {
     "id": "water_fading",
     "kind": "liquid",
+    "statusEffects": "WET",
     "name": "Water",
     "nameZh": "水"
   },
   {
     "id": "water_salt",
     "kind": "liquid",
+    "statusEffects": "WET",
     "name": "brine",
     "nameZh": "盐水"
   },
@@ -1958,12 +2315,18 @@
   {
     "id": "liquid_fire",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "statusEffects": "OILED",
     "name": "fire",
     "nameZh": "火焰"
   },
   {
     "id": "liquid_fire_weak",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "statusEffects": "OILED",
     "name": "liquid fire",
     "nameZh": "液体燃烧剂"
   },
@@ -1982,30 +2345,36 @@
   {
     "id": "pus",
     "kind": "liquid",
+    "statusEffects": "POISONED",
     "name": "pus",
     "nameZh": "脓肿"
   },
   {
     "id": "blood_fading_slow",
     "kind": "liquid",
+    "statusEffects": "BLOODY",
     "name": "blood",
     "nameZh": "血液"
   },
   {
     "id": "poison",
     "kind": "liquid",
+    "dangerPoison": true,
     "name": "Poison",
     "nameZh": "毒液"
   },
   {
     "id": "cursed_liquid",
     "kind": "liquid",
+    "dangerRadioactive": true,
     "name": "Greed-cursed liquid",
     "nameZh": "贪婪诅咒的液体"
   },
   {
     "id": "radioactive_liquid_yellow",
     "kind": "liquid",
+    "statusEffects": "RADIOACTIVE",
+    "dangerRadioactive": true,
     "name": "toxic sludge",
     "nameZh": "毒性淤泥"
   },
@@ -2018,162 +2387,232 @@
   {
     "id": "plasma_fading_green",
     "kind": "powder",
+    "onFire": true,
     "name": "magical liquid",
     "nameZh": "魔法液体"
   },
   {
     "id": "plasma_fading_pink",
     "kind": "powder",
+    "onFire": true,
     "name": "magical liquid",
     "nameZh": "魔法液体"
   },
   {
     "id": "steel_static_molten",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "statusEffects": "ON_FIRE",
+    "dangerFire": true,
     "name": "molten steel",
     "nameZh": "熔化钢水"
   },
   {
     "id": "steelmoss_slanted_molten",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "statusEffects": "ON_FIRE",
+    "dangerFire": true,
     "name": "molten steel",
     "nameZh": "熔化钢水"
   },
   {
     "id": "steelmoss_static_molten",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "statusEffects": "ON_FIRE",
+    "dangerFire": true,
     "name": "molten steel",
     "nameZh": "熔化钢水"
   },
   {
     "id": "steelsmoke_static_molten",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "statusEffects": "ON_FIRE",
+    "dangerFire": true,
     "name": "molten steel",
     "nameZh": "熔化钢水"
   },
   {
     "id": "metal_sand_molten",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "statusEffects": "ON_FIRE",
+    "dangerFire": true,
     "name": "Molten metal",
     "nameZh": "熔化金属"
   },
   {
     "id": "metal_molten",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "statusEffects": "ON_FIRE",
+    "dangerFire": true,
     "name": "molten metal",
     "nameZh": "熔化金属"
   },
   {
     "id": "metal_rust_molten",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "statusEffects": "ON_FIRE",
+    "dangerFire": true,
     "name": "molten metal",
     "nameZh": "熔化金属"
   },
   {
     "id": "metal_nohit_molten",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "statusEffects": "ON_FIRE",
+    "dangerFire": true,
     "name": "molten metal",
     "nameZh": "熔化金属"
   },
   {
     "id": "aluminium_molten",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "statusEffects": "ON_FIRE",
+    "dangerFire": true,
     "name": "molten aluminium",
     "nameZh": "熔化铝液"
   },
   {
     "id": "aluminium_robot_molten",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "statusEffects": "ON_FIRE",
+    "dangerFire": true,
     "name": "molten aluminium",
     "nameZh": "熔化铝液"
   },
   {
     "id": "metal_prop_molten",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "statusEffects": "ON_FIRE",
+    "dangerFire": true,
     "name": "molten metal",
     "nameZh": "熔化金属"
   },
   {
     "id": "steel_rust_molten",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "statusEffects": "ON_FIRE",
+    "dangerFire": true,
     "name": "molten steel",
     "nameZh": "熔化钢水"
   },
   {
     "id": "aluminium_oxide_molten",
     "kind": "liquid",
+    "burnable": true,
+    "onFire": true,
+    "statusEffects": "ON_FIRE",
+    "dangerFire": true,
     "name": "molten aluminium",
     "nameZh": "熔化铝液"
   },
   {
     "id": "sand_blue",
     "kind": "powder",
+    "hp": 800,
     "name": "blue sand",
     "nameZh": "蓝砂"
   },
   {
     "id": "sand_surface",
     "kind": "powder",
+    "hp": 800,
     "name": "sand",
     "nameZh": "砂"
   },
   {
     "id": "lavasand",
     "kind": "powder",
+    "hp": 800,
     "name": "volcanic sand",
     "nameZh": "火山砂"
   },
   {
     "id": "sand_petrify",
     "kind": "powder",
+    "hp": 400,
     "name": "sand",
     "nameZh": "砂"
   },
   {
     "id": "soil_lush",
     "kind": "powder",
+    "burnable": true,
+    "hp": 2000,
     "name": "soil",
     "nameZh": "泥土"
   },
   {
     "id": "soil_lush_dark",
     "kind": "powder",
+    "burnable": true,
+    "hp": 10000,
     "name": "soil",
     "nameZh": "泥土"
   },
   {
     "id": "soil_dead",
     "kind": "powder",
+    "burnable": true,
+    "hp": 2000,
     "name": "barren soil",
     "nameZh": "贫瘠泥土"
   },
   {
     "id": "soil_dark",
     "kind": "powder",
+    "burnable": true,
+    "hp": 2000,
     "name": "barren soil",
     "nameZh": "贫瘠泥土"
   },
   {
     "id": "sandstone_surface",
     "kind": "powder",
+    "hp": 9000,
     "name": "sandstone",
     "nameZh": "砂岩"
   },
   {
     "id": "slime_green",
     "kind": "liquid",
+    "statusEffects": "SLIMY",
     "name": "slime",
     "nameZh": "粘液"
   },
   {
     "id": "slime_yellow",
     "kind": "liquid",
+    "statusEffects": "SLIMY",
     "name": "slime",
     "nameZh": "粘液"
   },
   {
     "id": "pea_soup",
     "kind": "liquid",
+    "statusEffects": "SLIMY",
     "name": "pea soup",
     "nameZh": "豌豆汤"
   },
@@ -2192,618 +2631,766 @@
   {
     "id": "meat_slime_green",
     "kind": "solid",
+    "burnable": true,
+    "hp": 10000,
     "name": "green slimy meat",
     "nameZh": "绿涩发黏的肉"
   },
   {
     "id": "meat_slime_orange",
     "kind": "solid",
+    "burnable": true,
+    "hp": 10000,
     "name": "slimy meat",
     "nameZh": "发黏的肉"
   },
   {
     "id": "meat_worm",
     "kind": "solid",
+    "burnable": true,
+    "hp": 1000,
     "name": "worm meat",
     "nameZh": "蠕虫的肉"
   },
   {
     "id": "meat_helpless",
     "kind": "solid",
+    "burnable": true,
+    "hp": 1000,
     "name": "Meat of an innocent creature",
     "nameZh": "无辜生命的肉"
   },
   {
     "id": "meat_trippy",
     "kind": "solid",
+    "burnable": true,
+    "hp": 1000,
     "name": "Weird meat",
     "nameZh": "怪异的肉"
   },
   {
     "id": "meat_frog",
     "kind": "solid",
+    "burnable": true,
+    "hp": 1000,
     "name": "frog meat",
     "nameZh": "蛙肉"
   },
   {
     "id": "meat_cursed",
     "kind": "solid",
+    "burnable": true,
+    "hp": 1000,
     "name": "Cursed meat",
     "nameZh": "诅咒肉块"
   },
   {
     "id": "meat_cursed_dry",
     "kind": "solid",
+    "burnable": true,
+    "hp": 1000,
     "name": "Cursed meat",
     "nameZh": "诅咒肉块"
   },
   {
     "id": "meat_slime_cursed",
     "kind": "solid",
+    "burnable": true,
+    "hp": 10000,
     "name": "Slimy cursed meat",
     "nameZh": "发黏的诅咒肉块"
   },
   {
     "id": "meat_teleport",
     "kind": "solid",
+    "burnable": true,
+    "hp": 1000,
     "name": "Ethereal meat",
     "nameZh": "虚无的肉"
   },
   {
     "id": "meat_fast",
     "kind": "solid",
+    "burnable": true,
+    "hp": 1000,
     "name": "Wobbly meat",
     "nameZh": "长毛的肉"
   },
   {
     "id": "meat_polymorph",
     "kind": "solid",
+    "burnable": true,
+    "hp": 1000,
     "name": "Unstable meat",
     "nameZh": "不稳肉块"
   },
   {
     "id": "meat_polymorph_protection",
     "kind": "solid",
+    "burnable": true,
+    "hp": 1000,
     "name": "Stinky meat",
     "nameZh": "发臭的肉"
   },
   {
     "id": "meat_confusion",
     "kind": "solid",
+    "burnable": true,
+    "hp": 1000,
     "name": "Ambiguous meat",
     "nameZh": "暧昧肉块"
   },
   {
     "id": "gold_radioactive",
     "kind": "powder",
+    "statusEffects": "RADIOACTIVE",
+    "hp": 8000,
+    "dangerRadioactive": true,
     "name": "toxic gold",
     "nameZh": "淬毒黄金"
   },
   {
     "id": "steel_sand",
     "kind": "powder",
+    "hp": 8000,
     "name": "steel",
     "nameZh": "钢"
   },
   {
     "id": "metal_sand",
     "kind": "powder",
+    "hp": 8000,
     "name": "Metal dust",
     "nameZh": "金属尘埃"
   },
   {
     "id": "sodium",
     "kind": "powder",
+    "hp": 1000,
     "name": "sodium",
     "nameZh": "钠"
   },
   {
     "id": "purifying_powder",
     "kind": "powder",
+    "hp": 1000,
     "name": "Purifying powder",
     "nameZh": "净化粉末"
   },
   {
     "id": "burning_powder",
     "kind": "powder",
+    "burnable": true,
+    "hp": 1000,
     "name": "burning powder",
     "nameZh": "燃烧粉末"
   },
   {
     "id": "fungus_powder_bad",
     "kind": "powder",
+    "hp": 1000,
     "name": "fungal soil",
     "nameZh": "菌丝土"
   },
   {
     "id": "shock_powder",
     "kind": "powder",
+    "hp": 1000,
     "name": "fungal soil",
     "nameZh": "菌丝土"
   },
   {
     "id": "plastic_molten",
     "kind": "liquid",
+    "hp": 100,
     "name": "molten plastic",
     "nameZh": "熔融塑料"
   },
   {
     "id": "plastic_prop_molten",
     "kind": "liquid",
+    "hp": 100,
     "name": "molten plastic",
     "nameZh": "熔融塑料"
   },
   {
     "id": "fungi_green",
     "kind": "powder",
+    "burnable": true,
     "name": "fungus",
     "nameZh": "真菌"
   },
   {
     "id": "fungi_yellow",
     "kind": "powder",
+    "burnable": true,
     "name": "fungus",
     "nameZh": "真菌"
   },
   {
     "id": "grass_dark",
     "kind": "powder",
+    "burnable": true,
+    "hp": 200,
     "name": "grass",
     "nameZh": "草"
   },
   {
     "id": "fungi_creeping",
     "kind": "powder",
+    "burnable": true,
+    "statusEffects": "POLYMORPH",
     "name": "Mystery fungus",
     "nameZh": "神秘真菌"
   },
   {
     "id": "fungi_creeping_secret",
     "kind": "powder",
+    "burnable": true,
+    "statusEffects": "POLYMORPH",
     "name": "fungus",
     "nameZh": "真菌"
   },
   {
     "id": "peat",
     "kind": "liquid",
+    "burnable": true,
+    "hp": 200,
     "name": "Peat",
     "nameZh": "泥炭"
   },
   {
     "id": "moss_rust",
     "kind": "powder",
+    "burnable": true,
+    "hp": 200,
     "name": "rusty moss",
     "nameZh": "锈色苔藓"
   },
   {
     "id": "wood_player_b2_vertical",
     "kind": "solid",
+    "burnable": true,
+    "hp": 2000,
     "name": "wood",
     "nameZh": "木材"
   },
   {
     "id": "fuse_bright",
     "kind": "solid",
+    "burnable": true,
+    "hp": 2000,
     "name": "bomb",
     "nameZh": "炸弹"
   },
   {
     "id": "fuse_tnt",
     "kind": "solid",
+    "burnable": true,
+    "hp": 2000,
     "name": "tnt",
     "nameZh": "tnt"
   },
   {
     "id": "fuse_holy",
     "kind": "solid",
+    "burnable": true,
+    "hp": 2000,
     "name": "holy matter",
     "nameZh": "神圣物质"
   },
   {
     "id": "templebrick_box2d",
     "kind": "solid",
+    "hp": 10000,
     "name": "brickwork",
     "nameZh": "砖块"
   },
   {
     "id": "wood_trailer",
     "kind": "solid",
+    "burnable": true,
+    "hp": 2000,
     "name": "wood",
     "nameZh": "木材"
   },
   {
     "id": "wood_wall",
     "kind": "solid",
+    "burnable": true,
+    "hp": 3000,
     "name": "wood",
     "nameZh": "木材"
   },
   {
     "id": "cactus",
     "kind": "solid",
+    "burnable": true,
+    "hp": 2000,
     "name": "wood",
     "nameZh": "木材"
   },
   {
     "id": "grass_loose",
     "kind": "solid",
+    "burnable": true,
+    "hp": 2000,
     "name": "fungal matter",
     "nameZh": "真菌物质"
   },
   {
     "id": "fungus_loose",
     "kind": "solid",
+    "burnable": true,
+    "hp": 2000,
     "name": "fungus",
     "nameZh": "真菌"
   },
   {
     "id": "fungus_loose_green",
     "kind": "solid",
+    "burnable": true,
+    "hp": 2000,
     "name": "fungus",
     "nameZh": "真菌"
   },
   {
     "id": "fungus_loose_trippy",
     "kind": "solid",
+    "burnable": true,
+    "hp": 2000,
     "name": "weird fungus",
     "nameZh": "怪异真菌"
   },
   {
     "id": "wood_prop",
     "kind": "solid",
+    "burnable": true,
+    "hp": 5000,
     "name": "wood",
     "nameZh": "木材"
   },
   {
     "id": "wood_prop_noplayerhit",
     "kind": "solid",
+    "burnable": true,
+    "hp": 5000,
     "name": "wood",
     "nameZh": "木材"
   },
   {
     "id": "cloth_box2d",
     "kind": "solid",
+    "hp": 5000,
     "name": "cloth_box2d",
     "nameZh": ""
   },
   {
     "id": "wood_prop_durable",
     "kind": "solid",
+    "burnable": true,
+    "hp": 200000,
     "name": "tough wood",
     "nameZh": "硬木"
   },
   {
     "id": "nest_box2d",
     "kind": "solid",
+    "burnable": true,
+    "hp": 5000,
     "name": "nest",
     "nameZh": "巢穴"
   },
   {
     "id": "nest_firebug_box2d",
     "kind": "solid",
+    "hp": 5000,
     "name": "nest",
     "nameZh": "巢穴"
   },
   {
     "id": "cocoon_box2d",
     "kind": "solid",
+    "burnable": true,
+    "hp": 5000,
     "name": "cocoon",
     "nameZh": "茧"
   },
   {
     "id": "meteorite_crackable",
     "kind": "solid",
+    "hp": 5000,
     "name": "meteorite",
     "nameZh": "陨石"
   },
   {
     "id": "plastic_prop",
     "kind": "solid",
+    "hp": 4000,
     "name": "plastic",
     "nameZh": "塑料"
   },
   {
     "id": "aluminium_robot",
     "kind": "solid",
+    "hp": 5000,
     "name": "aluminium",
     "nameZh": "铝"
   },
   {
     "id": "metal_prop",
     "kind": "solid",
+    "hp": 200000,
     "name": "metal",
     "nameZh": "金属"
   },
   {
     "id": "metal_prop_low_restitution",
     "kind": "solid",
+    "hp": 200000,
     "name": "metal",
     "nameZh": "金属"
   },
   {
     "id": "metal_prop_loose",
     "kind": "solid",
+    "hp": 200000,
     "name": "metal",
     "nameZh": "金属"
   },
   {
     "id": "metal",
     "kind": "solid",
+    "hp": 5000,
     "name": "metal",
     "nameZh": "金属"
   },
   {
     "id": "metal_hard",
     "kind": "solid",
+    "hp": 5000,
     "name": "metal",
     "nameZh": "金属"
   },
   {
     "id": "rock_box2d",
     "kind": "solid",
+    "hp": 100000,
     "name": "rock",
     "nameZh": "岩石"
   },
   {
     "id": "templebrick_box2d_edgetiles",
     "kind": "solid",
+    "hp": 100000,
     "name": "brickwork",
     "nameZh": "砖块"
   },
   {
     "id": "rock_box2d_hard",
     "kind": "solid",
+    "hp": 100000,
     "name": "rock",
     "nameZh": "岩石"
   },
   {
     "id": "poop_box2d_hard",
     "kind": "solid",
+    "hp": 100000,
     "name": "rock",
     "nameZh": "岩石"
   },
   {
     "id": "rock_box2d_nohit",
     "kind": "solid",
+    "hp": 1000,
     "name": "rock",
     "nameZh": "岩石"
   },
   {
     "id": "rock_box2d_nohit_heavy",
     "kind": "solid",
+    "hp": 1000,
     "name": "rock",
     "nameZh": "岩石"
   },
   {
     "id": "rock_box2d_nohit_hard",
     "kind": "solid",
+    "hp": 100000,
     "name": "dense rock",
     "nameZh": "致密岩石"
   },
   {
     "id": "item_box2d",
     "kind": "solid",
+    "hp": 30000,
     "name": "item",
     "nameZh": "物品"
   },
   {
     "id": "item_box2d_glass",
     "kind": "solid",
+    "hp": 30000,
     "name": "item",
     "nameZh": "物品"
   },
   {
     "id": "item_box2d_meat",
     "kind": "solid",
+    "hp": 30000,
     "name": "meat",
     "nameZh": "肉"
   },
   {
     "id": "gem_box2d",
     "kind": "solid",
+    "hp": 30000,
     "name": "gem",
     "nameZh": "宝石"
   },
   {
     "id": "potion_glass_box2d",
     "kind": "solid",
+    "hp": 30000,
     "name": "glass",
     "nameZh": "玻璃"
   },
   {
     "id": "glass_box2d",
     "kind": "solid",
+    "hp": 30000,
     "name": "glass",
     "nameZh": "玻璃"
   },
   {
     "id": "gem_box2d_yellow_sun",
     "kind": "solid",
+    "hp": 1000000,
     "name": "gem",
     "nameZh": "宝石"
   },
   {
     "id": "gem_box2d_red_float",
     "kind": "solid",
+    "hp": 30000,
     "name": "gem",
     "nameZh": "宝石"
   },
   {
     "id": "gem_box2d_yellow_sun_gravity",
     "kind": "solid",
+    "hp": 1000000,
     "name": "gem",
     "nameZh": "宝石"
   },
   {
     "id": "gem_box2d_darksun",
     "kind": "solid",
+    "hp": 1000000,
     "name": "gem",
     "nameZh": "宝石"
   },
   {
     "id": "gem_box2d_pink",
     "kind": "solid",
+    "hp": 30000,
     "name": "gem",
     "nameZh": "宝石"
   },
   {
     "id": "gem_box2d_red",
     "kind": "solid",
+    "hp": 30000,
     "name": "gem",
     "nameZh": "宝石"
   },
   {
     "id": "gem_box2d_turquoise",
     "kind": "solid",
+    "hp": 30000,
     "name": "Turquoise gemstone",
     "nameZh": "绿松石宝石"
   },
   {
     "id": "gem_box2d_opal",
     "kind": "solid",
+    "hp": 30000,
     "name": "Turquoise gemstone",
     "nameZh": "绿松石宝石"
   },
   {
     "id": "gem_box2d_white",
     "kind": "solid",
+    "hp": 30000,
     "name": "gem_box2d_white",
     "nameZh": ""
   },
   {
     "id": "gem_box2d_green",
     "kind": "solid",
+    "hp": 30000,
     "name": "gem",
     "nameZh": "宝石"
   },
   {
     "id": "gem_box2d_orange",
     "kind": "solid",
+    "hp": 30000,
     "name": "gem",
     "nameZh": "宝石"
   },
   {
     "id": "gold_box2d",
     "kind": "solid",
+    "hp": 30000,
     "name": "gold",
     "nameZh": "黄金"
   },
   {
     "id": "bloodgold_box2d",
     "kind": "solid",
+    "hp": 30000,
     "name": "Ruby",
     "nameZh": "红宝石"
   },
   {
     "id": "metal_nohit",
     "kind": "solid",
+    "hp": 40000,
     "name": "metal",
     "nameZh": "金属"
   },
   {
     "id": "metal_chain_nohit",
     "kind": "solid",
+    "hp": 40000,
     "name": "metal",
     "nameZh": "金属"
   },
   {
     "id": "metal_wire_nohit",
     "kind": "solid",
+    "hp": 40000,
     "name": "metal",
     "nameZh": "金属"
   },
   {
     "id": "metal_rust",
     "kind": "solid",
+    "hp": 5000,
     "name": "rusted metal",
     "nameZh": "锈蚀金属"
   },
   {
     "id": "metal_rust_barrel",
     "kind": "solid",
+    "hp": 5000,
     "name": "rusted metal",
     "nameZh": "锈蚀金属"
   },
   {
     "id": "bone_box2d",
     "kind": "solid",
+    "hp": 5000,
     "name": "bone",
     "nameZh": "骨头"
   },
   {
     "id": "magic_crystal_green",
     "kind": "solid",
+    "hp": 500000,
     "name": "Magical crystal",
     "nameZh": "魔法晶体"
   },
   {
     "id": "gold_b2",
     "kind": "solid",
+    "hp": 500000,
     "name": "gold",
     "nameZh": "黄金"
   },
   {
     "id": "crystal_purple",
     "kind": "solid",
+    "hp": 500000,
     "name": "purple crystal",
     "nameZh": "紫色晶体"
   },
   {
     "id": "crystal_solid",
     "kind": "solid",
+    "hp": 500000,
     "name": "crystal",
     "nameZh": "晶体"
   },
   {
     "id": "meat_fruit",
     "kind": "solid",
+    "burnable": true,
+    "hp": 1000,
     "name": "Fruit flesh",
     "nameZh": "果肉"
   },
   {
     "id": "meat_pumpkin",
     "kind": "solid",
+    "burnable": true,
+    "hp": 1000,
     "name": "Fruit flesh",
     "nameZh": "果肉"
   },
   {
     "id": "meat_warm",
     "kind": "solid",
+    "burnable": true,
+    "hp": 1000,
     "name": "Lightly-cooked meat",
     "nameZh": "微熟的肉"
   },
   {
     "id": "meat_hot",
     "kind": "solid",
+    "burnable": true,
+    "hp": 1000,
     "name": "Cooked meat",
     "nameZh": "熟肉"
   },
   {
     "id": "meat_done",
     "kind": "solid",
+    "burnable": true,
+    "hp": 1000,
     "name": "Fully-cooked meat",
     "nameZh": "全熟的肉"
   },
   {
     "id": "meat_burned",
     "kind": "solid",
+    "burnable": true,
+    "hp": 1000,
     "name": "Burned meat",
     "nameZh": "烧焦的肉"
   },
   {
     "id": "meat_pumpkin",
     "kind": "solid",
+    "burnable": true,
+    "hp": 1000,
     "name": "Fruit flesh",
     "nameZh": "果肉"
   },
   {
     "id": "neon_tube_cyan",
     "kind": "solid",
+    "hp": 200,
     "name": "neon tube",
     "nameZh": "霓虹灯"
   },
   {
     "id": "neon_tube_blood_red",
     "kind": "solid",
+    "hp": 200,
     "name": "neon tube",
     "nameZh": "霓虹灯"
   }

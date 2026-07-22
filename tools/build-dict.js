@@ -1,6 +1,10 @@
 // 数据字典构建工具(§6):从游戏数据生成 data/ 下的 spells.json / perks.json /
-// materials.json / wands.json。
+// materials.json / wands.json,并向手工维护的 effects.json 合并"生成字段"
+// (描述/默认时长等;策展字段永不覆写)。
 // 生成结果直接提交仓库,运行时零依赖;仅在游戏版本更新时手动重跑。
+// 法术数值提取采用正则启发式,复杂函数体由 tools/spell-overrides.js 人工补值;
+// 每次重跑后按日志的「近似值法术」清单复核覆盖表,并对照 noita.wiki.gg 抽查
+// 样本(LIGHT_BULLET / BOMB / DIGGER / HEAVY_SHOT / SPEED / BOUNCE 等)。
 //
 // 输入优先级:
 //   1. --data <dir>   本机解包的游戏 data/ 目录(权威;内含 scripts/gun/gun_actions.lua
@@ -20,6 +24,8 @@ import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 import { argv, exit } from 'node:process';
 import { XMLParser } from 'fast-xml-parser';
+import { flattenEntity, openWak } from './lib/gamedata.js';
+import { SPELL_STAT_OVERRIDES } from './spell-overrides.js';
 
 const toolsDir = fileURLToPath(new URL('.', import.meta.url));
 const dataOutDir = join(toolsDir, '..', 'data');
@@ -40,46 +46,17 @@ const WAK_GUESSES = [
   'C:/Program Files (x86)/Steam/steamapps/common/Noita/data/data.wak',
   'D:/Steam/steamapps/common/Noita/data/data.wak',
   'D:/games/Noita.v25.01.2025/data/data.wak',
+  'E:/games/Noita/data/data.wak',
 ].filter(Boolean);
 
 // ---- 源文件获取 --------------------------------------------------------------
+// wak 读取逻辑在 tools/lib/gamedata.js(与 build-items.js 共享)。
 
-// wak 布局同 build-icons.js:16 字节头 [magic, numFiles, dataStart, 保留],
-// 随后 numFiles 条目 [offset u32, size u32, nameLen u32, name(latin1)]。
-function openWak(path) {
-  const buf = readFileSync(path);
-  let p = 0;
-  const u32 = () => {
-    const v = buf.readUInt32LE(p);
-    p += 4;
-    return v;
-  };
-  u32(); // magic
-  const numFiles = u32();
-  u32(); // dataStart
-  u32(); // 保留
-  const index = new Map();
-  for (let i = 0; i < numFiles; i++) {
-    const off = u32();
-    const size = u32();
-    const nl = u32();
-    const name = buf.toString('latin1', p, p + nl);
-    p += nl;
-    index.set(name, { off, size });
-  }
-  return {
-    read: (relPath) => {
-      const f = index.get(relPath);
-      return f ? buf.toString('utf8', f.off, f.off + f.size) : null;
-    },
-  };
-}
-
-let wakSource; // { wak, dir } 惰性初始化
+let wakSource; // { read, dir } 惰性初始化
 function tryWak() {
   if (wakSource === undefined) {
     const path = WAK_GUESSES.find((p) => existsSync(p));
-    wakSource = path ? { wak: openWak(path), dir: dirname(path) } : null;
+    wakSource = path ? { read: openWak(path), dir: dirname(path) } : null;
     if (path) console.log(`读取 data.wak: ${path}`);
   }
   return wakSource;
@@ -94,7 +71,7 @@ async function fetchSource(relPath) {
   const w = tryWak();
   if (w) {
     // wak 内条目带 data/ 前缀;翻译 csv 等散装文件在 wak 同目录下
-    const inWak = w.wak.read(`data/${relPath}`);
+    const inWak = w.read(`data/${relPath}`);
     if (inWak !== null) return inWak;
     const loose = join(w.dir, relPath);
     if (existsSync(loose)) return readFileSync(loose, 'utf8');
@@ -112,6 +89,19 @@ async function fetchSource(relPath) {
   return text;
 }
 
+// 逐文件读取的增强数据(弹射物/效果实体 XML)用可失败版本:单个文件缺失时
+// 告警跳过,构建降级(缺该法术/效果的数值),而不是整体中止。
+// quiet 用于"探测性"读取(文件很可能不存在),失败不计入告警。
+const fetchFailures = [];
+async function fetchOptional(relPath, quiet = false) {
+  try {
+    return await fetchSource(relPath);
+  } catch (e) {
+    if (!quiet) fetchFailures.push(relPath);
+    return null;
+  }
+}
+
 // ---- gun_actions.lua 解析 ----------------------------------------------------
 
 // ACTION_TYPE_* 枚举(gun_enums.lua)→ 字典中的类型名
@@ -127,6 +117,79 @@ function stripLuaComments(lua) {
     .split('\n')
     .filter((line) => !line.trim().startsWith('--'))
     .join('\n');
+}
+
+// ---- action() 函数体数值提取 --------------------------------------------------
+//
+// 法术对施法参数的修改写在 action() 函数体里,形式高度统一:
+//   c.fire_rate_wait = c.fire_rate_wait + 20      (自引用增量;求和)
+//   c.speed_multiplier = c.speed_multiplier * 0.75(自引用乘法;求积)
+//   current_reload_time = current_reload_time + 40(充能是全局变量,非 c.reload_time)
+// 用正则启发式提取;无法覆盖的复杂写法(条件分支内的增量、含常量表达式等)
+// 标记 statsApprox 并打印,由 tools/spell-overrides.js 人工补值。
+
+const STAT_DELTA_PATTERNS = [
+  ['castDelay', /c\.fire_rate_wait\s*=\s*c\.fire_rate_wait\s*([+-])\s*([\d.]+)/g],
+  ['rechargeTime', /current_reload_time\s*=\s*current_reload_time\s*([+-])\s*([\d.]+)/g],
+  ['spreadDegrees', /c\.spread_degrees\s*=\s*c\.spread_degrees\s*([+-])\s*([\d.]+)/g],
+  ['critChance', /c\.damage_critical_chance\s*=\s*c\.damage_critical_chance\s*([+-])\s*([\d.]+)/g],
+  ['explosionRadius', /c\.explosion_radius\s*=\s*c\.explosion_radius\s*([+-])\s*([\d.]+)/g],
+  ['bounces', /c\.bounces\s*=\s*c\.bounces\s*([+-])\s*([\d.]+)/g],
+  ['lifetimeAdd', /c\.lifetime_add\s*=\s*c\.lifetime_add\s*([+-])\s*([\d.]+)/g],
+  ['knockback', /c\.knockback_force\s*=\s*c\.knockback_force\s*([+-])\s*([\d.]+)/g],
+  ['speedAdd', /c\.speed_multiplier\s*=\s*c\.speed_multiplier\s*([+-])\s*([\d.]+)/g],
+];
+const DMG_MOD_RE = /c\.damage_([a-z]+)_add\s*=\s*c\.damage_\1_add\s*([+-])\s*([\d.]+)/g;
+const SPEED_MUL_RE = /c\.speed_multiplier\s*=\s*c\.speed_multiplier\s*\*\s*([\d.]+)/g;
+// 近似判定用:所有"与数值相关"的赋值行(未被上面模式消费 → 静态解析不了)
+const STAT_ASSIGN_RE = /(?:c\.(?:fire_rate_wait|spread_degrees|damage_critical_chance|damage_[a-z]+_add|explosion_radius|bounces|lifetime_add|speed_multiplier|knockback_force)|current_reload_time)\s*=/g;
+// 速度/爆炸半径钳制模板(增量之后的边界处理,遍布投射物法术,剔除后再做近似判定)
+const CLAMP_RES = [
+  /if\s*\(\s*c\.speed_multiplier\s*>=\s*20\s*\)\s*then[\s\S]*?\bend\b/g,
+  /if\s*\(\s*c\.explosion_radius\s*<\s*0\s*\)\s*then[\s\S]*?\bend\b/g,
+];
+
+const round3 = (v) => Math.round(v * 1000) / 1000;
+
+function extractSpellStats(body) {
+  let cleaned = body;
+  for (const re of CLAMP_RES) cleaned = cleaned.replace(re, '');
+  const firstIf = cleaned.search(/\bif\b/);
+  const inIf = (idx) => firstIf !== -1 && idx > firstIf;
+  const stats = {};
+  let approx = false;
+  let consumed = 0;
+  for (const [key, re] of STAT_DELTA_PATTERNS) {
+    for (const m of cleaned.matchAll(re)) {
+      stats[key] = round3((stats[key] ?? 0) + (m[1] === '-' ? -1 : 1) * Number(m[2]));
+      consumed++;
+      if (inIf(m.index)) approx = true; // 条件分支内的增量不一定生效
+    }
+  }
+  for (const m of cleaned.matchAll(DMG_MOD_RE)) {
+    stats.damageMods = stats.damageMods ?? {};
+    stats.damageMods[m[1]] = round3((stats.damageMods[m[1]] ?? 0) + (m[2] === '-' ? -1 : 1) * Number(m[3]));
+    consumed++;
+    if (inIf(m.index)) approx = true;
+  }
+  for (const m of cleaned.matchAll(SPEED_MUL_RE)) {
+    stats.speedMultiplier = round3((stats.speedMultiplier ?? 1) * Number(m[1]));
+    consumed++;
+    if (inIf(m.index)) approx = true;
+  }
+  const relevant = cleaned.match(STAT_ASSIGN_RE) ?? [];
+  if (relevant.length > consumed) approx = true;
+  // 净零值不输出(信息量为零,JSON 保持稀疏)
+  for (const k of Object.keys(stats)) {
+    if (stats[k] === 0 || (k === 'speedMultiplier' && stats[k] === 1)) delete stats[k];
+  }
+  if (stats.damageMods) {
+    for (const k of Object.keys(stats.damageMods)) {
+      if (stats.damageMods[k] === 0) delete stats.damageMods[k];
+    }
+    if (Object.keys(stats.damageMods).length === 0) delete stats.damageMods;
+  }
+  return { stats, approx };
 }
 
 function parseGunActions(lua) {
@@ -149,6 +212,11 @@ function parseGunActions(lua) {
     const price = field(/\bprice\s*=\s*(-?\d+)/);
     // 解锁旗标(persistent/flags/ 下的文件名);多数法术无此字段 = 天生解锁
     const unlockFlag = field(/\bspawn_requires_flag\s*=\s*"([a-z0-9_]+)"/);
+    // 弹射物实体:related_projectiles 元数据优先,缺失时回退函数体首个 add_projectile*()
+    const body = chunk.match(/\baction\s*=\s*function\s*\([^)]*\)([\s\S]*)$/)?.[1] ?? '';
+    const projFile = field(/\brelated_projectiles\s*=\s*\{\s*"([^"]+)"/)
+      ?? body.match(/\badd_projectile[a-z_]*\(\s*"([^"]+)"/)?.[1] ?? '';
+    const { stats, approx } = extractSpellStats(body);
     spells.push({
       id: marks[i].id,
       key: nameKey ?? '',
@@ -159,6 +227,9 @@ function parseGunActions(lua) {
       maxUses: maxUses ?? '-1', // 未定义 = 无限
       price: price ?? '',
       unlockFlag: unlockFlag ?? '',
+      projFile,
+      ...stats,
+      ...(approx ? { statsApprox: true } : {}),
     });
   }
   return spells;
@@ -216,6 +287,10 @@ function parsePerkList(lua) {
     const funcInfo = gameEffect && hasFunc
       ? FUNC_NOTES[id] ?? { impact: 'minor', note: '附带 Lua 脚本未收录说明,注入后收益可能不完整。' }
       : undefined;
+    // 叠加/池子等静态元数据(稀疏输出:false/缺失不写)
+    const stackableMax = field(/\bstackable_maximum\s*=\s*(\d+)/);
+    const maxInPool = field(/\bmax_in_perk_pool\s*=\s*(\d+)/);
+    const removeOther = chunk.match(/\bremove_other_perks\s*=\s*\{([^}]*)\}/)?.[1];
     perks.push({
       id,
       key: uiName ?? '',
@@ -230,6 +305,15 @@ function parsePerkList(lua) {
       hasFunc,
       funcImpact: funcInfo?.impact ?? '',
       funcNote: funcInfo?.note ?? '',
+      ...(stackableMax ? { stackableMax: Number(stackableMax) } : {}),
+      ...(maxInPool ? { maxInPool: Number(maxInPool) } : {}),
+      ...(/\bstackable_is_rare\s*=\s*true/.test(chunk) ? { stackableRare: true } : {}),
+      ...(/\bone_off_effect\s*=\s*true/.test(chunk) ? { oneOff: true } : {}),
+      ...(/\busable_by_enemies\s*=\s*true/.test(chunk) ? { usableByEnemies: true } : {}),
+      ...(/\bdo_not_remove\s*=\s*true/.test(chunk) ? { doNotRemove: true } : {}),
+      ...(removeOther
+        ? { removeOtherPerks: [...removeOther.matchAll(/"([A-Z0-9_]+)"/g)].map((m) => m[1]) }
+        : {}),
     });
   }
   return perks;
@@ -297,6 +381,95 @@ for (const s of spells) {
   }
   delete s.key;
   delete s.descKey;
+}
+
+// ---- 弹射物基础数值(damage / speed / lifetime / 爆炸)-------------------------
+//
+// gun_actions.lua 只写"对施法参数的增量";法术自身的基础伤害等在弹射物实体
+// XML(related_projectiles 指向)里。逐个读取、展开 <Base> 后取
+// ProjectileComponent 与其 config_explosion 子元素的数值。数值保持游戏内部
+// 单位(伤害 ×25 = 游戏显示值,帧 ÷60 = 秒),换算只在前端 format.js 做。
+
+const entParser = new XMLParser({
+  ignoreAttributes: false,
+  attributeNamePrefix: '',
+  parseTagValue: false,
+  parseAttributeValue: false,
+});
+const asArray = (v) => (v === undefined ? [] : Array.isArray(v) ? v : [v]);
+
+const projCache = new Map();
+async function projectileStats(file) {
+  if (projCache.has(file)) return projCache.get(file);
+  let stats = null;
+  try {
+    const xml = await flattenEntity(file, (f) => fetchOptional(f.replace(/^data\//, '')));
+    const ent = entParser.parse(xml).Entity ?? {};
+    const num = (v) => {
+      const n = Number(v);
+      return Number.isFinite(n) ? n : undefined;
+    };
+    const out = {};
+    for (const pc of asArray(ent.ProjectileComponent)) {
+      out.damage ??= num(pc.damage);
+      out.speedMin ??= num(pc.speed_min);
+      out.speedMax ??= num(pc.speed_max);
+      out.lifetime ??= num(pc.lifetime);
+      const ce = asArray(pc.config_explosion)[0] ?? asArray(pc.ConfigExplosion)[0];
+      if (ce) {
+        out.explosionDamage ??= num(ce.damage);
+        out.explosionRadius ??= num(ce.explosion_radius);
+      }
+      // 部分弹射物按类型分伤害(如近战/切割),单独归到 damageByType
+      const dbt = asArray(pc.damage_by_type)[0];
+      if (dbt) {
+        for (const [k, v] of Object.entries(dbt)) {
+          const n = num(v);
+          if (n !== undefined && n !== 0) {
+            out.damageByType = out.damageByType ?? {};
+            out.damageByType[k] ??= n;
+          }
+        }
+      }
+    }
+    for (const k of Object.keys(out)) {
+      if (out[k] === undefined) delete out[k];
+    }
+    if (Object.keys(out).length > 0) stats = out;
+  } catch {
+    fetchFailures.push(file);
+  }
+  projCache.set(file, stats);
+  return stats;
+}
+
+const withProjFile = spells.filter((s) => s.projFile).length;
+let projHit = 0;
+for (const s of spells) {
+  if (s.projFile) {
+    const st = await projectileStats(s.projFile);
+    if (st) {
+      s.projectile = { file: s.projFile, ...st };
+      projHit++;
+    }
+  }
+  delete s.projFile;
+  // 手工覆盖表:人工核对的最终值;覆盖后视为已核实,清除近似标记
+  const ov = SPELL_STAT_OVERRIDES[s.id];
+  if (ov) {
+    for (const [k, v] of Object.entries(ov)) {
+      if (v === null) delete s[k];
+      else s[k] = v;
+    }
+    delete s.statsApprox;
+  }
+}
+console.log(`ℹ 弹射物数值:${projHit}/${withProjFile} 个法术取到基础数值`);
+const approxIds = spells.filter((s) => s.statsApprox).map((s) => s.id);
+if (approxIds.length) {
+  console.warn(
+    `⚠ ${approxIds.length} 个法术数值为近似(复核后补入 tools/spell-overrides.js):\n  ${approxIds.join(', ')}`,
+  );
 }
 
 // 完整性检查
@@ -375,10 +548,21 @@ function parseMaterials(xmlText) {
       if (inherited(attrs, 'liquid_sand') === '1') kind = 'powder';
       else if (inherited(attrs, 'liquid_static') === '1') kind = 'static';
     }
+    // 简要属性(药水/材料详情用;稀疏输出:false/缺失不写)
+    const flag = (key) => inherited(attrs, key) === '1';
+    const statusEffects = inherited(attrs, 'status_effects');
+    const hp = Number(inherited(attrs, 'hp'));
     materials.push({
       id: attrs.name,
       kind,
       uiKey: (inherited(attrs, 'ui_name') ?? '').replace(/^\$/, ''),
+      ...(flag('burnable') ? { burnable: true } : {}),
+      ...(flag('on_fire') ? { onFire: true } : {}),
+      ...(statusEffects ? { statusEffects } : {}),
+      ...(Number.isFinite(hp) && hp > 0 ? { hp } : {}),
+      ...(flag('danger_fire') ? { dangerFire: true } : {}),
+      ...(flag('danger_radioactive') ? { dangerRadioactive: true } : {}),
+      ...(flag('danger_poison') ? { dangerPoison: true } : {}),
     });
   }
   return materials;
@@ -405,6 +589,105 @@ console.log(
   `✓ 写出 ${materialsPath}: ${materials.length} 种材料` +
   `(${Object.entries(kindCount).map(([k, n]) => `${k} ${n}`).join(' / ')};${matMissingZh} 个缺中文名)`,
 );
+
+// ---- effects.json 增强(合并式;手工字段永不覆写)------------------------------
+//
+// data/effects.json 以 GAME_EFFECT 枚举为准、手工维护(nameZh/group/danger/
+// recommended/selectable/icon 为策展字段,永不生成覆写)。这里从游戏数据补
+// "生成字段"(GENERATED_EFFECT_KEYS):
+//   status_list.lua → 英文名 + 中英描述 + 有害/防火;
+//   效果实体 XML(GameEffectComponent)→ effect 枚举 id(桥接)+ frames 默认时长。
+// 合并规则:只写生成键,不删条目、不自动新增条目,条目顺序保持不变。
+
+const GENERATED_EFFECT_KEYS = ['name', 'desc', 'descZh', 'durationFrames', 'protectsFromFire', 'isHarmful'];
+
+function parseStatusList(lua) {
+  const text = stripLuaComments(lua);
+  const idRe = /\bid\s*=\s*"([A-Z0-9_]+)"/g;
+  const marks = [];
+  for (let m; (m = idRe.exec(text)); ) marks.push({ id: m[1], start: m.index });
+  const entries = [];
+  for (let i = 0; i < marks.length; i++) {
+    const chunk = text.slice(marks[i].start, marks[i + 1]?.start ?? text.length);
+    const field = (re) => chunk.match(re)?.[1];
+    entries.push({
+      id: marks[i].id,
+      key: field(/\bui_name\s*=\s*"\$?([a-z0-9_]+)"/) ?? '',
+      descKey: field(/\bui_description\s*=\s*"\$?([a-z0-9_]+)"/) ?? '',
+      effectEntity: field(/\beffect_entity\s*=\s*"([^"]+)"/) ?? '',
+      protectsFromFire: /\bprotects_from_fire\s*=\s*true/.test(chunk),
+      isHarmful: /\bis_harmful\s*=\s*true/.test(chunk),
+    });
+  }
+  return entries;
+}
+
+/** 读效果实体 XML,取 GameEffectComponent 的 effect 枚举 id 与 frames。 */
+async function gameEffectInfo(file, quiet = false) {
+  try {
+    const xml = await flattenEntity(file, (f) => fetchOptional(f.replace(/^data\//, ''), quiet));
+    const ent = entParser.parse(xml).Entity ?? {};
+    for (const ge of asArray(ent.GameEffectComponent)) {
+      const frames = Number(ge.frames);
+      return { effectId: ge.effect ?? '', frames: Number.isFinite(frames) ? frames : undefined };
+    }
+  } catch {
+    if (!quiet) fetchFailures.push(file);
+  }
+  return null;
+}
+
+const statusEntries = parseStatusList(await fetchSource('scripts/status_effects/status_list.lua'));
+// GAME_EFFECT 枚举 id → 生成字段。status_list 条目 id 是"状态污渍" id
+// (WET/POISONED...),与 GAME_EFFECT 枚举不完全同名;真正的桥接是 effect_entity
+// XML 里 GameEffectComponent 的 effect 属性。两个键都登记,同名者兜底。
+const genByEffect = new Map();
+for (const st of statusEntries) {
+  const t = i18n.get(st.key);
+  const d = i18n.get(st.descKey);
+  const info = st.effectEntity ? await gameEffectInfo(st.effectEntity) : null;
+  const gen = {
+    name: t?.en || '',
+    desc: d?.en || '',
+    descZh: d?.zh || '',
+    ...(info?.frames > 0 ? { durationFrames: info.frames } : {}),
+    ...(st.protectsFromFire ? { protectsFromFire: true } : {}),
+    ...(st.isHarmful ? { isHarmful: true } : {}),
+  };
+  if (info?.effectId && info.effectId !== 'CUSTOM') genByEffect.set(info.effectId, gen);
+  if (!genByEffect.has(st.id)) genByEffect.set(st.id, gen);
+}
+
+const effectsPath = join(dataOutDir, 'effects.json');
+const effects = JSON.parse(readFileSync(effectsPath, 'utf8'));
+const effectIdSet = new Set(effects.map((e) => e.id));
+let effEnriched = 0;
+let effWithDuration = 0;
+for (const e of effects) {
+  let gen = genByEffect.get(e.id);
+  if (!gen) {
+    // 无 status_list 桥接的枚举:按命名惯例探测效果实体 XML,至少补默认时长
+    const info = await gameEffectInfo(`data/entities/misc/effect_${e.id.toLowerCase()}.xml`, true);
+    if (info?.frames > 0) gen = { durationFrames: info.frames };
+  }
+  if (!gen) continue;
+  for (const k of GENERATED_EFFECT_KEYS) {
+    if (gen[k] !== undefined && gen[k] !== '') e[k] = gen[k];
+  }
+  effEnriched++;
+  if (e.durationFrames) effWithDuration++;
+}
+const statusOrphans = statusEntries.filter((s) => !effectIdSet.has(s.id)).map((s) => s.id);
+// 保持原文件"每条一行"的紧凑格式,便于人工维护与 diff 审查
+const fmtEffect = (e) =>
+  '  { ' + Object.entries(e).map(([k, v]) => `"${k}": ${JSON.stringify(v)}`).join(', ') + ' }';
+writeFileSync(effectsPath, '[\n' + effects.map(fmtEffect).join(',\n') + '\n]\n', 'utf8');
+console.log(
+  `✓ 合并 ${effectsPath}: ${effects.length} 条(补生成字段 ${effEnriched} 条,含默认时长 ${effWithDuration} 条)`,
+);
+if (statusOrphans.length) {
+  console.log(`ℹ status_list 中存在但 effects.json 未收录(仅提示,不自动新增): ${statusOrphans.join(', ')}`);
+}
 
 // ---- wands.json(法杖外观字典,§12)---------------------------------------------
 
@@ -472,3 +755,8 @@ console.log(`✓ 写出 ${wandsPath}: ${wandLooks.length} 个法杖外观(含 2 
 
 const unlockFlags = new Set(spells.map((s) => s.unlockFlag).filter(Boolean));
 console.log(`ℹ 法术解锁旗标 ${unlockFlags.size} 个(spells.json unlockFlag 字段)`);
+
+if (fetchFailures.length) {
+  const uniq = [...new Set(fetchFailures)];
+  console.warn(`⚠ ${uniq.length} 个增强数据文件读取失败(对应数值缺失):\n  ${uniq.join('\n  ')}`);
+}
