@@ -850,6 +850,17 @@ SetWandSprite( entity_id, ability_comp, wand.file,
 
 ---
 
+## 19. 应用图标:exe 预览图与运行时窗口图标对齐游戏像素风(2026-07-23,代码完成)
+
+**需求**:打包产物(portable/NSIS exe)与运行时窗口此前均为 Electron 默认图标;要求资源管理器预览图与任务栏/标题栏图标风格尽量与游戏对齐。
+
+- **设计**:原创像素画 —— 深色圆角底板上的紫袍兜帽巫师半身像(金色发光眼、金领扣)+ 手前金色药水圆底瓶;调色板逐色采样自仓库内游戏精灵图(`animal_icons/player.png` 袍紫三阶+腰带金、`items/potion.png` 玻璃灰、`items/goldnugget.png` 金三阶)。32×32 与 16×16 双母版,全部整数倍缩放保像素锐利(16/48 用 16 版,32/64/128/256 用 32 版)。
+- **生成器**:新 `scripts/icon/`:`pnglib.mjs`(零依赖 PNG 编解码 + 最近邻缩放)、`icolib.mjs`(ICO 打包,≤64px 走 BMP 条目、128/256 走 PNG 条目)、`generate.mjs`(母版像素画,`--emit` 写正式产物;默认渲染深浅双底预览拼图到 `tools/.cache/` 供人工审阅)、`extract-exe-icon.ps1`(SHDefExtractIcon 从 exe 提取实际渲染帧,验收用)、`dump-colors.mjs`/`preview-refs.mjs`(采样辅助)。`pnpm icon` 一键重生成。
+- **接线**:产物三份入库 —— `build/icon.ico`(electron-builder `win.icon` → 嵌入 portable/NSIS exe 资源)、`electron/icon.ico`(BrowserWindow `icon`,开发模式与窗口标题栏;打包后任务栏走 exe 资源)、`frontend/public/favicon.png`(浏览器模式标签页,index.html 挂 link)。
+- **验收**:ICO 六条目结构解析正确;重打包 portable 后 SHDefExtractIcon 提取 256px 与设计稿一致;asar 内含 `electron/icon.ico` 与 `frontend/dist/favicon.png`;打包产物 NOITA_SMOKE 冒烟 `/api/status` 正常;lint 绿。测试 555/558:3 项失败为 save00 实时快照状态与夹具预期不符的既有问题(快捷栏无药水、PROTECTION_ALL 已存在),与本次无关。
+
+---
+
 ## 附录 A：法术卡实体模板（实测提取，`{}` 为参数）
 
 ```xml

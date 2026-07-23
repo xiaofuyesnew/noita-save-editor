@@ -6,6 +6,7 @@
 //  - NOITA_EDITOR_PORT  固定服务端口(默认 0 = 系统随机分配)
 //  - NOITA_SMOKE=1      冒烟模式:只起服务不开窗口(打包产物自动化验证用)
 
+import path from 'node:path';
 import { app, BrowserWindow, Menu, shell } from 'electron';
 
 // 双开会得到两份互不知情的编辑缓冲,后写盘者覆盖先写者 —— 锁单实例。
@@ -37,6 +38,8 @@ async function startDesktop() {
     width: 1280,
     height: 860,
     autoHideMenuBar: true,
+    // 打包后任务栏图标来自 exe 资源;这里再指定一份供开发模式(electron .)与窗口标题栏使用
+    icon: path.join(import.meta.dirname, 'icon.ico'),
     webPreferences: { contextIsolation: true, nodeIntegration: false },
   });
 

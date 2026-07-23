@@ -1,6 +1,6 @@
 {
   "name": "noita-save-editor",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "private": true,
   "type": "module",
   "description": "Local web-based save editor for Noita (save00). Hono backend + Vite/Vue 3 frontend.",
@@ -17,6 +17,7 @@
     "start:desktop": "electron .",
     "dev": "concurrently -k -n server,vite \"node server/index.js\" \"pnpm -C frontend dev\"",
     "build": "pnpm -C frontend build",
+    "icon": "node scripts/icon/generate.mjs --emit",
     "lint": "pnpm -C frontend lint",
     "test": "node --import ./test/setup.js --test \"test/**/*.test.js\"",
     "pack": "pnpm build && electron-builder --win --dir",
@@ -44,6 +45,7 @@
       "data/**"
     ],
     "win": {
+      "icon": "build/icon.ico",
       "target": [
         {
           "target": "nsis",
