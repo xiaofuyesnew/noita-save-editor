@@ -22,6 +22,23 @@ const { t } = useI18n()
 
 const showBackups = ref(false)
 
+// 导出全局函数供 Electron close 事件读取脏态(executeJavaScript 调用)
+if (typeof window !== 'undefined') {
+  window.hasDirtyBuffer = () => save.status?.dirty ?? false
+}
+
+// 浏览器模式 beforeunload:脏态时弹确认框(浏览器原生,无法自定义文案)
+onMounted(() => {
+  const handleBeforeUnload = (e) => {
+    if (save.status?.dirty) {
+      e.preventDefault()
+      e.returnValue = '' // Chrome 需要设置 returnValue 才触发对话框
+    }
+  }
+  window.addEventListener('beforeunload', handleBeforeUnload)
+  onBeforeUnmount(() => window.removeEventListener('beforeunload', handleBeforeUnload))
+})
+
 onMounted(async () => {
   try {
     await save.refresh()

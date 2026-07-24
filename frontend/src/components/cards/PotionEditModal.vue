@@ -23,7 +23,7 @@ watch(show, (v) => {
     dict.ensureMaterials()
     dict.ensureEffects() // 材料接触效果名的解析
     materials.value = (props.container?.materials ?? [])
-      .map(m => ({ material: m.material, count: m.count }))
+      .map(m => ({ material: m.material, count: Number(m.count) }))
     baseline.value = JSON.stringify(materials.value)
   }
 })
@@ -88,7 +88,7 @@ const title = computed(() => props.container
 
 function onSave() {
   show.value = false
-  emit('save', materials.value.filter(m => (m.material ?? '').trim() !== ''))
+  emit('save', materials.value.filter(m => (m.material ?? '').trim() !== '').map(m => ({ material: m.material, count: String(m.count) })))
 }
 
 function onRemove() {
@@ -101,6 +101,7 @@ function onRemove() {
   <NModal
     v-model:show="show" preset="card" :title="title + (dirty ? ' *' : '')"
     :style="{ width: '520px', maxWidth: '90vw' }" size="small"
+    :mask-closable="!dirty"
   >
     <NText v-if="container" :depth="3" class="block text-12px mb-2">
       {{ t('potion.slotCap', { slot: container.slot ?? '?', cap: container.capacity ?? '?' }) }}
@@ -113,12 +114,12 @@ function onRemove() {
       <NText :depth="3" :type="matById.get(m.material) ? 'default' : 'warning'" class="text-12px flex-1">
         {{ matInfo(m.material) }}
       </NText>
-      <NInput v-model:value="m.count" size="tiny" class="!w-24" />
+      <NInputNumber v-model:value="m.count" size="tiny" class="!w-24" :show-button="false" :min="0" />
       <NButton size="tiny" secondary @click="materials.splice(i, 1)">
         {{ t('common.delete') }}
       </NButton>
     </NFlex>
-    <NButton size="small" class="mb-2" @click="materials.push({ material: '', count: '1000' })">
+    <NButton size="small" class="mb-2" @click="materials.push({ material: '', count: 1000 })">
       {{ t('potion.addMat') }}
     </NButton>
     <NText :depth="3" class="block text-12px mb-2">

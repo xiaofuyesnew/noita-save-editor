@@ -190,6 +190,8 @@ export function applyWorldState(worldTree, patch = {}) {
   }
 
   let flagsReplaced = false;
+  let flagsRemoved = [];
+  let flagsAdded = [];
   if (patch.flags !== undefined) {
     if (!Array.isArray(patch.flags)) throw new Error('flags 必须是字符串数组');
     const seen = new Set();
@@ -203,6 +205,13 @@ export function applyWorldState(worldTree, patch = {}) {
         clean.push(flag);
       }
     }
+    // flags 是全量替换语义:显式算出增删,让"丢旗标"可被响应/日志审计,
+    // 而非静默发生(调用方漏带某些旗标会在 flagsRemoved 里暴露)。
+    const before = elementChildren(flagsNode(worldTree))
+      .filter((n) => tagOf(n) === 'string').map(textOf);
+    const beforeSet = new Set(before);
+    flagsRemoved = before.filter((f) => !seen.has(f));
+    flagsAdded = clean.filter((f) => !beforeSet.has(f));
     replaceChildren(
       flagsNode(worldTree),
       clean.map((f) => setText(makeElement('string'), f)),
@@ -236,6 +245,8 @@ export function applyWorldState(worldTree, patch = {}) {
     changed: changedFields.length > 0 || flagsReplaced || changedMaterialsReplaced,
     fields: changedFields,
     flagsReplaced,
+    flagsRemoved,
+    flagsAdded,
     changedMaterialsReplaced,
   };
 }

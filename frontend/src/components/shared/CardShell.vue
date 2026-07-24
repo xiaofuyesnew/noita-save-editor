@@ -1,12 +1,16 @@
 <script setup>
 // 通用 card 骨架:NCard(标题 + 说明 + 右上动作插槽)+ NScrollbar 滚动主体;
 // dirty 星号由父级传入。高度由 card-cell(uno shortcut)保持一屏三行。
+// loadError 非空时在主体顶部显示错误条 + 「重试」(见 useCardLoad)。
 defineProps({
   id: { type: String, required: true },
   title: { type: String, required: true },
   desc: { type: String, default: '' },
   dirty: { type: Boolean, default: false },
+  loadError: { type: String, default: '' },
 })
+const emit = defineEmits(['retry'])
+const { t } = useI18n()
 </script>
 
 <template>
@@ -29,6 +33,16 @@ defineProps({
     <NText v-if="desc" :depth="3" class="block text-11px lh-snug mb-2 flex-shrink-0">
       {{ desc }}
     </NText>
+    <NAlert v-if="loadError" type="error" size="small" class="mb-2 flex-shrink-0">
+      <NFlex justify="space-between" align="center" :wrap="false" :size="8">
+        <NText class="text-12px min-w-0">
+          {{ t('card.loadFailed', { msg: loadError }) }}
+        </NText>
+        <NButton size="tiny" secondary @click="emit('retry')">
+          {{ t('common.retry') }}
+        </NButton>
+      </NFlex>
+    </NAlert>
     <NScrollbar class="flex-1 min-h-0">
       <div class="pr-3">
         <slot />

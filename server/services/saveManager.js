@@ -22,10 +22,18 @@ import { join, basename } from 'node:path';
 
 import { config } from '../config.js';
 import { loadXml, parseXml } from '../xml/parse.js';
-import { serializeXml, countElements } from '../xml/serialize.js';
+import { serializeXml, countElements, canonicalizeTree } from '../xml/serialize.js';
 
 // 编辑器会读入内存并可写回的 XML 文件(相对存档目录)
 const MANAGED_FILES = ['player.xml', 'world_state.xml', 'mod_config.xml'];
+
+/** 目录是否为"可安全覆盖的推送目标":不存在 / 空目录 / 像 save00。 */
+function isSafePushTarget(dir) {
+  if (!existsSync(dir)) return true; // 首次推送会创建
+  if (!statSync(dir).isDirectory()) return false;
+  if (existsSync(join(dir, 'player.xml'))) return true; // 真实存档目录
+  return readdirSync(dir).length === 0; // 空目录亦可
+}
 
 class Mutex {
   #locked = false;
@@ -204,13 +212,34 @@ export class SaveManager {
     }
   }
 
+  /**
+   * 原子地把 srcDir 拷成 destDir:先拷到同级临时目录,成功后再交换 ——
+   * 避免"先删 destDir 再拷贝、中途失败导致 destDir 半毁"。destDir 已存在
+   * 时旧内容移到 .old 暂存,交换成功后删除;交换失败则回滚。
+   */
+  #atomicReplaceDir(srcDir, destDir) {
+    const staging = destDir + '.new';
+    const old = destDir + '.old';
+    rmSync(staging, { recursive: true, force: true });
+    rmSync(old, { recursive: true, force: true });
+    cpSync(srcDir, staging, { recursive: true }); // 失败时 destDir 原封不动
+    if (existsSync(destDir)) renameSync(destDir, old);
+    try {
+      renameSync(staging, destDir);
+    } catch (e) {
+      if (existsSync(old) && !existsSync(destDir)) renameSync(old, destDir); // 回滚
+      rmSync(staging, { recursive: true, force: true });
+      throw e;
+    }
+    rmSync(old, { recursive: true, force: true });
+  }
+
   /** 从备份恢复到工作区(恢复前自动备份当前工作区)。 */
   restore(backupName) {
     const src = this.#backupPath(backupName);
     return this.mutex.run(async () => {
       if (existsSync(this.saveDir)) this.backup(this.saveDir, 'prerestore');
-      rmSync(this.saveDir, { recursive: true, force: true });
-      cpSync(src, this.saveDir, { recursive: true });
+      this.#atomicReplaceDir(src, this.saveDir);
       this.reload();
       return { restored: backupName };
     });
@@ -223,8 +252,7 @@ export class SaveManager {
     if (!existsSync(this.liveDir)) throw new Error(`实时档不存在: ${this.liveDir}`);
     return this.mutex.run(async () => {
       if (existsSync(this.saveDir)) this.backup(this.saveDir, 'prepull');
-      rmSync(this.saveDir, { recursive: true, force: true });
-      cpSync(this.liveDir, this.saveDir, { recursive: true });
+      this.#atomicReplaceDir(this.liveDir, this.saveDir);
       this.reload();
       return { from: this.liveDir, to: this.saveDir };
     });
@@ -234,6 +262,13 @@ export class SaveManager {
   push({ force = false } = {}) {
     if (this.isGameRunning() && !force) {
       throw new Error('检测到 Noita 正在运行;推送到实时档前请先关闭游戏(或 force)');
+    }
+    // 防误覆盖:实时档已存在、非空、又不含 player.xml(不像存档目录)时拒绝,
+    // 避免把存档倒进 C:\Windows 这类被错配的路径(force 可显式绕过)。
+    if (!force && !isSafePushTarget(this.liveDir)) {
+      throw new Error(
+        `实时档路径看起来不是存档目录(非空且无 player.xml),已拒绝覆盖: ${this.liveDir}`,
+      );
     }
     return this.mutex.run(async () => {
       if (existsSync(this.liveDir)) this.backup(this.liveDir, 'live');
@@ -245,8 +280,10 @@ export class SaveManager {
   // ---- 写入 ---------------------------------------------------------------
 
   /**
-   * 提交所有 dirty 缓冲到工作区磁盘。
-   * 流程:备份 → 逐文件[序列化→重解析自检→tmp→rename] → 清 dirty。
+   * 提交所有 dirty 缓冲到工作区磁盘。两阶段,保证跨文件一致性:
+   *   阶段一(不落盘):逐文件序列化 + 重解析深比对自检,任一失败即整体中止;
+   *   阶段二(落盘):全部自检通过后,才逐文件 tmp→rename 原子替换并清 dirty。
+   * 这样不会出现"player.xml 落了新数据、world_state.xml 还是旧的"的半提交。
    * @param {{skipBackup?: boolean}} [opts]
    */
   commit(opts = {}) {
@@ -255,16 +292,24 @@ export class SaveManager {
       const targets = this.dirtyFiles();
       if (targets.length === 0) return { written: [], backup: null };
 
-      const backupName = opts.skipBackup ? null : this.backup(this.saveDir, 'edit');
-      const written = [];
+      // 阶段一:全部序列化 + 自检(纯内存,失败不留副作用)
+      const prepared = [];
       for (const name of targets) {
         const buf = this.buffers.get(name);
         const text = serializeXml(buf.tree, { style: buf.style });
-        // 自检:重解析,断言元素数一致(catch 序列化 bug)
         const reparsed = parseXml(text);
-        if (countElements(reparsed) !== countElements(buf.tree)) {
-          throw new Error(`写入自检失败(${name}):序列化前后元素数不一致`);
+        // 元素数一致 + 归一化深比对(捕获属性/文本级损坏,非仅结构)
+        if (countElements(reparsed) !== countElements(buf.tree)
+          || JSON.stringify(canonicalizeTree(reparsed)) !== JSON.stringify(canonicalizeTree(buf.tree))) {
+          throw new Error(`写入自检失败(${name}):序列化前后内容不一致,已中止全部写入`);
         }
+        prepared.push({ name, buf, text });
+      }
+
+      // 阶段一全部通过后才备份 + 落盘
+      const backupName = opts.skipBackup ? null : this.backup(this.saveDir, 'edit');
+      const written = [];
+      for (const { name, buf, text } of prepared) {
         const dest = join(this.saveDir, name);
         const tmp = dest + '.tmp';
         writeFileSync(tmp, text, 'utf8');
@@ -275,6 +320,38 @@ export class SaveManager {
       this.version++;
       return { written, backup: backupName };
     });
+  }
+
+  /**
+   * 事务性缓冲修改:对涉及的受管文件先做快照,执行 fn;fn 抛错则原地回滚
+   * 全部快照,杜绝"改到一半失败留下污染树、却因未 markDirty 而被后续 commit
+   * 顺带写盘"的问题。fn 为同步函数(领域模型均同步改树)。
+   * @template T
+   * @param {string|string[]} fileNames 参与本次事务的受管文件
+   * @param {() => T} fn
+   * @returns {T}
+   */
+  mutate(fileNames, fn) {
+    this.#ensureLoaded();
+    const names = Array.isArray(fileNames) ? fileNames : [fileNames];
+    const snaps = new Map();
+    for (const name of names) {
+      const buf = this.buffers.get(name);
+      if (buf) snaps.set(name, structuredClone(buf.tree));
+    }
+    try {
+      return fn();
+    } catch (e) {
+      for (const [name, snap] of snaps) {
+        const buf = this.buffers.get(name);
+        if (buf) {
+          // 原地还原:保持数组引用不变(路由局部持有的 tree 引用同步复原)
+          buf.tree.length = 0;
+          buf.tree.push(...snap);
+        }
+      }
+      throw e;
+    }
   }
 
   /** 丢弃内存改动,重新读盘。 */
@@ -310,7 +387,17 @@ export class SaveManager {
       }
       this.saveDir = nextSave;
     }
-    if (changingLive) this.liveDir = nextLive;
+    if (changingLive) {
+      // 实时档是 push 的覆盖目标:若指向一个已存在、非空、又不像存档目录的
+      // 路径(如误填 C:\Windows),提前拒绝,避免 push 时酿成灾难性覆盖。
+      if (existsSync(nextLive) && !statSync(nextLive).isDirectory()) {
+        throw new Error(`实时档路径不是目录: ${nextLive}`);
+      }
+      if (!isSafePushTarget(nextLive)) {
+        throw new Error(`实时档路径看起来不是存档目录(非空且无 player.xml): ${nextLive}`);
+      }
+      this.liveDir = nextLive;
+    }
     if (changingSave) this.reload();
     return {
       changed: changingSave || changingLive,

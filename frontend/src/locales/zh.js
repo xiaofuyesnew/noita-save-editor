@@ -27,6 +27,8 @@ export const zh = {
   'common.export': '导出',
   'common.none': '(无)',
   'common.continue': '继续',
+  'common.retry': '重试',
+  'card.loadFailed': '加载失败: {msg}',
   'confirm.title': '确认',
 
   // ---- 玩家属性 ----
@@ -384,6 +386,8 @@ export const zh = {
 
   // ---- 日志与确认消息 ----
   'log.error': '错误: {msg}',
+  'log.conflict': '版本冲突:存档已在别处变动,已自动刷新,请重试',
+  'log.reloadPartial': '{n} 张卡片刷新失败(其余已刷新)',
   'log.initFailed': '初始化失败: {msg}',
   'log.written': '已写入存档',
   'log.reloaded': '已重新读取',

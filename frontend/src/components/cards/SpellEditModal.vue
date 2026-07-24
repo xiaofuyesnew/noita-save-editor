@@ -12,12 +12,12 @@ const show = defineModel('show', { type: Boolean, default: false })
 const { t } = useI18n()
 const dict = useDictStore()
 
-const uses = ref('-1')
+const uses = ref(-1)
 const alwaysCast = ref(false)
 
 watch(show, (v) => {
   if (v && props.spell) {
-    uses.value = props.spell.usesRemaining ?? '-1'
+    uses.value = Number(props.spell.usesRemaining ?? -1)
     alwaysCast.value = props.spell.alwaysCast
   }
 })
@@ -30,9 +30,15 @@ const title = computed(() => {
   return `${name}(${t('wand.slotLabel', { slot: props.spell.slot })})`
 })
 
+const dirty = computed(() => {
+  const orig = props.spell || {}
+  return uses.value !== Number(orig.usesRemaining ?? -1)
+    || alwaysCast.value !== (orig.alwaysCast ?? false)
+})
+
 function onSave() {
   show.value = false
-  emit('save', { usesRemaining: uses.value, alwaysCast: alwaysCast.value })
+  emit('save', { usesRemaining: String(uses.value), alwaysCast: alwaysCast.value })
 }
 function onRemove() {
   show.value = false
@@ -44,11 +50,12 @@ function onRemove() {
   <NModal
     v-model:show="show" preset="card" :title="title"
     :style="{ width: '480px', maxWidth: '90vw' }" size="small"
+    :mask-closable="!dirty"
   >
     <NFlex align="center" :size="16">
       <NFlex vertical :size="2">
         <FieldLabel :label="t('spellEdit.uses')" :tip="t('spellEdit.uses.tip')" />
-        <NInput v-model:value="uses" size="tiny" class="!w-32" />
+        <NInputNumber v-model:value="uses" size="tiny" class="!w-32" :show-button="false" />
       </NFlex>
       <NCheckbox v-model:checked="alwaysCast" size="small">
         {{ t('spellEdit.ac') }}

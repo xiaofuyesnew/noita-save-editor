@@ -24,13 +24,22 @@ function pad(level) {
 }
 
 function escAttr(value) {
+  // 结构性字符 & < " 转义;另把控制字符(换行/回车/制表)写成数值实体 ——
+  // 否则用户自由文本(法杖名/材料名等)里的换行会破坏"一属性一行"布局,
+  // 且 XML 规范会在读取时把它们规范化为空格,造成写入值 ≠ 游戏读到的值。
+  // Noita 原生文件的属性值不含控制字符,故不影响未修改文件的逐字节还原。
   return String(value)
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
-    .replace(/"/g, '&quot;');
+    .replace(/"/g, '&quot;')
+    .replace(/\r/g, '&#13;')
+    .replace(/\n/g, '&#10;')
+    .replace(/\t/g, '&#9;');
 }
 
 function escText(value) {
+  // 文本节点只需转义 & 与 <(> 在文本里是合法字符,转义它会破坏对
+  // 原生文件的逐字节还原;原生文本节点不含控制字符)。
   return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;');
 }
 
@@ -108,4 +117,31 @@ export function countElements(tree) {
     n += 1 + countElements(node[tag]);
   }
   return n;
+}
+
+/**
+ * 归一化保序树为可比较的规范结构:丢弃纯空白文本节点、trim 有意义文本、
+ * 保留标签/属性(含顺序)/嵌套。用于写盘自检 —— 比 countElements 更强,
+ * 能捕获属性值/文本被序列化损坏(元素数不变但内容变了)的情形。
+ * @param {Array<object>} tree
+ * @returns {Array<object>}
+ */
+export function canonicalizeTree(tree) {
+  const out = [];
+  for (const node of tree ?? []) {
+    const tag = tagOf(node);
+    if (tag === undefined) continue;
+    if (tag === '#text') {
+      const t = String(node['#text']).trim();
+      if (t) out.push({ t });
+      continue;
+    }
+    if (tag.startsWith('#')) {
+      const inner = (node[tag] ?? []).map((c) => String(c['#text'] ?? '')).join('');
+      out.push({ [tag]: inner });
+      continue;
+    }
+    out.push({ tag, a: { ...(node[':@'] ?? {}) }, c: canonicalizeTree(node[tag] ?? []) });
+  }
+  return out;
 }

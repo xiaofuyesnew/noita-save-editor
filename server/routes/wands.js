@@ -26,12 +26,13 @@ import {
 
 export const wandRoutes = new Hono();
 
-// 统一:取 player 树 + 错误包装 + 版本乐观校验
+// 统一:取 player 树 + 错误包装 + 版本乐观校验 + 写操作事务化
 function handler(fn) {
   return async (c) => {
     const tree = saveManager.getTree('player.xml');
     if (!tree) return c.json({ ok: false, error: '未找到 player.xml' }, 404);
 
+    const isWrite = c.req.method === 'POST' || c.req.method === 'PUT' || c.req.method === 'DELETE';
     let body;
     if (c.req.method === 'POST' || c.req.method === 'PUT') {
       body = await c.req.json().catch(() => ({}));
@@ -45,6 +46,8 @@ function handler(fn) {
     }
 
     try {
+      // 写操作在事务内进行:模型中途抛错则回滚缓冲,不留半改污染
+      if (isWrite) return saveManager.mutate('player.xml', () => fn(c, tree, body));
       return await fn(c, tree, body);
     } catch (e) {
       const payload = { ok: false, error: String(e.message || e) };

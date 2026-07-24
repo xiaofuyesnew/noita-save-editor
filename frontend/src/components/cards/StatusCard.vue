@@ -3,10 +3,12 @@
 // 路径输入只在用户未改动时跟随服务端值(watch status,untouched 才回填)。
 import CardShell from '@/components/shared/CardShell.vue'
 import FieldLabel from '@/components/shared/FieldLabel.vue'
+import { useSubmit } from '@/composables/useSubmit'
 import { useSaveStore } from '@/stores/save'
 
 const save = useSaveStore()
 const { t } = useI18n()
+const { submitting, run: runSubmit } = useSubmit()
 
 const saveDir = ref('')
 const liveDir = ref('')
@@ -45,7 +47,7 @@ const lastBackup = computed(() => {
     id="statusCard" :title="t('status.title')" :desc="t('status.desc')" :dirty="dirtyForm"
   >
     <template #action>
-      <NButton size="small" type="primary" secondary :disabled="!dirtyForm" @click="apply">
+      <NButton size="small" type="primary" secondary :disabled="!dirtyForm || submitting" :loading="submitting" @click="runSubmit(apply)">
         {{ t('common.applyNow') }}
       </NButton>
     </template>

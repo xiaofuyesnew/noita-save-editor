@@ -190,6 +190,7 @@ export function applyDamageMultipliers(playerTree, patch) {
   const existing = node[':@'] ?? {};
   const fields = [];
   for (const [key, value] of Object.entries(patch ?? {})) {
+    if (key === 'version') continue; // 乐观锁字段,非伤害类型
     if (!(key in existing)) throw new Error(`未知的伤害类型: ${key}`);
     setAttr(node, key, numStr(value, `damage_multipliers.${key}`));
     fields.push(key);
@@ -230,11 +231,12 @@ export function readInvincibility(playerTree) {
 /**
  * 应用/撤销无敌。mode ∈ effect|frames|negative|huge, enable 布尔。
  * 撤销 negative/huge 时把 hp 恢复为 max_hp。
- * @returns {{mode: string, enable: boolean, state: object}}
+ * @returns {{mode: string, enable: boolean, changed: boolean, state: object}}
  */
 export function applyInvincibility(playerTree, { mode, enable = true }) {
   const root = playerRoot(playerTree);
   const dmg = requireComponent(root, 'DamageModelComponent');
+  let changed = false;
 
   switch (mode) {
     case 'effect': {
@@ -245,22 +247,33 @@ export function applyInvincibility(playerTree, { mode, enable = true }) {
           x: getAttr(tf, 'position.x') ?? '0',
           y: getAttr(tf, 'position.y') ?? '0',
         }));
-      } else if (!enable) {
+        changed = true;
+      } else if (!enable && existing.length > 0) {
         for (const e of existing) removeChild(root, e);
+        changed = true;
       }
       break;
     }
-    case 'frames':
-      setAttr(dmg, 'invincibility_frames', enable ? INVINCIBILITY_FRAMES_ON : '0');
+    case 'frames': {
+      const next = enable ? INVINCIBILITY_FRAMES_ON : '0';
+      changed = getAttr(dmg, 'invincibility_frames') !== next;
+      if (changed) setAttr(dmg, 'invincibility_frames', next);
       break;
-    case 'negative':
-      setAttr(dmg, 'hp', enable ? '-1000' : getAttr(dmg, 'max_hp'));
+    }
+    case 'negative': {
+      const next = enable ? '-1000' : getAttr(dmg, 'max_hp');
+      changed = getAttr(dmg, 'hp') !== next;
+      if (changed) setAttr(dmg, 'hp', next);
       break;
-    case 'huge':
-      setAttr(dmg, 'hp', enable ? '1e+030' : getAttr(dmg, 'max_hp'));
+    }
+    case 'huge': {
+      const next = enable ? '1e+030' : getAttr(dmg, 'max_hp');
+      changed = getAttr(dmg, 'hp') !== next;
+      if (changed) setAttr(dmg, 'hp', next);
       break;
+    }
     default:
       throw new Error(`未知无敌模式: ${mode}(可选 effect|frames|negative|huge)`);
   }
-  return { mode, enable, state: readInvincibility(playerTree) };
+  return { mode, enable, changed, state: readInvincibility(playerTree) };
 }

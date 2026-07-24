@@ -38,6 +38,37 @@ const defaultWebRoot = existsSync(join(frontendDist, 'index.html')) ? frontendDi
 export function createApp({ webRoot = defaultWebRoot } = {}) {
   const app = new Hono();
 
+  // ---- 本机安全护栏(CSRF / DNS-rebinding) --------------------------------
+  // 服务只绑 127.0.0.1,但浏览器里的恶意页面仍可跨站 POST(CSRF),或用
+  // DNS-rebinding 把自己的域名重绑到 127.0.0.1 后同源读写。两道校验挡住:
+  //  1) Host 头必须是 localhost/127.0.0.1(rebinding 后 Host 是攻击者域名 → 拒);
+  //  2) 写方法若带 Origin,其 host 也必须是本机(挡跨站表单/fetch)。
+  // 放行缺失 Origin(同源 GET、curl、测试 app.request 均无 Origin)。
+  const isLocalHost = (host) => {
+    if (!host) return true; // Hono test client 等可能不带 Host
+    const name = host.replace(/:\d+$/, '').replace(/^\[|\]$/g, '');
+    return name === 'localhost' || name === '127.0.0.1' || name === '::1';
+  };
+  app.use('/*', async (c, next) => {
+    if (!isLocalHost(c.req.header('host'))) {
+      return c.json({ ok: false, error: '非法 Host(仅允许本机访问)' }, 403);
+    }
+    const method = c.req.method;
+    if (method !== 'GET' && method !== 'HEAD') {
+      const origin = c.req.header('origin');
+      if (origin) {
+        let ok = false;
+        try {
+          ok = isLocalHost(new URL(origin).host);
+        } catch {
+          ok = false;
+        }
+        if (!ok) return c.json({ ok: false, error: '跨站请求被拒绝(Origin 非本机)' }, 403);
+      }
+    }
+    await next();
+  });
+
   // ---- API ----------------------------------------------------------------
 
   const api = new Hono();
@@ -140,13 +171,31 @@ export function createApp({ webRoot = defaultWebRoot } = {}) {
 
   const player = new Hono();
 
-  // 统一取树 + 错误包装
-  function withPlayerTree(fn) {
+  // 统一取树 + 版本乐观校验 + 错误包装 + 写操作事务化。
+  // write 为真时:先解析 body、校验 version(与其余路由一致的乐观锁),
+  // 再把模型调用放进 saveManager.mutate 事务(中途抛错回滚 player+world 缓冲)。
+  function withPlayerTree(fn, { write = false } = {}) {
     return async (c) => {
       const tree = saveManager.getTree('player.xml');
       if (!tree) return c.json({ ok: false, error: '未找到 player.xml' }, 404);
+
+      let body;
+      if (write) {
+        body = await c.req.json().catch(() => ({}));
+        const version = body?.version ?? c.req.query('v');
+        if (version !== undefined && Number(version) !== saveManager.version) {
+          return c.json({
+            ok: false,
+            error: `版本不一致(客户端 ${version},服务端 ${saveManager.version}),请刷新后重试`,
+          }, 409);
+        }
+      }
+
       try {
-        return await fn(c, tree);
+        if (write) {
+          return saveManager.mutate(['player.xml', 'world_state.xml'], () => fn(c, tree, body));
+        }
+        return await fn(c, tree, body);
       } catch (e) {
         return c.json({ ok: false, error: String(e.message || e) }, 400);
       }
@@ -156,32 +205,32 @@ export function createApp({ webRoot = defaultWebRoot } = {}) {
   player.get('/basics', withPlayerTree((c, tree) =>
     c.json({ ...readBasics(tree), version: saveManager.version })));
 
-  player.put('/basics', withPlayerTree(async (c, tree) => {
-    const patch = await c.req.json();
+  player.put('/basics', withPlayerTree((c, tree, body) => {
+    const patch = body ?? {};
     const worldTree = saveManager.getTree('world_state.xml');
     const result = applyBasics(tree, worldTree, patch);
     if (result.playerChanged) saveManager.markDirty('player.xml');
     if (result.worldChanged) saveManager.markDirty('world_state.xml');
-    return c.json({ ok: true, ...result, basics: readBasics(tree) });
-  }));
+    return c.json({ ok: true, ...result, basics: readBasics(tree), version: saveManager.version });
+  }, { write: true }));
 
   player.get('/damage-multipliers', withPlayerTree((c, tree) =>
-    c.json(readDamageMultipliers(tree))));
+    c.json({ ...readDamageMultipliers(tree), version: saveManager.version })));
 
-  player.put('/damage-multipliers', withPlayerTree(async (c, tree) => {
-    const result = applyDamageMultipliers(tree, await c.req.json());
+  player.put('/damage-multipliers', withPlayerTree((c, tree, body) => {
+    const result = applyDamageMultipliers(tree, body ?? {});
     if (result.changed) saveManager.markDirty('player.xml');
-    return c.json({ ok: true, ...result, multipliers: readDamageMultipliers(tree) });
-  }));
+    return c.json({ ok: true, ...result, multipliers: readDamageMultipliers(tree), version: saveManager.version });
+  }, { write: true }));
 
   player.get('/invincibility', withPlayerTree((c, tree) =>
     c.json(readInvincibility(tree))));
 
-  player.post('/invincibility', withPlayerTree(async (c, tree) => {
-    const result = applyInvincibility(tree, await c.req.json());
-    saveManager.markDirty('player.xml');
-    return c.json({ ok: true, ...result });
-  }));
+  player.post('/invincibility', withPlayerTree((c, tree, body) => {
+    const result = applyInvincibility(tree, body ?? {});
+    if (result.changed) saveManager.markDirty('player.xml');
+    return c.json({ ok: true, ...result, version: saveManager.version });
+  }, { write: true }));
 
   app.route('/api/player', player);
 

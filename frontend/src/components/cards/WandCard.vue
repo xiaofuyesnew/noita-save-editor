@@ -4,6 +4,8 @@
 // 属性表单与法术加删改/拖拽都先改本地暂存(wands store),统一「应用」提交。
 import CardShell from '@/components/shared/CardShell.vue'
 import SlotStrip from '@/components/shared/SlotStrip.vue'
+import { useCardLoad } from '@/composables/useCardLoad'
+import { useSubmit } from '@/composables/useSubmit'
 import { useDictStore } from '@/stores/dict'
 import { useSaveStore } from '@/stores/save'
 import { useWandsStore, WAND_FORM_FIELDS } from '@/stores/wands'
@@ -17,6 +19,7 @@ const save = useSaveStore()
 const dict = useDictStore()
 const wandsStore = useWandsStore()
 const { t } = useI18n()
+const { submitting, run: runSubmit } = useSubmit()
 
 const showPicker = ref(false)
 const showEditor = ref(false)
@@ -102,18 +105,21 @@ function onReorder(target, order) {
   wandsStore.stageReorder(target, order)
 }
 
-onMounted(() => load(false))
-save.onReload(discardEdits => load(!discardEdits))
+const { error, run: runLoad, retry } = useCardLoad(load)
+onMounted(() => runLoad(false))
+const unsubscribe = save.onReload(discardEdits => load(!discardEdits))
+onBeforeUnmount(unsubscribe)
 </script>
 
 <template>
   <CardShell
     id="wandCard" :title="t('wand.title')" :desc="t('wand.desc')" :dirty="wandsStore.dirty"
+    :load-error="error" @retry="retry"
   >
     <template #action>
       <NButton
-        size="small" type="primary" secondary :disabled="!wandsStore.dirty"
-        @click="wandsStore.applyAllLogged()"
+        size="small" type="primary" secondary :disabled="!wandsStore.dirty || submitting" :loading="submitting"
+        @click="runSubmit(() => wandsStore.applyAllLogged())"
       >
         {{ t('common.apply') }}
       </NButton>

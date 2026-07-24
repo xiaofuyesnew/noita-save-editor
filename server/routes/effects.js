@@ -18,6 +18,7 @@ function handler(fn, { needWorld = false } = {}) {
       return c.json({ ok: false, error: '未找到 world_state.xml' }, 404);
     }
 
+    const isWrite = c.req.method === 'POST' || c.req.method === 'PUT' || c.req.method === 'DELETE';
     let body;
     if (c.req.method === 'POST' || c.req.method === 'PUT') {
       body = await c.req.json().catch(() => ({}));
@@ -31,6 +32,12 @@ function handler(fn, { needWorld = false } = {}) {
     }
 
     try {
+      // 天赋三件套跨 player.xml + world_state.xml,写操作整体事务化:
+      // 任一文件改到一半抛错则两棵树一起回滚,不留孤儿实体/旗标。
+      if (isWrite) {
+        return saveManager.mutate(['player.xml', 'world_state.xml'],
+          () => fn(c, { playerTree, worldTree, body }));
+      }
       return await fn(c, { playerTree, worldTree, body });
     } catch (e) {
       return c.json({ ok: false, error: String(e.message || e) }, 400);

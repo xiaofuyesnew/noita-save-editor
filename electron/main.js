@@ -61,6 +61,32 @@ async function startDesktop() {
     return { action: 'deny' };
   });
 
+  // 关窗前检查缓冲脏态:若脏则弹确认框(Electron 原生对话框,不依赖渲染进程)。
+  // executeJavaScript 同步读 window.hasDirtyBuffer(前端导出的全局函数)。
+  mainWindow.on('close', async (e) => {
+    if (mainWindow.isDestroyed()) return;
+    let dirty = false;
+    try {
+      dirty = await mainWindow.webContents.executeJavaScript('window.hasDirtyBuffer?.() ?? false');
+    } catch {}
+    if (dirty) {
+      e.preventDefault();
+      const { dialog } = await import('electron');
+      const { response } = await dialog.showMessageBox(mainWindow, {
+        type: 'warning',
+        buttons: ['取消', '直接退出'],
+        defaultId: 0,
+        cancelId: 0,
+        title: '未保存的编辑',
+        message: '缓冲区有未写盘的编辑,直接退出会丢失。',
+        detail: '点击「写入存档」后再关闭,或强制退出。',
+      });
+      if (response === 1) { // 直接退出
+        mainWindow.destroy(); // 跳过再次触发 close 事件
+      }
+    }
+  });
+
   await mainWindow.loadURL(url);
 }
 

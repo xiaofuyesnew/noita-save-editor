@@ -5,6 +5,8 @@
 // 缓冲(【写入存档】才落盘)。
 import CardShell from '@/components/shared/CardShell.vue'
 import ItemSlotStrip from '@/components/shared/ItemSlotStrip.vue'
+import { useCardLoad } from '@/composables/useCardLoad'
+import { useSubmit } from '@/composables/useSubmit'
 import { dictName } from '@/locales'
 import { useDictStore } from '@/stores/dict'
 import { useItemsStore } from '@/stores/items'
@@ -16,6 +18,7 @@ const { t } = useI18n()
 const save = useSaveStore()
 const dict = useDictStore()
 const itemsStore = useItemsStore()
+const { submitting, run: runSubmit } = useSubmit()
 
 const pickerShow = ref(false)
 const targetSlot = ref(null)
@@ -65,19 +68,21 @@ function onMove(it, slot) {
   itemsStore.stageMove(it.index, slot)
 }
 
-onMounted(() => load(false))
-save.onReload(discardEdits => load(!discardEdits))
+const { error, run: runLoad, retry } = useCardLoad(load)
+onMounted(() => runLoad(false))
+const unsubscribe = save.onReload(discardEdits => load(!discardEdits))
+onBeforeUnmount(unsubscribe)
 </script>
 
 <template>
   <CardShell
     id="inventoryCard" :title="t('invbar.cardTitle')"
-    :desc="t('invbar.desc')" :dirty="itemsStore.dirty"
+    :desc="t('invbar.desc')" :dirty="itemsStore.dirty" :load-error="error" @retry="retry"
   >
     <template #action>
       <NButton
-        size="small" type="primary" secondary :disabled="!itemsStore.dirty"
-        @click="itemsStore.applyAllLogged()"
+        size="small" type="primary" secondary :disabled="!itemsStore.dirty || submitting" :loading="submitting"
+        @click="runSubmit(() => itemsStore.applyAllLogged())"
       >
         {{ t('common.apply') }}
       </NButton>

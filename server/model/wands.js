@@ -232,7 +232,11 @@ export function applyStatsToWand(wand, patch = {}) {
 
 /** 按索引写单根法杖属性(见 applyStatsToWand)。 */
 export function applyWandStats(playerTree, index, patch = {}) {
-  return applyStatsToWand(wandAt(playerTree, index), patch);
+  const wand = wandAt(playerTree, index);
+  // dry-run 先在克隆上校验,避免半改
+  applyStatsToWand(structuredClone(wand), patch);
+  // 校验通过后应用到真树
+  return applyStatsToWand(wand, patch);
 }
 
 /**

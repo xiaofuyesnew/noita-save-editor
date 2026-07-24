@@ -96,7 +96,7 @@ export const useWandsStore = defineStore('wands', () => {
   function formOf(w) {
     const f = {}
     for (const [field, kind] of WAND_FORM_FIELDS) {
-      f[field] = kind === 'checkbox' ? Number(w[field]) !== 0 : String(w[field] ?? '')
+      f[field] = kind === 'checkbox' ? Number(w[field]) !== 0 : (kind === 'number' ? Number(w[field]) : String(w[field] ?? ''))
     }
     return f
   }
@@ -150,14 +150,23 @@ export const useWandsStore = defineStore('wands', () => {
     save.syncVersion(data.version)
     const prevForms = forms.value
     const prevBaselines = baselines.value
+    const prevWands = wands.value
     wands.value = data.wands
-    forms.value = data.wands.map((w, i) => {
+
+    // 按法杖的 index 属性建立身份映射，而非数组位置
+    const prevFormsByIndex = new Map(prevWands.map((w, i) => [w.index, { form: prevForms[i], baseline: prevBaselines[i] }]))
+
+    forms.value = data.wands.map((w) => {
       const fresh = formOf(w)
-      if (!preserveEdits || !prevForms[i])
+      if (!preserveEdits)
         return fresh
+      const prev = prevFormsByIndex.get(w.index)
+      if (!prev?.form)
+        return fresh
+      // 恢复未应用的编辑（脏字段）
       for (const [field] of WAND_FORM_FIELDS) {
-        if (prevForms[i][field] !== prevBaselines[i]?.[field])
-          fresh[field] = prevForms[i][field] // 未应用的编辑覆盖服务端值
+        if (prev.form[field] !== prev.baseline?.[field])
+          fresh[field] = prev.form[field]
       }
       return fresh
     })
@@ -200,11 +209,11 @@ export const useWandsStore = defineStore('wands', () => {
     forms.value.forEach((f, i) => {
       const patch = {}
       for (const [field, kind] of WAND_FORM_FIELDS) {
-        const cur = kind === 'checkbox' ? (f[field] ? '1' : '0') : f[field]
+        const cur = kind === 'checkbox' ? (f[field] ? '1' : '0') : (kind === 'number' ? String(f[field]) : f[field])
         const base = kind === 'checkbox'
           ? (baselines.value[i]?.[field] ? '1' : '0')
-          : baselines.value[i]?.[field]
-        if (cur !== base && cur !== '')
+          : (kind === 'number' ? String(baselines.value[i]?.[field]) : baselines.value[i]?.[field])
+        if (cur !== base && cur !== '' && cur !== 'NaN')
           patch[field] = cur
       }
       if (Object.keys(patch).length > 0)

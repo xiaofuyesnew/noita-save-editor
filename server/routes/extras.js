@@ -21,7 +21,7 @@ export const extraRoutes = new Hono();
 const flagsDir = () => join(saveManager.saveDir, 'persistent', 'flags');
 const bonesDir = () => join(saveManager.saveDir, 'persistent', 'bones_new');
 
-// 统一:按需取树 + 版本乐观校验 + 错误包装(同 effects.js 模式)
+// 统一:按需取树 + 版本乐观校验 + 错误包装 + 写操作事务化(同 effects.js 模式)
 function handler(fn, { player = false, world = false } = {}) {
   return async (c) => {
     const trees = {};
@@ -34,6 +34,7 @@ function handler(fn, { player = false, world = false } = {}) {
       if (!trees.worldTree) return c.json({ ok: false, error: '未找到 world_state.xml' }, 404);
     }
 
+    const isWrite = c.req.method === 'POST' || c.req.method === 'PUT' || c.req.method === 'DELETE';
     let body;
     if (c.req.method === 'POST' || c.req.method === 'PUT') {
       body = await c.req.json().catch(() => ({}));
@@ -47,6 +48,13 @@ function handler(fn, { player = false, world = false } = {}) {
     }
 
     try {
+      // 涉及内存树的写操作事务化(unlocks 直写文件系统、无树,files 为空即无快照)
+      const files = [];
+      if (player) files.push('player.xml');
+      if (world) files.push('world_state.xml');
+      if (isWrite && files.length > 0) {
+        return saveManager.mutate(files, () => fn(c, { ...trees, body }));
+      }
       return await fn(c, { ...trees, body });
     } catch (e) {
       return c.json({ ok: false, error: String(e.message || e) }, 400);

@@ -3,6 +3,8 @@
 import { api } from '@/api/client'
 import CardShell from '@/components/shared/CardShell.vue'
 import FieldLabel from '@/components/shared/FieldLabel.vue'
+import { useCardLoad } from '@/composables/useCardLoad'
+import { useSubmit } from '@/composables/useSubmit'
 import { dictName } from '@/locales'
 import { useDictStore } from '@/stores/dict'
 import { useSaveStore } from '@/stores/save'
@@ -10,6 +12,7 @@ import { useSaveStore } from '@/stores/save'
 const save = useSaveStore()
 const dict = useDictStore()
 const { t } = useI18n()
+const { submitting, run: runSubmit } = useSubmit()
 
 const FIELD_DEFS = [
   ['dayCount', 'number'],
@@ -45,7 +48,7 @@ async function load() {
   for (const [field, type] of FIELD_DEFS) {
     form[field] = type === 'check'
       ? Number(data.fields[field]) !== 0
-      : String(data.fields[field] ?? '')
+      : (type === 'number' ? Number(data.fields[field]) : String(data.fields[field] ?? ''))
   }
   flags.value = [...data.flags]
   shifts.value = data.changedMaterials.map(p => ({ ...p }))
@@ -66,10 +69,10 @@ function addFlag() {
 }
 
 function apply() {
-  save.act(async () => {
+  return save.act(async () => {
     const fields = {}
     for (const [field, type] of FIELD_DEFS)
-      fields[field] = type === 'check' ? (form[field] ? '1' : '0') : form[field]
+      fields[field] = type === 'check' ? (form[field] ? '1' : '0') : String(form[field])
     await api('/world/state', {
       method: 'PUT',
       body: {
@@ -83,14 +86,19 @@ function apply() {
   }, t('log.worldApplied'))
 }
 
-onMounted(load)
-save.onReload(load)
+const { error, run: runLoad, retry } = useCardLoad(load)
+onMounted(runLoad)
+const unsubscribe = save.onReload(load)
+onBeforeUnmount(unsubscribe)
 </script>
 
 <template>
-  <CardShell id="worldCard" :title="t('world.title')" :desc="t('world.desc')" :dirty="dirty">
+  <CardShell
+    id="worldCard" :title="t('world.title')" :desc="t('world.desc')" :dirty="dirty"
+    :load-error="error" @retry="retry"
+  >
     <template #action>
-      <NButton size="small" type="primary" secondary :disabled="!dirty" @click="apply">
+      <NButton size="small" type="primary" secondary :disabled="!dirty || submitting" :loading="submitting" @click="runSubmit(apply)">
         {{ t('common.apply') }}
       </NButton>
     </template>
@@ -101,7 +109,7 @@ save.onReload(load)
         </NCheckbox>
         <NFlex v-else vertical :size="2">
           <FieldLabel :label="t(`world.f.${field}`)" :tip="t(`world.f.${field}.tip`)" />
-          <NInput v-model:value="form[field]" size="tiny" />
+          <NInputNumber v-model:value="form[field]" size="tiny" :show-button="false" />
         </NFlex>
       </template>
     </div>

@@ -27,6 +27,8 @@ export const en = {
   'common.export': 'Export',
   'common.none': '(none)',
   'common.continue': 'Continue',
+  'common.retry': 'Retry',
+  'card.loadFailed': 'Load failed: {msg}',
   'confirm.title': 'Confirm',
 
   // ---- Player ----
@@ -385,6 +387,8 @@ export const en = {
 
   // ---- Log & confirm messages ----
   'log.error': 'Error: {msg}',
+  'log.conflict': 'Version conflict: the save changed elsewhere; refreshed automatically, please retry',
+  'log.reloadPartial': '{n} card(s) failed to refresh (the rest refreshed)',
   'log.initFailed': 'Initialization failed: {msg}',
   'log.written': 'Save written',
   'log.reloaded': 'Reloaded from disk',

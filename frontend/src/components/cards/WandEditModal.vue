@@ -55,7 +55,8 @@ async function applyAndClose() {
           </NFlex>
           <NFlex v-else vertical :size="2">
             <FieldLabel :label="t(`wand.f.${field}`)" :tip="t(`wand.f.${field}.tip`)" />
-            <NInput v-model:value="form[field]" size="tiny" />
+            <NInputNumber v-if="kind === 'number'" v-model:value="form[field]" size="tiny" :show-button="false" />
+            <NInput v-else v-model:value="form[field]" size="tiny" />
           </NFlex>
         </template>
       </div>

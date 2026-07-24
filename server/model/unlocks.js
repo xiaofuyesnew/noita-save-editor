@@ -11,7 +11,7 @@ import {
   existsSync,
   mkdirSync,
   readdirSync,
-  unlinkSync,
+  rmSync,
   writeFileSync,
 } from 'node:fs';
 import { join } from 'node:path';
@@ -57,8 +57,10 @@ export function listUnlocks(flagsDir) {
 
 /**
  * 批量应用开关。changes = { 旗标名: 目标状态布尔 }。
- * 已处于目标状态的条目跳过;非法旗标名整体拒绝(不做部分应用)。
- * @returns {{applied: Array<{flag, unlocked}>, skipped: string[]}}
+ * 校验(旗标名合法性/布尔值)先行,任一非法整体拒绝、不落盘;校验通过后
+ * 逐条写盘,单条 I/O 失败不中断其余,收集到 failed[] 一并返回(直写文件
+ * 系统、无缓冲事务,故如实回报"改了哪些、哪些失败")。
+ * @returns {{applied: Array<{flag, unlocked}>, skipped: string[], failed: Array<{flag, error}>}}
  */
 export function applyUnlocks(flagsDir, changes) {
   if (!changes || typeof changes !== 'object' || Array.isArray(changes)) {
@@ -77,18 +79,24 @@ export function applyUnlocks(flagsDir, changes) {
   const onDisk = diskUnlockFlags(flagsDir);
   const applied = [];
   const skipped = [];
+  const failed = [];
   for (const [flag, enable] of entries) {
     if (enable === onDisk.has(flag)) {
       skipped.push(flag);
       continue;
     }
-    if (enable) {
-      mkdirSync(flagsDir, { recursive: true });
-      writeFileSync(join(flagsDir, flag), FLAG_FILE_CONTENT, 'utf8');
-    } else {
-      unlinkSync(join(flagsDir, flag));
+    try {
+      if (enable) {
+        mkdirSync(flagsDir, { recursive: true });
+        writeFileSync(join(flagsDir, flag), FLAG_FILE_CONTENT, 'utf8');
+      } else {
+        // force:true 吞掉 ENOENT(快照与删除之间被外部改动的 TOCTOU)
+        rmSync(join(flagsDir, flag), { force: true });
+      }
+      applied.push({ flag, unlocked: enable });
+    } catch (e) {
+      failed.push({ flag, error: String(e.message || e) });
     }
-    applied.push({ flag, unlocked: enable });
   }
-  return { applied, skipped };
+  return { applied, skipped, failed };
 }

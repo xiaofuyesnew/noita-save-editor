@@ -4,11 +4,13 @@
 import { api } from '@/api/client'
 import MapPickerModal from '@/components/cards/MapPickerModal.vue'
 import FieldLabel from '@/components/shared/FieldLabel.vue'
+import { useSubmit } from '@/composables/useSubmit'
 import { useSaveStore } from '@/stores/save'
 
 const emit = defineEmits(['update:dirty'])
 const save = useSaveStore()
 const { t } = useI18n()
+const { submitting, run: runSubmit } = useSubmit()
 
 // [表单键, i18n 键, 类型];表单键按 '_' 切分即 basics 补丁的嵌套路径
 const FIELDS = [
@@ -44,7 +46,7 @@ async function load() {
   save.syncVersion(basics.version)
   for (const [key, , type] of FIELDS) {
     const v = getIn(basics, key.split('_'))
-    form[key] = type === 'checkbox' ? Number(v) !== 0 : String(v ?? '')
+    form[key] = type === 'checkbox' ? Number(v) !== 0 : (type === 'number' ? Number(v) : String(v ?? ''))
   }
   baseline.value = { ...form }
 }
@@ -53,13 +55,13 @@ const dirty = computed(() => FIELDS.some(([key]) => form[key] !== baseline.value
 watch(dirty, v => emit('update:dirty', v), { immediate: true })
 
 function apply() {
-  save.act(async () => {
-    const patch = {}
+  return save.act(async () => {
+    const patch = { version: save.version }
     for (const [key, , type] of FIELDS) {
       if (type === 'checkbox')
         setIn(patch, key.split('_'), form[key] ? '1' : '0')
-      else if (form[key] !== '')
-        setIn(patch, key.split('_'), form[key])
+      else if (type === 'number' && form[key] != null)
+        setIn(patch, key.split('_'), String(form[key]))
     }
     await api('/player/basics', { method: 'PUT', body: patch })
     await load()
@@ -74,7 +76,8 @@ function onMapPick({ x, y }) {
 }
 
 onMounted(load)
-save.onReload(load)
+const unsubscribe = save.onReload(load)
+onBeforeUnmount(unsubscribe)
 </script>
 
 <template>
@@ -86,7 +89,7 @@ save.onReload(load)
       <NButton size="small" secondary @click="mapShow = true">
         {{ t('player.mapPick') }}
       </NButton>
-      <NButton size="small" type="primary" secondary :disabled="!dirty" @click="apply">
+      <NButton size="small" type="primary" secondary :disabled="!dirty || submitting" :loading="submitting" @click="runSubmit(apply)">
         {{ t('common.apply') }}
       </NButton>
     </NFlex>
@@ -98,7 +101,7 @@ save.onReload(load)
       </NCheckbox>
       <NFlex v-else vertical :size="2">
         <FieldLabel :label="t(i18nKey)" :tip="t(`${i18nKey}.tip`)" />
-        <NInput v-model:value="form[key]" size="tiny" />
+        <NInputNumber v-model:value="form[key]" size="tiny" :show-button="false" />
       </NFlex>
     </template>
   </div>

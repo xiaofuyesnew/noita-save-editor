@@ -2,6 +2,8 @@
 // 遗骨法杖卡:bones_new 预览列表,一键导入快捷栏空槽(导入后刷新法杖卡)。
 import { api } from '@/api/client'
 import CardShell from '@/components/shared/CardShell.vue'
+import { useCardLoad } from '@/composables/useCardLoad'
+import { useSubmit } from '@/composables/useSubmit'
 import { dictName, getLang } from '@/locales'
 import { useSaveStore } from '@/stores/save'
 import { useWandsStore } from '@/stores/wands'
@@ -10,6 +12,7 @@ import { wandIconUrl } from '@/ui/wandIcon'
 const save = useSaveStore()
 const wandsStore = useWandsStore()
 const { t } = useI18n()
+const { submitting, run: runSubmit } = useSubmit()
 
 const bones = ref([])
 
@@ -27,7 +30,7 @@ function spellsText(b) {
 }
 
 function importBone(b) {
-  save.act(async () => {
+  return save.act(async () => {
     await api(`/wands/import-bones/${encodeURIComponent(b.file)}`, {
       method: 'POST',
       body: { version: save.version },
@@ -37,12 +40,14 @@ function importBone(b) {
   }, t('log.bonesImported', { name: b.uiName || b.file }))
 }
 
-onMounted(load)
-save.onReload(load)
+const { error, run: runLoad, retry } = useCardLoad(load)
+onMounted(runLoad)
+const unsubscribe = save.onReload(load)
+onBeforeUnmount(unsubscribe)
 </script>
 
 <template>
-  <CardShell id="bonesCard" :title="t('bones.title')" :desc="t('bones.desc')">
+  <CardShell id="bonesCard" :title="t('bones.title')" :desc="t('bones.desc')" :load-error="error" @retry="retry">
     <NEmpty v-if="bones.length === 0" size="small" :description="t('bones.none')" />
     <NFlex
       v-for="b in bones" :key="b.file"
@@ -80,7 +85,7 @@ save.onReload(load)
             </NEllipsis>
           </div>
         </NFlex>
-        <NButton size="small" secondary @click="importBone(b)">
+        <NButton size="small" secondary :disabled="submitting" :loading="submitting" @click="runSubmit(() => importBone(b))">
           {{ t('bones.import') }}
         </NButton>
       </template>

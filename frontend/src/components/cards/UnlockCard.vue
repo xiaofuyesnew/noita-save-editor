@@ -3,11 +3,14 @@
 import { api } from '@/api/client'
 import CardShell from '@/components/shared/CardShell.vue'
 import FieldLabel from '@/components/shared/FieldLabel.vue'
+import { useCardLoad } from '@/composables/useCardLoad'
+import { useSubmit } from '@/composables/useSubmit'
 import { dictName } from '@/locales'
 import { useSaveStore } from '@/stores/save'
 
 const save = useSaveStore()
 const { t } = useI18n()
+const { submitting, run: runSubmit } = useSubmit()
 
 const unlocks = ref([]) // [{flag, unlocked(编辑态), known, spells}]
 const original = ref(new Map())
@@ -43,23 +46,25 @@ function apply() {
   const changes = Object.fromEntries(pending.value.map(u => [u.flag, u.unlocked]))
   if (Object.keys(changes).length === 0)
     return
-  save.act(async () => {
+  return save.act(async () => {
     await api('/persistent/unlocks', { method: 'PUT', body: { changes } })
     await load()
   }, t('log.unlocksApplied', { n: Object.keys(changes).length }))
 }
 
-onMounted(load)
-save.onReload(load)
+const { error, run: runLoad, retry } = useCardLoad(load)
+onMounted(runLoad)
+const unsubscribe = save.onReload(load)
+onBeforeUnmount(unsubscribe)
 </script>
 
 <template>
   <CardShell
     id="unlockCard" :title="t('unlock.title')" :desc="t('unlock.desc')"
-    :dirty="pending.length > 0"
+    :dirty="pending.length > 0" :load-error="error" @retry="retry"
   >
     <template #action>
-      <NButton size="small" type="primary" secondary :disabled="pending.length === 0" @click="apply">
+      <NButton size="small" type="primary" secondary :disabled="pending.length === 0 || submitting" :loading="submitting" @click="runSubmit(apply)">
         {{ t('unlock.apply') }}
       </NButton>
     </template>

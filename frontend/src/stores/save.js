@@ -14,12 +14,23 @@ export const useSaveStore = defineStore('save', () => {
   const backups = ref([])
 
   const reloadHooks = []
-  /** 领域 store 注册重载钩子;钩子收到 discardEdits(丢弃缓冲类操作为 true)。 */
+  /** 领域 store 注册重载钩子;钩子收到 discardEdits(丢弃缓冲类操作为 true)。返回注销函数。 */
   function onReload(fn) {
     reloadHooks.push(fn)
+    return () => {
+      const idx = reloadHooks.indexOf(fn)
+      if (idx !== -1)
+        reloadHooks.splice(idx, 1)
+    }
   }
   async function reloadAll(discardEdits = true) {
-    await Promise.all(reloadHooks.map(fn => fn(discardEdits)))
+    // allSettled:单张卡重载失败(如某接口 500)不连累其余卡与顶栏操作结果。
+    const results = await Promise.allSettled(reloadHooks.map(fn => fn(discardEdits)))
+    const failed = results.filter(r => r.status === 'rejected')
+    if (failed.length) {
+      const logStore = useLogStore()
+      logStore.log(i18n.global.t('log.reloadPartial', { n: failed.length }), 'warn')
+    }
   }
 
   async function refresh() {
@@ -37,7 +48,9 @@ export const useSaveStore = defineStore('save', () => {
   }
 
   /**
-   * 操作包装:执行 → 成功记日志 → 刷新状态;失败记错误日志。
+   * 操作包装:执行 → 成功记日志 → (无论成败)刷新状态重同步 version。
+   * 关键:失败(尤其 409 版本冲突)后也必须 refresh,否则 version 永远过期、
+   * 后续每次写都 409。刷新自身失败不掩盖主操作结果。
    * @returns {Promise<boolean>} 是否成功
    */
   async function act(fn, okMsg) {
@@ -46,12 +59,15 @@ export const useSaveStore = defineStore('save', () => {
       await fn()
       if (okMsg)
         logStore.log(okMsg, 'ok')
-      await refresh()
       return true
     }
     catch (e) {
-      logStore.log(i18n.global.t('log.error', { msg: e.message }), 'warn')
+      const msg = e?.status === 409 ? i18n.global.t('log.conflict') : e.message
+      logStore.log(i18n.global.t('log.error', { msg }), 'warn')
       return false
+    }
+    finally {
+      await refresh().catch(() => {})
     }
   }
 
