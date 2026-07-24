@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.12.0] - 2026-07-24
+
+### 新增
+- **预设系统（§20）**：三类可复用预设，保存后可编辑标签、快速应用
+  - **坐标预设**：地图选点弹窗右键「存为预设」；玩家属性卡存当前坐标、一键回填传送
+  - **天赋组合预设**：把当前一组天赋存为预设，一键套用整组（字典缺失/复杂项跳过并记日志）
+  - **法杖预设**：把某支法杖（属性/法术/外观）存为预设；在法杖编辑页一键载入当前编辑杖（覆盖暂存表单 + 紧凑重建法术，不新增槽位）
+  - 后端 `services/presets.js` + `routes/presets.js`（`presets.json` 持久化，用户可手改、坏项宽松跳过）
+  - 前端 `stores/presets.js` + 共享 `PresetListModal.vue`，i18n 中英同步
+- `wandsStore.applyPresetToWand`：deckCapacity 取 max 规避缩容时序冲突
+
+### 文档
+- 删除临时文档（`review.md` / `RELEASE_SUMMARY.md` / `docs/REVIEW.md`），更正 README 过时说明
+
+### 测试
+- 服务层 `test/presets.test.js` + 路由层 `test/presetsApi.test.js`
+- 569/570 通过（1 项失败为 save00 快照漂移，非回归）
+
+---
+
 ## [0.11.0] - 2026-07-24
 
 ### 安全性改进

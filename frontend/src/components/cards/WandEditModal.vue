@@ -3,7 +3,9 @@
 // 事件冒泡回 WandCard 复用法术弹窗)。改动即本地暂存,底部「应用」把全部暂存
 // 提交到服务端编辑缓冲并关闭弹窗(落盘仍走全局「写入存档」)。
 import FieldLabel from '@/components/shared/FieldLabel.vue'
+import PresetListModal from '@/components/shared/PresetListModal.vue'
 import SlotStrip from '@/components/shared/SlotStrip.vue'
+import { usePresetsStore } from '@/stores/presets'
 import { useWandsStore, WAND_FORM_FIELDS } from '@/stores/wands'
 import { wandIconUrl } from '@/ui/wandIcon'
 
@@ -14,6 +16,7 @@ const emit = defineEmits(['pick', 'edit', 'reorder', 'pickLook'])
 const show = defineModel('show', { type: Boolean, default: false })
 const { t } = useI18n()
 const wandsStore = useWandsStore()
+const presets = usePresetsStore()
 
 const wand = computed(() => props.index !== null ? wandsStore.wands[props.index] : null)
 const form = computed(() => props.index !== null ? wandsStore.forms[props.index] : null)
@@ -26,6 +29,20 @@ const title = computed(() => wand.value
 async function applyAndClose() {
   if (await wandsStore.applyAllLogged())
     show.value = false
+}
+
+// ---- 预设(§20):存当前杖 / 载入到当前编辑杖 ----
+const showPresets = ref(false)
+// 存预设取「已提交到缓冲」的第 index 支杖(未应用的暂存改动不含在内)
+function onSavePreset({ label, tags }) {
+  if (props.index === null)
+    return
+  const wandIndex = wandsStore.wands[props.index]?.index ?? props.index
+  presets.createWand({ label, tags, index: wandIndex })
+}
+function onApplyPreset(preset) {
+  if (props.index !== null)
+    wandsStore.applyPresetToWand(props.index, preset)
 }
 </script>
 
@@ -77,6 +94,9 @@ async function applyAndClose() {
         <NButton size="small" type="primary" secondary :disabled="!wandsStore.dirty" @click="applyAndClose">
           {{ t('common.applyNow') }}
         </NButton>
+        <NButton size="small" secondary @click="showPresets = true">
+          {{ t('preset.entry') }}
+        </NButton>
         <NText :depth="3" class="text-11px">
           {{ t('wand.modalHint') }}
         </NText>
@@ -86,6 +106,12 @@ async function applyAndClose() {
       </NFlex>
     </template>
   </NModal>
+
+  <PresetListModal
+    v-model:show="showPresets" category="wands"
+    :default-label="form?.uiName || ''"
+    @save="onSavePreset" @apply="onApplyPreset"
+  />
 </template>
 
 <style scoped>

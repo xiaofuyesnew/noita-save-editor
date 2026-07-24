@@ -4,6 +4,7 @@
 /backups/
 /dist/
 /config.local.json
+/presets.json
 /tools/.cache/
 node_modules/
 package-lock.json

@@ -1,8 +1,8 @@
 # Noita 存档编辑器
 
-Noita（Nolla Games）`save00` 存档的本地编辑器：Node.js（Hono）后端 + 浏览器/Electron 桌面双形态前端。纯 JavaScript、无构建步骤；XML 管道保序保字节（对游戏自产文件 round-trip 逐字节一致）。
+Noita（Nolla Games）`save00` 存档的本地编辑器：Node.js（Hono）后端 + Vite/Vue 3 前端，浏览器/Electron 桌面双形态。纯 JavaScript（无 TypeScript）；XML 管道保序保字节（对游戏自产文件 round-trip 逐字节一致）。
 
-功能：存档管理（备份/恢复/实时档拉取推送/进程检测）、玩家属性（HP ×25 换算/金币/氧气/飞行/传送/受伤倍率/无敌）、法杖与法术编辑（含拖拽重排、法术选择器）、特殊效果（88 种 GAME_EFFECT）与天赋注入、药水材料、世界状态、进度解锁旗标、遗骨法杖导入，界面中英双语。设计与实现记录见 `docs/save-editor-plan.md`。
+功能：存档管理（备份/恢复/实时档拉取推送/进程检测）、玩家属性（HP ×25 换算/金币/氧气/飞行/传送/受伤倍率/无敌）、法杖与法术编辑（含拖拽重排、法术选择器）、特殊效果（88 种 GAME_EFFECT）与天赋注入、药水材料、世界状态、进度解锁旗标、遗骨法杖导入、天赋/传送位置预设，界面中英双语。设计与实现记录见 `docs/save-editor-plan.md`，版本历史见 `CHANGELOG.md`。
 
 ## 运行
 
@@ -29,7 +29,7 @@ pnpm pack             # 只出 dist/win-unpacked/(调试)
 - 本仓库 `.npmrc` 配置了 electron 运行时与 electron-builder 工具二进制的 npmmirror 镜像（直连 GitHub 受网络限制时用）；`pnpm-workspace.yaml` 的 `allowBuilds` 放行 electron 的 postinstall。
 - `build.electronDist` 指向 `node_modules/electron/dist`，打包复用已下载的运行时，零重复下载。
 - 冒烟：`NOITA_SMOKE=1 NOITA_EDITOR_PORT=5721 "dist/win-unpacked/Noita Save Editor.exe"` 只起服务不开窗，`curl http://127.0.0.1:5721/api/status` 验证。
-- 应用图标未定制（Electron 默认），需要时在 `build.win.icon` 指定 ≥256px 的 .ico。
+- 应用图标为 Noita 风格像素图（`build/icon.ico`，`pnpm icon` 生成），exe/窗口/favicon 复用。
 
 ## 测试与夹具
 

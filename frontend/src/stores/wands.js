@@ -6,6 +6,7 @@
 // 写操作不递增 saveManager.version(仅 reload/commit 会),回放期间共用同一版本号。
 import { api } from '@/api/client'
 import { i18n } from '@/locales'
+import { useDictStore } from './dict'
 import { useLogStore } from './log'
 import { useSaveStore } from './save'
 
@@ -267,6 +268,66 @@ export const useWandsStore = defineStore('wands', () => {
   const stageRemove = (target, idx) => stageSpellOp({ target, kind: 'remove', idx })
   const stageReorder = (target, order) => stageSpellOp({ target, kind: 'reorder', order })
 
+  /**
+   * 载入法杖预设到第 index 支杖的编辑暂存(§20):覆盖属性表单 + 重建法术暂存,
+   * 不改服务端、不新增槽位 —— 由编辑页「应用」经 applyAll 提交到缓冲。
+   *  - 属性:逐字段写 forms[index](类型对齐 formOf);deckCapacity 取
+   *    max(当前, 预设, 法术数),规避应用时「容量调小于占用槽」的时序冲突
+   *    (applyAll 属性 diff 先于法术回放,不会自动缩容到比当前更小)。
+   *  - 法术:先清空现有(高 idx→低,idx 稳定),再按槽位序**紧凑**追加(不带
+   *    显式槽,避开重复槽冲突),非默认的 usesRemaining/alwaysCast 再补一条 update。
+   *    产生的 spellOps 由 applyAll 回放到缓冲。
+   * @returns {boolean} 是否载入成功
+   */
+  function applyPresetToWand(index, preset) {
+    const form = forms.value[index]
+    if (!form || !preset)
+      return false
+    const attrs = preset.attrs ?? {}
+    for (const [field, kind] of WAND_FORM_FIELDS) {
+      if (attrs[field] === undefined)
+        continue
+      form[field] = kind === 'checkbox'
+        ? Number(attrs[field]) !== 0
+        : (kind === 'number' ? Number(attrs[field]) : String(attrs[field] ?? ''))
+    }
+    const spells = [...(preset.spells ?? [])].sort((a, b) => Number(a.slot) - Number(b.slot))
+    const curCap = Number(baselines.value[index]?.deckCapacity)
+    const presetCap = Number(attrs.deckCapacity)
+    form.deckCapacity = Math.max(
+      Number.isFinite(curCap) ? curCap : 0,
+      Number.isFinite(presetCap) ? presetCap : 0,
+      spells.length,
+    )
+
+    // 清空现有暂存法术(降序移除,idx 稳定)
+    const n = (stagedWandSpells.value[index] ?? []).length
+    for (let idx = n - 1; idx >= 0; idx--)
+      stageRemove(index, idx)
+
+    // 紧凑追加预设法术;字典缺失的法术跳过并记日志(与天赋一致)
+    const known = new Set((useDictStore().spells ?? []).map(s => s.id))
+    let added = 0
+    for (const s of spells) {
+      if (known.size && !known.has(s.actionId)) {
+        useLogStore().log(t('preset.spellSkipped', { id: s.actionId }), 'warn')
+        continue
+      }
+      if (!stageAdd(index, s.actionId))
+        continue
+      const patch = {}
+      if (s.usesRemaining !== undefined && String(s.usesRemaining) !== '-1')
+        patch.usesRemaining = s.usesRemaining
+      if (s.alwaysCast)
+        patch.alwaysCast = true
+      if (Object.keys(patch).length)
+        stageUpdate(index, added, patch)
+      added++
+    }
+    useLogStore().log(t('preset.wandLoaded', { label: preset.label, n: added }), 'ok')
+    return true
+  }
+
   return {
     wands,
     forms,
@@ -283,5 +344,6 @@ export const useWandsStore = defineStore('wands', () => {
     stageUpdate,
     stageRemove,
     stageReorder,
+    applyPresetToWand,
   }
 })

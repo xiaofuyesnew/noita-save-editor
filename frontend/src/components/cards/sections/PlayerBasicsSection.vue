@@ -4,11 +4,14 @@
 import { api } from '@/api/client'
 import MapPickerModal from '@/components/cards/MapPickerModal.vue'
 import FieldLabel from '@/components/shared/FieldLabel.vue'
+import PresetListModal from '@/components/shared/PresetListModal.vue'
 import { useSubmit } from '@/composables/useSubmit'
+import { usePresetsStore } from '@/stores/presets'
 import { useSaveStore } from '@/stores/save'
 
 const emit = defineEmits(['update:dirty'])
 const save = useSaveStore()
+const presets = usePresetsStore()
 const { t } = useI18n()
 const { submitting, run: runSubmit } = useSubmit()
 
@@ -70,9 +73,25 @@ function apply() {
 
 const mapShow = ref(false)
 
+// 位置字段是 NInputNumber(v-model 需 number);写 number 而非 String(x),
+// 否则组件收到字符串会显示为空(载入坐标预设 / 地图选点均经此)。
 function onMapPick({ x, y }) {
-  form.position_x = String(x)
-  form.position_y = String(y)
+  form.position_x = Number(x)
+  form.position_y = Number(y)
+}
+
+// ---- 坐标预设(§20):存当前位 / 应用即填表(仍走「应用」写入,与地图选点同链) ----
+const showLocPresets = ref(false)
+function onSaveLoc({ label, tags }) {
+  presets.createLocation({ label, tags, x: form.position_x, y: form.position_y })
+}
+function onApplyLoc(preset) {
+  onMapPick({ x: preset.x, y: preset.y })
+}
+// 地图右键「存为坐标预设」:先把悬浮点填进表单,再开预设面板命名(存的即该点)
+function onMapSavePreset(point) {
+  onMapPick(point)
+  showLocPresets.value = true
 }
 
 onMounted(load)
@@ -88,6 +107,9 @@ onBeforeUnmount(unsubscribe)
     <NFlex :size="6" :wrap="false">
       <NButton size="small" secondary @click="mapShow = true">
         {{ t('player.mapPick') }}
+      </NButton>
+      <NButton size="small" secondary @click="showLocPresets = true">
+        {{ t('preset.entry') }}
       </NButton>
       <NButton size="small" type="primary" secondary :disabled="!dirty || submitting" :loading="submitting" @click="runSubmit(apply)">
         {{ t('common.apply') }}
@@ -105,5 +127,10 @@ onBeforeUnmount(unsubscribe)
       </NFlex>
     </template>
   </div>
-  <MapPickerModal v-model:show="mapShow" @pick="onMapPick" />
+  <MapPickerModal v-model:show="mapShow" @pick="onMapPick" @save-preset="onMapSavePreset" />
+  <PresetListModal
+    v-model:show="showLocPresets" category="locations"
+    :save-text="t('preset.saveCurrentPos')"
+    @save="onSaveLoc" @apply="onApplyLoc"
+  />
 </template>

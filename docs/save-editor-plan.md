@@ -861,6 +861,73 @@ SetWandSprite( entity_id, ability_comp, wand.file,
 
 ---
 
+## 20. 预设系统:坐标/天赋/法杖预设的保存与快速应用(2026-07-24,代码完成)
+
+> **修订(2026-07-24,应用户反馈)**:法杖「应用」改为——在**法杖编辑页**把预设数据载入当前编辑的那支杖(覆盖其暂存属性表单 + 法术,再经编辑页「应用」提交到缓冲),**不再**像遗骨那样注入新杖 / 占用槽位。随之调整:③存储→结构化 JSON、④应用语义、⑤落位→编辑弹窗、API(删 `POST /wands/:id/apply`)、前端与测试;下文相关条目均已按此改写。
+>
+> **实现(2026-07-24,已完成)**:后端 `server/services/presets.js` + `routes/presets.js`(已注册 `app.route('/api', presetRoutes)`);前端 `stores/presets.js` + `shared/PresetListModal.vue`,接入 `WandEditModal`(存 / 载入)、`PlayerBasicsSection`+`MapPickerModal`(存当前位 / 填坐标 + 右键存点)、`EffectPerkCard`(存当前组 / 套用);`wandsStore.applyPresetToWand` 落地(容量取 max 规避缩容时序、法术紧凑重建)。i18n zh/en 同步。测试:`test/presets.test.js`(服务)+ `test/presetsApi.test.js`(路由)绿;`pnpm lint`/`pnpm build` 通过;全量 567/570(3 项失败为既有 save00 快照漂移,与本次无关)。**进游戏验证待做**。
+
+**需求**:三类可复用预设,保存后可编辑标签、快速应用:
+1. **坐标预设** —— 在地图上右键把玩家所在坐标存为预设;可编辑标签;一键传送(写玩家 `_Transform`)。
+2. **天赋组合预设** —— 把当前一组天赋存为预设;一键套用整组。
+3. **法杖预设** —— 把某支法杖(含法术/属性/外观)存为预设;在**法杖编辑页**一键把预设数据载入当前编辑的那支杖(覆盖其暂存表单 + 法术,不新增槽位 / 不插槽)。
+
+**现状勘察结论**(并入设计约束):
+- "地图"即 `MapPickerModal.vue`(noitamap.com iframe 反代);右键已读悬浮点 `(x,y)` 弹 `NDropdown` 做"填入坐标",预设入口即在此右键菜单加项。坐标落点走 `PUT /api/player/basics` patch `{position:{x,y}}` → `_Transform`(`model/playerBasics.js`)。
+- 天赋走 `stores/effperk.js` 暂存层(`perkAdds`/`perkRemovals`)→ `POST/DELETE /api/perks`(`routes/effects.js`,player+world 双文件事务);仅 `kind==='effect'` 可注入,`complex`(Lua 驱动)拒绝。`listPerks` 出 `{id,name,nameZh,kind,count,source}`,`count` 即叠层数。
+- 法杖编辑页(`WandEditModal.vue`)本就是**本地暂存编辑**:属性写 `wandsStore.forms[index]`、法术写 `stagedWandSpells[index]` 并记 `spellOps`,底部「应用」经 `applyAll` 批量提交到缓冲(属性 diff→`PUT /wands/stats`、容量调大先生效;法术操作逐条回放)。`readWand`+`listSpells`(`model/wands.js`/`spells.js`)把某支杖读为结构化对象——**存**预设取此结构,**应用**即反向写回上述暂存层。(遗骨导入 `model/bones.js` 走的是「深拷贝整 `<Entity>` → append 到 `inventory_quick`」注入链;本预设**不再复用**该链——见 ③④ 修订。)
+- 唯一 app 级持久化是 `config.local.json`(`saveLocalConfig`/`loadLocalConfig`@`server/config.js`,锚定 `dataDir`:开发=仓库根、打包=Electron userData)。前端仅 `localStorage.lang`,无 Pinia 持久化插件 —— 预设权威态放服务端。
+
+**待确认设计决策**(方括号内为推荐):
+- ① 坐标来源:[右键存悬浮点(目的地书签)+ 一个"存当前玩家位"按钮(回程书签),两者都要] / 仅存当前玩家位 / 仅右键取点。
+- ② 标签形态:[名称(必填)+ 可选多标签(用于过滤)] / 仅单一名称。
+- ③ 法杖存储:[结构化 JSON —— 「编辑页载入」语义下的自然选择:只存法杖编辑器能编辑的字段(`WAND_FORM_FIELDS` 属性 + 法术数组 `{actionId,slot,usesRemaining,alwaysCast}`),载入即逐字段写回暂存层,保真范围与编辑器本身**完全一致**] / 原始 `<Entity>` XML 子树(字节保真,但本方案不再注入实体,载入时前端反需把 XML 反解成表单,徒增面;always-cast/自定义外观已在编辑器字段内,无额外收益)。
+- ④ 应用语义(三类统一为「推入既有暂存层 + 复用现成提交链」,均**不新增**服务端 apply 端点):[坐标=直接传送(即写 basics,最少点击);天赋=推入 effperk 暂存(墙上显示待添加,由「应用到缓冲」提交);法杖=**在编辑页载入到当前编辑杖**——覆盖 `forms[index]`(属性,随「应用」的 `PUT /wands/stats` diff 提交、容量调大先生效)、把 `stagedWandSpells[index]` 重建为预设法术并生成等价 `spellOps`(清空现有 remove + 逐法术 add/update),由编辑页「应用」经 `applyAll` 回放提交]。法杖应用只**覆盖某支已存在的杖**(不建新杖、不插槽、无满栏问题);要新杖仍走遗骨导入等既有入口,再对其载入预设。
+- ⑤ UI 落位:[贴合各自领域卡 + 共享 store/组件,不新增网格卡] —— 坐标在地图弹窗、天赋在"天赋与效果"卡、法杖在**法杖编辑弹窗内**(存当前杖 / 载入到当前杖,不再挂在卡上的套用列表);另有"独立预设总卡"备选(网格 4×3 现 9 卡,余 3 空位)。
+
+**持久化**(新增 `server/services/presets.js`):独立 `presets.json`(不塞进 config.local.json,避免大体量法杖数据混入),路径 `join(dataDir, 'presets.json')`(仿 `backupsDir` 派生,自动跟随开发/打包目录);原子写(tmp→rename,仿 `saveManager.commit`);坏文件降级空。形如:
+```json
+{ "locations": [{ "id", "label", "tags": [], "x", "y", "createdAt" }],
+  "perks":     [{ "id", "label", "tags": [], "perks": [{ "id", "count" }], "createdAt" }],
+  "wands":     [{ "id", "label", "tags": [], "summary": { "uiName", "spellCount", "gunLevel" },
+                 "attrs": { …WAND_FORM_FIELDS… },
+                 "spells": [{ "actionId", "slot", "usesRemaining", "alwaysCast" }], "createdAt" }] }
+```
+
+**API**(新增 `server/routes/presets.js`,`app.route('/api', presetRoutes)`;三类同构):
+```
+GET    /api/presets                     → { locations, perks, wands }
+POST   /api/presets/locations           { label, tags?, x, y }    → 新建
+POST   /api/presets/perks               { label, tags?, perks? }  → 新建(perks 省略则抓当前 listPerks 中 kind==='effect' 项)
+POST   /api/presets/wands               { label, tags?, index }   → 读缓冲第 index 支杖 → readWand 属性(WAND_FORM_FIELDS)+ listSpells 法术 → 结构化存(含摘要)
+PUT    /api/presets/:cat/:id            { label?, tags? }         → 改标签(坐标类可含 x/y)
+DELETE /api/presets/:cat/:id
+# 法杖无 apply 端点 —— 「载入」是纯前端操作(写编辑暂存),提交复用法杖「应用」链(applyAll)
+```
+三类应用**均复用现有链、无新增 apply 端点**:坐标→前端直接 `PUT /api/player/basics` 后 `save.syncVersion`;天赋→逐条 `effperk.stagePerkAdd` 推入暂存,由用户"应用到缓冲";法杖→前端把预设写入 `wandsStore.forms[index]`+`stagedWandSpells[index]`(并生成等价 `spellOps`),由编辑页「应用」经 `applyAll` 提交到缓冲。
+
+**前端**:
+- 新 `stores/presets.js`:`load()`(单 GET 全量)+ CRUD(`create*/rename/remove`);**应用不在此** —— 由各宿主域自理(坐标走 basics、天赋走 effperk、法杖走 `wandsStore.applyPresetToWand(index, preset)`)。
+- 新 `shared/PresetListModal.vue`(按 `category` 参数化:列表 + 标签过滤 + 重命名/删除 + 应用;「应用」经宿主回调注入语义——坐标=传送、天赋=推暂存、法杖=载入当前编辑杖;坐标类附"存当前玩家位")。
+- `MapPickerModal.vue`:右键菜单加"存为坐标预设"(用悬浮点);内嵌预设列表(点→填表/传送)。
+- `EffectPerkCard.vue`:加"预设"入口(存当前组 / 套用)。
+- `WandEditModal.vue`:编辑页内加「存为预设」(存当前杖结构)与「载入预设」(开 `PresetListModal`,选中即调 `wandsStore.applyPresetToWand(index, preset)` 写 `forms[index]`+`stagedWandSpells[index]` 并记等价 `spellOps`,留待「应用」提交);`WandCard.vue` 可选保留每支杖快捷「存为预设」。
+- i18n 增 `preset.*`(zh/en 同步):存/应用/改名/删/标签/空态/各类名/日志。
+
+**测试**:
+- `presets` service:load/save/原子写、CRUD、坏文件降级空。
+- 路由:三类建/列/改标签/删;法杖建=`readWand`+`listSpells` 结构化往返一致、天赋建抓当前 effect 项。
+- 前端(`stores/wands.js` `applyPresetToWand`):项目无前端单测运行器(未装 Vitest),此逻辑由 `pnpm build`/`pnpm lint` + 后端结构往返间接覆盖;运行行为(载入后 `forms[index]` 变脏、`spellOps` 等价重建、`applyAll` 后缓冲杖 `readWand`/`listSpells` 与预设一致)进游戏 / 手动验证。
+- 保持 `pnpm test` 全绿、`pnpm lint`/`pnpm build` 通过。
+
+**风险/边界**:
+- 法杖预设存的是**存时已提交缓冲态**的结构化字段(须先把暂存「应用」到缓冲再存);只覆盖法杖编辑器可编辑的字段范围——编辑器触不到的高级/Lua 字段既不入预设、也不因载入而丢失(它们本就不在编辑面内);载入会**覆盖目标杖当前未提交的暂存编辑**。
+- 坐标直接传送 bump 全局 version,与 PlayerCard 暂存表单潜在冲突 → apply 后 `save.syncVersion` + 提示。
+- 天赋预设仅存可注入项;套用时字典缺失/complex 项跳过并记日志。
+- `presets.json` 用户可手改 → load 宽松校验、坏项跳过。
+
+---
+
 ## 附录 A：法术卡实体模板（实测提取，`{}` 为参数）
 
 ```xml

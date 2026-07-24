@@ -16,6 +16,7 @@ import { wandRoutes } from './routes/wands.js';
 import { effectRoutes } from './routes/effects.js';
 import { extraRoutes } from './routes/extras.js';
 import { noitamapRoutes } from './routes/noitamap.js';
+import { presetRoutes } from './routes/presets.js';
 import {
   readBasics,
   applyBasics,
@@ -245,6 +246,10 @@ export function createApp({ webRoot = defaultWebRoot } = {}) {
   // ---- 药水/世界状态/进度解锁/遗骨法杖(M4) -----------------------------------
 
   app.route('/api', extraRoutes);
+
+  // ---- 预设:坐标/天赋/法杖(§20) -------------------------------------------
+
+  app.route('/api', presetRoutes);
 
   // ---- noitamap 反向代理(玩家「从地图选点」) --------------------------------
   // 必须挂在下方 no-store 中间件之前:后注册的中间件不包裹先注册的路由,

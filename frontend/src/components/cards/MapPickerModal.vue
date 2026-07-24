@@ -3,7 +3,7 @@
 // 右键时读取站点自带的 #coordinate 悬浮框文本(格式 "(x, y)\nchunk: (cx, cy)",
 // x/y 即游戏世界像素坐标,与 player.xml _Transform 同单位),菜单仅一项 —— 回填坐标。
 // 填入后弹窗保持打开,便于反复取点;关闭即销毁 iframe,下次打开重新加载。
-const emit = defineEmits(['pick'])
+const emit = defineEmits(['pick', 'savePreset'])
 const show = defineModel('show', { type: Boolean, default: false })
 const { t } = useI18n()
 
@@ -34,15 +34,23 @@ function onLoad() {
 }
 
 const options = computed(() => menu.coord
-  ? [{ key: 'fill', label: t('mappick.fill', menu.coord) }]
+  ? [
+      { key: 'fill', label: t('mappick.fill', menu.coord) },
+      { key: 'savePreset', label: t('preset.savePoint') },
+    ]
   : [{ key: 'none', label: t('mappick.noCoord'), disabled: true }])
 
 function onSelect(key) {
   menu.show = false
-  if (key !== 'fill' || !menu.coord)
+  if (!menu.coord)
     return
-  lastPick.value = { ...menu.coord }
-  emit('pick', { ...menu.coord })
+  if (key === 'fill') {
+    lastPick.value = { ...menu.coord }
+    emit('pick', { ...menu.coord })
+  }
+  else if (key === 'savePreset') {
+    emit('savePreset', { ...menu.coord })
+  }
 }
 
 watch(show, (v) => {
