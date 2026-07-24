@@ -127,6 +127,34 @@ export class PresetStore {
     return entry;
   }
 
+  /**
+   * 导入(§21 跨客户端传递):合并外部导出的数据到本地。
+   * 每项重新发 id(避免与本地撞 id),按「除 id/createdAt 外的内容指纹」去重 ——
+   * 同一份导出重复导入不产生副本;同名不同内容的预设可共存。
+   * 返回 {imported: {locations,perks,wands}, skipped}。
+   */
+  importData(raw) {
+    const incoming = sanitize(raw);
+    const data = this.#ensure();
+    const fingerprint = ({ id: _id, createdAt: _c, ...rest }) => JSON.stringify(rest);
+    const imported = { locations: 0, perks: 0, wands: 0 };
+    let skipped = 0;
+    for (const cat of CATEGORIES) {
+      const existing = new Set(data[cat].map(fingerprint));
+      for (const it of incoming[cat]) {
+        const entry = { ...it, id: randomUUID(), createdAt: new Date().toISOString() };
+        if (!entry.label || typeof entry.label !== 'string') { skipped++; continue; }
+        const fp = fingerprint(entry);
+        if (existing.has(fp)) { skipped++; continue; }
+        existing.add(fp);
+        data[cat].push(entry);
+        imported[cat]++;
+      }
+    }
+    if (imported.locations + imported.perks + imported.wands > 0) this.#persist();
+    return { imported, skipped };
+  }
+
   /** 删除一条。 */
   remove(category, id) {
     this.#assertCategory(category);

@@ -110,6 +110,11 @@ export const zh = {
   'preset.spellSkipped': '跳过未知法术 {id}',
   'preset.perkApplied': '已推入天赋预设「{label}」({n} 项),点「应用到缓冲」提交',
   'preset.perkSkipped': '跳过不可注入的天赋 {id}',
+  'preset.export': '导出预设',
+  'preset.import': '导入预设',
+  'preset.exported': '已导出全部预设',
+  'preset.imported': '已导入 {n} 条预设(跳过重复/无效 {skipped} 条)',
+  'preset.importBadFile': '文件不是有效的 JSON',
 
   // ---- 无敌 ----
   'inv.title': '无敌',

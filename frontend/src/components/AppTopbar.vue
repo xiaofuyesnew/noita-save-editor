@@ -1,9 +1,11 @@
 <script setup>
-// 顶栏:存档路径 + 游戏/缓冲状态标签 + 写入/重载/拉推/备份/语言按钮。
+// 顶栏:存档路径 + 游戏/缓冲状态标签 + 写入/重载/拉推/备份/预设导入导出/语言按钮。
 import { getLang, setLang } from '@/locales'
+import { usePresetsStore } from '@/stores/presets'
 import { useSaveStore } from '@/stores/save'
 
 const save = useSaveStore()
+const presets = usePresetsStore()
 const { t } = useI18n()
 
 const showBackups = defineModel('showBackups', { type: Boolean, default: false })
@@ -14,6 +16,29 @@ function toggleLang() {
 }
 function openBackups() {
   showBackups.value = true
+}
+
+// ---- 预设导出 / 导入(全局入口,全量三类) ----
+const fileInput = ref(null)
+const importing = ref(false)
+const presetOptions = computed(() => [
+  { key: 'export', label: t('preset.export') },
+  { key: 'import', label: t('preset.import') },
+])
+function onPresetAction(key) {
+  if (key === 'export')
+    presets.exportToFile()
+  else if (key === 'import')
+    fileInput.value?.click()
+}
+async function onImportFile(e) {
+  const file = e.target.files?.[0]
+  e.target.value = ''
+  if (!file)
+    return
+  importing.value = true
+  await presets.importFromFile(file)
+  importing.value = false
 }
 </script>
 
@@ -57,6 +82,15 @@ function openBackups() {
     <NButton size="small" @click="openBackups">
       {{ t('top.backups') }}
     </NButton>
+    <NDropdown trigger="click" :options="presetOptions" @select="onPresetAction">
+      <NButton size="small" :loading="importing">
+        {{ t('preset.entry') }}
+      </NButton>
+    </NDropdown>
+    <input
+      ref="fileInput" type="file" accept=".json,application/json"
+      class="hidden" @change="onImportFile"
+    >
     <NButton size="small" quaternary @click="toggleLang">
       {{ langBtn }}
     </NButton>

@@ -110,6 +110,11 @@ export const en = {
   'preset.spellSkipped': 'Skipped unknown spell {id}',
   'preset.perkApplied': 'Staged perk preset "{label}" ({n} perks); click Apply to commit',
   'preset.perkSkipped': 'Skipped non-injectable perk {id}',
+  'preset.export': 'Export presets',
+  'preset.import': 'Import presets',
+  'preset.exported': 'Exported all presets',
+  'preset.imported': 'Imported {n} presets ({skipped} duplicate/invalid skipped)',
+  'preset.importBadFile': 'File is not valid JSON',
 
   // ---- Invincibility ----
   'inv.title': 'Invincibility',

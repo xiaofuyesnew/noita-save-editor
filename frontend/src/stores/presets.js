@@ -78,6 +78,53 @@ export const usePresetsStore = defineStore('presets', () => {
     }
   }
 
+  /** 导出全部预设为 .json 文件(浏览器下载;服务端为权威数据源)。 */
+  async function exportToFile() {
+    try {
+      const res = await fetch('/api/presets/export')
+      if (!res.ok)
+        throw new Error(res.statusText)
+      const blob = await res.blob()
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `noita-presets-${new Date().toISOString().slice(0, 10)}.json`
+      a.click()
+      URL.revokeObjectURL(url)
+      useLogStore().log(t('preset.exported'), 'ok')
+      return true
+    }
+    catch (e) {
+      useLogStore().log(t('log.error', { msg: e.message }), 'warn')
+      return false
+    }
+  }
+
+  /** 从导出的 .json 文件导入(合并去重);成功后以服务端返回的全量刷新本地。 */
+  async function importFromFile(file) {
+    try {
+      let parsed
+      try {
+        parsed = JSON.parse(await file.text())
+      }
+      catch {
+        throw new Error(t('preset.importBadFile'))
+      }
+      const data = await api('/presets/import', { method: 'POST', body: parsed })
+      locations.value = data.locations ?? []
+      perks.value = data.perks ?? []
+      wands.value = data.wands ?? []
+      loaded.value = true
+      const n = data.imported.locations + data.imported.perks + data.imported.wands
+      useLogStore().log(t('preset.imported', { n, skipped: data.skipped }), 'ok')
+      return true
+    }
+    catch (e) {
+      useLogStore().log(t('log.error', { msg: e.message }), 'warn')
+      return false
+    }
+  }
+
   return {
     locations,
     perks,
@@ -92,5 +139,7 @@ export const usePresetsStore = defineStore('presets', () => {
     update,
     rename,
     remove,
+    exportToFile,
+    importFromFile,
   }
 })

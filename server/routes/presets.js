@@ -58,6 +58,31 @@ const tagsOf = (body) => (Array.isArray(body?.tags) ? body.tags.map(String) : []
 
 presetRoutes.get('/presets', (c) => c.json(presets.all()));
 
+// ---- 导出 / 导入(跨客户端传递) ---------------------------------------------
+// 导出:全量三类 + 格式头,前端存成 .json 文件;导入:合并(内容去重、重发 id)。
+
+const EXPORT_FORMAT = 'noita-save-editor-presets';
+
+presetRoutes.get('/presets/export', (c) => {
+  const body = JSON.stringify({ format: EXPORT_FORMAT, version: 1, ...presets.all() }, null, 2);
+  c.header('content-type', 'application/json; charset=utf-8');
+  c.header('content-disposition', 'attachment; filename="noita-presets.json"');
+  return c.body(body);
+});
+
+presetRoutes.post('/presets/import', async (c) => {
+  try {
+    const body = await readBody(c);
+    if (body?.format !== EXPORT_FORMAT) {
+      throw new Error('不是本编辑器导出的预设文件(缺少格式标识)');
+    }
+    const result = presets.importData(body);
+    return c.json({ ok: true, ...result, ...presets.all() });
+  } catch (e) {
+    return fail(c, e);
+  }
+});
+
 // ---- 新建:坐标 ------------------------------------------------------------
 
 presetRoutes.post('/presets/locations', async (c) => {

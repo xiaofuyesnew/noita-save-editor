@@ -128,3 +128,44 @@ test('未知分类 / 不存在的 id → 400', async () => {
   res = await app.request('/api/presets/locations/does-not-exist', { method: 'DELETE' });
   assert.equal(res.status, 400);
 });
+
+test('导出:带格式头的全量 JSON,可作为导入输入', async () => {
+  const res = await app.request('/api/presets/export');
+  assert.equal(res.status, 200);
+  assert.match(res.headers.get('content-disposition') ?? '', /attachment/);
+  const body = await res.json();
+  assert.equal(body.format, 'noita-save-editor-presets');
+  assert.equal(body.version, 1);
+  assert.ok(Array.isArray(body.locations));
+});
+
+test('导入:合并 + 内容去重 + 重发 id;缺格式头 → 400', async () => {
+  const file = {
+    format: 'noita-save-editor-presets',
+    version: 1,
+    locations: [{ id: 'ext-1', label: '外部点', tags: ['来自朋友'], x: '10', y: '20' }],
+    perks: [],
+    wands: [],
+  };
+
+  let res = await app.request('/api/presets/import', JSON_REQ('POST', file));
+  assert.equal(res.status, 200);
+  let body = await res.json();
+  assert.equal(body.imported.locations, 1);
+  const entry = body.locations.find((p) => p.label === '外部点');
+  assert.ok(entry);
+  assert.notEqual(entry.id, 'ext-1'); // 重发 id
+
+  // 同一份再导入 → 全部按内容指纹跳过
+  res = await app.request('/api/presets/import', JSON_REQ('POST', file));
+  body = await res.json();
+  assert.equal(body.imported.locations, 0);
+  assert.equal(body.skipped, 1);
+  assert.equal(body.locations.filter((p) => p.label === '外部点').length, 1);
+
+  await app.request(`/api/presets/locations/${entry.id}`, { method: 'DELETE' });
+
+  // 缺格式头
+  res = await app.request('/api/presets/import', JSON_REQ('POST', { locations: [] }));
+  assert.equal(res.status, 400);
+});
